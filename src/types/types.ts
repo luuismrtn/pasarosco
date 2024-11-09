@@ -3,6 +3,7 @@ export interface Word {
     word: string;
     definition: string;
     status: 'correct' | 'incorrect' | 'pending';
+    letterType: 'contains' | 'start';
   }
   
   export interface WordWheelProps {

@@ -1,4 +1,3 @@
-// src/components/WordWheel.tsx
 import React from "react";
 import { Word } from "../types/types";
 
@@ -8,7 +7,7 @@ interface WordWheelProps {
 
 const WordWheel: React.FC<WordWheelProps> = ({ words }) => {
   const letters = words.map((word) => word.letter);
-  const radius = 300;
+  const radius = 275;
 
   return (
     <div className="relative flex justify-center items-center w-full h-64">

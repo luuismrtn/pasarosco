@@ -1,4 +1,3 @@
-// src/pages/Game.tsx
 import React, { useState, useEffect } from "react";
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,7 @@ import Question from "../components/Question";
 import Score from "../components/Score";
 import { wordsData } from "../data/questions";
 import { Word } from "../types/types";
+import Background from "../components/Background";
 
 const Game: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Game: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
-    if (countdown === 0) {
+    if (countdown === -1) {
       setGameStarted(true);
       return;
     }
@@ -58,7 +58,10 @@ const Game: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary flex flex-col justify-center items-center relative">
+    <div className="min-h-screen bg-primary flex flex-col justify-center items-center relative font-rubik">
+      {/* Fondo animado */}
+      <Background />
+
       {/* Botón para volver al menú */}
       <button
         onClick={goToMenu}
@@ -67,11 +70,11 @@ const Game: React.FC = () => {
         <ArrowLeftIcon className="w-8 h-8" />
       </button>
 
-      <div className="p-8 flex flex-col justify-center items-center">
+      <div className="p-8 flex flex-col justify-center items-center w-full">
         {/* Contador de inicio de 5 segundos */}
         {!gameStarted && (
-          <div className="absolute z-10 text-white text-4xl font-bold">
-            {countdown > 0 ? countdown : "¡Vamos!"}
+          <div className="absolute text-white text-9xl font-bold mb-64">
+            {countdown > 0 ? countdown : "¡YA!"}
           </div>
         )}
 
@@ -91,7 +94,7 @@ const Game: React.FC = () => {
         </div>
 
         {/* Pregunta y respuesta abajo */}
-        <div className="mt-64">
+        <div className="mt-56 w-full z-0">
             <Question word={words[index]} onAnswer={handleAnswer} />
         </div>
       </div>
