@@ -6,6 +6,9 @@ export default {
       colors: {
         primary: '#409fff',
       },
+      fontFamily: {
+        rubik: ['Rubik', 'sans-serif'],
+      },
     },
   },
   plugins: [],
