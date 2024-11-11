@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
 import WordWheel from "../components/WordWheel";
 import Question from "../components/Question";
 import Score from "../components/Score";
@@ -14,9 +14,11 @@ const Game: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [remainingTime, setRemainingTime] = useState(120);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
+  // Control del contador de cuenta atrás de inicio
   useEffect(() => {
     if (countdown === -1) {
       setGameStarted(true);
@@ -30,32 +32,92 @@ const Game: React.FC = () => {
     return () => clearInterval(timer);
   }, [countdown]);
 
+  // Temporizador del juego
   useEffect(() => {
-    if (gameStarted) {
+    if (gameStarted && !isPaused) {
       const timer = setInterval(() => {
         setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
 
       return () => clearInterval(timer);
     }
-  }, [gameStarted]);
+  }, [gameStarted, isPaused]);
 
+  // Lógica para manejar respuestas
   const handleAnswer = (answer: string) => {
     const currentWord = words[index];
-    if (answer.toLowerCase() === currentWord.word.toLowerCase()) {
-      currentWord.status = "correct";
-      setCorrectAnswers(correctAnswers + 1);
-    } else {
-      currentWord.status = "incorrect";
-    }
 
-    setWords([...words]);
-    setIndex((prevIndex) => (prevIndex + 1) % words.length);
+    if (currentWord.status === "pending") {
+      if (answer.toLowerCase() === currentWord.word.toLowerCase()) {
+        currentWord.status = "correct";
+        setCorrectAnswers((prev) => prev + 1);
+      } else {
+        currentWord.status = "incorrect";
+      }
+
+      setWords((prevWords) => {
+        const updatedWords = [...prevWords];
+        updatedWords[index] = currentWord;
+        return updatedWords;
+      });
+
+      const nextIndex = findNextIndex(index + 1);
+      setIndex(nextIndex);
+    }
   };
 
+  // Función para encontrar el siguiente índice no contestado
+  const findNextIndex = (startIndex: number): number => {
+    let nextIndex = startIndex;
+
+    // Buscamos la siguiente palabra que esté pendiente
+    while (words[nextIndex % words.length].status !== "pending") {
+      nextIndex++;
+    }
+
+    return nextIndex % words.length;
+  };
+
+  // Ir al menú principal
   const goToMenu = () => {
     navigate("/home");
   };
+
+  // Reiniciar el juego
+  const restartGame = () => {
+    const resetWords: Word[] = wordsData.map((word) => ({
+      ...word,
+      status: "pending" as "pending",
+    }));
+  
+    setWords(resetWords);
+    setIndex(0);
+    setCorrectAnswers(0);
+    setRemainingTime(120);
+    setCountdown(5);
+    setGameStarted(false);
+    setIsPaused(false);
+  };
+  
+
+  // Manejo de las teclas Escape y Enter
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && !isPaused) {
+      setIsPaused(true);
+      setIndex((prevIndex) => (prevIndex + 1) % words.length);
+    } else if (e.key === "Enter" && isPaused) {
+      setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
+      setIsPaused(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isPaused]);
 
   return (
     <div className="min-h-screen bg-primary flex flex-col justify-center items-center relative font-rubik">
@@ -68,6 +130,14 @@ const Game: React.FC = () => {
         className="absolute top-8 left-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
       >
         <ArrowLeftIcon className="w-8 h-8" />
+      </button>
+
+      {/* Botón para reiniciar el juego */}
+      <button
+        onClick={restartGame}
+        className="absolute top-8 right-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
+      >
+        <ArrowPathIcon className="w-8 h-8" />
       </button>
 
       <div className="p-8 flex flex-col justify-center items-center w-full">
@@ -90,12 +160,21 @@ const Game: React.FC = () => {
             </div>
           )}
 
-          <WordWheel words={words} currentLetterIndex={index} ready={gameStarted} />
+          <WordWheel
+            words={words}
+            currentLetterIndex={index}
+            ready={gameStarted}
+          />
         </div>
 
         {/* Pregunta y respuesta abajo */}
         <div className="mt-56 w-full z-0">
-            <Question word={words[index]} onAnswer={handleAnswer} ready={gameStarted} />
+          <Question
+            word={words[index]}
+            onAnswer={handleAnswer}
+            ready={gameStarted}
+            paused={isPaused}
+          />
         </div>
       </div>
     </div>
