@@ -26,8 +26,30 @@ const Question: React.FC<QuestionProps> = ({ word, onAnswer, ready }) => {
   return (
     <div className="text-center mx-20">
       {/* Pregunta */}
-      <div className="text-2xl font-semibold text-white border-2 border-gray-300 mb-6 rounded-xl shadow-lg p-8">
-        {ready ? <h2>{word.definition}</h2> : <h2>¿Estás listo para responder a todas las preguntas?</h2>}
+      <div className="text-2xl font-semibold text-white border-2 border-gray-300 mb-6 rounded-xl shadow-lg p-4">
+        {ready ? (
+          word.letterType === "start" ? (
+            <h2 className="text-3xl font-semibold text-white">
+              <span className="font-bold">Empieza por:</span>{" "}
+              <span className="text-4xl">{word.letter}</span>
+              <br />
+              <span className="text-xl">{word.definition}</span>
+            </h2>
+          ) : (
+            <h2 className="text-3xl font-semibold text-white">
+              <span className="font-bold">Contiene la:</span>{" "}
+              <span className="text-4xl">{word.letter}</span>
+              <br />
+              <span className="text-xl">{word.definition}</span>
+            </h2>
+          )
+        ) : (
+          <h2 className="text-3xl font-semibold text-white">
+            <span className="italic">
+              ¿Estás listo para responder a todas las preguntas?
+            </span>
+          </h2>
+        )}
       </div>
 
       {/* Formulario de respuesta */}
