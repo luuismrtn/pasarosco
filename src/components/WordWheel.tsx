@@ -31,6 +31,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
             const angle = (360 / letters.length) * index - 90;
             const x = radius * Math.cos((angle * Math.PI) / 180);
             const y = radius * Math.sin((angle * Math.PI) / 180);
+            const currentWord = words[index];
 
             return (
               <div
@@ -41,8 +42,14 @@ const WordWheel: React.FC<WordWheelProps> = ({
                 }}
               >
                 <div
-                  className={`flex justify-center items-center w-12 h-12 border-4 border-white rounded-full bg-primary text-white text-lg font-bold ${
+                  className={`flex justify-center items-center w-12 h-12 border-4 border-white rounded-full text-white text-lg font-bold ${
                     index === currentLetterIndex && ready ? "blinking" : ""
+                  } ${
+                    currentWord.status === "pending"
+                      ? ""
+                      : currentWord.status === "correct"
+                      ? "bg-green-500"
+                      : "bg-red-500"
                   }`}
                 >
                   {letter}
