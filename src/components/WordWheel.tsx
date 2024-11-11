@@ -3,14 +3,28 @@ import { Word } from "../types/types";
 
 interface WordWheelProps {
   words: Word[];
+  currentLetterIndex: number;
+  ready: boolean;
 }
 
-const WordWheel: React.FC<WordWheelProps> = ({ words }) => {
+const WordWheel: React.FC<WordWheelProps> = ({
+  words,
+  currentLetterIndex,
+  ready,
+}) => {
   const letters = words.map((word) => word.letter);
   const radius = 275;
 
   return (
     <div className="relative flex justify-center items-center w-full h-64">
+      {/* Letra activa en el centro */}
+      {ready && (
+        <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl font-bold rounded-full z-10">
+          {letters[currentLetterIndex]}
+        </div>
+      )}
+
+      {/* Letras alrededor del círculo */}
       <div className="absolute flex items-center justify-center w-full h-full">
         <div className="relative w-48 h-48 rounded-full flex justify-center items-center">
           {letters.map((letter, index) => {

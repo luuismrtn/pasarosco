@@ -7,9 +7,16 @@ interface ScoreProps {
 
 const Score: React.FC<ScoreProps> = ({ correctAnswers, remainingTime }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <p className="text-white text-4xl font-bold mb-2">Time: {remainingTime}s</p>
-      <p className="text-white text-5xl font-bold mt-2">Score: {correctAnswers}</p>
+    <div className="flex flex-row items-center justify-between w-full p-4">
+      {/* Score al inicio */}
+      <p className="text-white text-5xl font-bold border-4 border-white rounded-full w-36 h-36 flex items-center justify-center">
+        {correctAnswers}
+      </p>
+
+      {/* Time al final */}
+      <p className="text-white text-5xl font-bold border-4 border-white rounded-full w-36 h-36 flex items-center justify-center">
+        {remainingTime}
+      </p>
     </div>
   );
 };

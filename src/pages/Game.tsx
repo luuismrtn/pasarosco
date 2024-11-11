@@ -79,10 +79,10 @@ const Game: React.FC = () => {
         )}
 
         {/* Rosco */}
-        <div className="relative mt-40 flex justify-center items-center w-80">
-          {/* Tiempo en el centro del rosco */}
+        <div className="relative mt-40 flex justify-center items-center w-full">
+          {/* Tiempo a los lados rosco */}
           {gameStarted && (
-            <div className="absolute z-10">
+            <div className="absolute z-0 w-3/4">
               <Score
                 correctAnswers={correctAnswers}
                 remainingTime={remainingTime}
@@ -90,12 +90,12 @@ const Game: React.FC = () => {
             </div>
           )}
 
-          <WordWheel words={words} />
+          <WordWheel words={words} currentLetterIndex={index} ready={gameStarted} />
         </div>
 
         {/* Pregunta y respuesta abajo */}
         <div className="mt-56 w-full z-0">
-            <Question word={words[index]} onAnswer={handleAnswer} />
+            <Question word={words[index]} onAnswer={handleAnswer} ready={gameStarted} />
         </div>
       </div>
     </div>
