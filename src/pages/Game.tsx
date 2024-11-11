@@ -1,3 +1,4 @@
+import { Howl } from "howler";
 import React, { useState, useEffect } from "react";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +9,30 @@ import { wordsData } from "../data/questions";
 import { Word } from "../types/types";
 import Background from "../components/Background";
 
+import CorrectSound from "../assets/sounds/correct_sound.wav";
+import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
+
 const Game: React.FC = () => {
   const navigate = useNavigate();
-  const [words, setWords] = useState<Word[]>(wordsData);
+  const tempWords = wordsData.map((word) => ({
+    ...word,
+    status: "pending" as "pending",
+  }));
+  const [words, setWords] = useState<Word[]>(tempWords);
   const [index, setIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [remainingTime, setRemainingTime] = useState(120);
   const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
+  // Sonidos con Howler.js
+  const correctSound = new Howl({
+    src: CorrectSound,
+  });
+  const incorrectSound = new Howl({
+    src: IncorrectSound,
+  });
 
   // Control del contador de cuenta atrás de inicio
   useEffect(() => {
@@ -51,8 +67,12 @@ const Game: React.FC = () => {
       if (answer.toLowerCase() === currentWord.word.toLowerCase()) {
         currentWord.status = "correct";
         setCorrectAnswers((prev) => prev + 1);
+        correctSound.play();
       } else {
         currentWord.status = "incorrect";
+        incorrectSound.play();
+        setIsPaused(true);
+        setIndex((prevIndex) => (prevIndex + 1) % words.length);
       }
 
       setWords((prevWords) => {
@@ -89,7 +109,7 @@ const Game: React.FC = () => {
       ...word,
       status: "pending" as "pending",
     }));
-  
+
     setWords(resetWords);
     setIndex(0);
     setCorrectAnswers(0);
@@ -98,7 +118,6 @@ const Game: React.FC = () => {
     setGameStarted(false);
     setIsPaused(false);
   };
-  
 
   // Manejo de las teclas Escape y Enter
   const handleKeyDown = (e: KeyboardEvent) => {
