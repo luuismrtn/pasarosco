@@ -1,5 +1,5 @@
 import { Howl } from "howler";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import WordWheel from "../components/WordWheel";
@@ -11,6 +11,7 @@ import Background from "../components/Background";
 
 import CorrectSound from "../assets/sounds/correct_sound.wav";
 import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
+import BgGame from "../assets/sounds/bg_game.wav";
 
 const Game: React.FC = () => {
   const navigate = useNavigate();
@@ -26,18 +27,16 @@ const Game: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Sonidos con Howler.js
-  const correctSound = new Howl({
-    src: CorrectSound,
-  });
-  const incorrectSound = new Howl({
-    src: IncorrectSound,
-  });
+  // Sonidos con useRef para que persistan durante la vida del componente
+  const correctSoundRef = useRef(new Howl({ src: [CorrectSound] }));
+  const incorrectSoundRef = useRef(new Howl({ src: [IncorrectSound] }));
+  const bgMusicRef = useRef(new Howl({ src: [BgGame], loop: true, volume: 0.2 }));
 
   // Control del contador de cuenta atrás de inicio
   useEffect(() => {
     if (countdown === -1) {
       setGameStarted(true);
+      bgMusicRef.current.play();
       return;
     }
 
@@ -47,6 +46,12 @@ const Game: React.FC = () => {
 
     return () => clearInterval(timer);
   }, [countdown]);
+
+  useEffect(() => {
+    if (gameStarted && remainingTime === 0) {
+      bgMusicRef.current.stop();
+    }
+  }, [remainingTime, gameStarted]);
 
   // Temporizador del juego
   useEffect(() => {
@@ -59,6 +64,13 @@ const Game: React.FC = () => {
     }
   }, [gameStarted, isPaused]);
 
+  // Detener la música cuando el componente se desmonte
+  useEffect(() => {
+    return () => {
+      bgMusicRef.current.stop();
+    };
+  }, []);
+
   // Lógica para manejar respuestas
   const handleAnswer = (answer: string) => {
     const currentWord = words[index];
@@ -67,10 +79,10 @@ const Game: React.FC = () => {
       if (answer.toLowerCase() === currentWord.word.toLowerCase()) {
         currentWord.status = "correct";
         setCorrectAnswers((prev) => prev + 1);
-        correctSound.play();
+        correctSoundRef.current.play();
       } else {
         currentWord.status = "incorrect";
-        incorrectSound.play();
+        incorrectSoundRef.current.play();
         setIsPaused(true);
         setIndex((prevIndex) => (prevIndex + 1) % words.length);
       }
@@ -100,11 +112,13 @@ const Game: React.FC = () => {
 
   // Ir al menú principal
   const goToMenu = () => {
+    bgMusicRef.current.stop();
     navigate("/home");
   };
 
   // Reiniciar el juego
   const restartGame = () => {
+    bgMusicRef.current.stop();
     const resetWords: Word[] = wordsData.map((word) => ({
       ...word,
       status: "pending" as "pending",
@@ -114,7 +128,7 @@ const Game: React.FC = () => {
     setIndex(0);
     setCorrectAnswers(0);
     setRemainingTime(120);
-    setCountdown(5);
+    setCountdown(3);
     setGameStarted(false);
     setIsPaused(false);
   };
@@ -124,7 +138,9 @@ const Game: React.FC = () => {
     if (e.key === "Escape" && !isPaused) {
       setIsPaused(true);
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
+      bgMusicRef.current.pause();
     } else if (e.key === "Enter" && isPaused) {
+      bgMusicRef.current.play();
       setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       setIsPaused(false);
     }

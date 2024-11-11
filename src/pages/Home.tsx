@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Howl } from "howler";
+import BgMusic from "../assets/sounds/background_home.wav";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+
+  const bgMusic = new Howl({
+    src: [BgMusic],
+    loop: true,
+    volume: 0.2,
+  });
+
+  useEffect(() => {
+    bgMusic.play();
+
+    return () => {
+      bgMusic.stop();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
