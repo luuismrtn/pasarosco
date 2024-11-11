@@ -40,7 +40,11 @@ const WordWheel: React.FC<WordWheelProps> = ({
                   transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
                 }}
               >
-                <div className="flex justify-center items-center w-12 h-12 border-4 border-white rounded-full bg-primary text-white text-lg font-bold">
+                <div
+                  className={`flex justify-center items-center w-12 h-12 border-4 border-white rounded-full bg-primary text-white text-lg font-bold ${
+                    index === currentLetterIndex && ready ? "blinking" : ""
+                  }`}
+                >
                   {letter}
                 </div>
               </div>
