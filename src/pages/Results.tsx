@@ -8,7 +8,7 @@ const Results: React.FC = () => {
   const location = useLocation();
   const { correctAnswers, wrongAnswers, time, words } = location.state || {};
   const [formattedTime, setFormattedTime] = useState<string>("");
-  const [wordsState, setWords] = useState<Word[]>(words || []);
+  const [wordsState] = useState<Word[]>(words || []);
 
   console.log(wordsState);
 

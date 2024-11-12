@@ -18,7 +18,7 @@ root.render(
       <Route path="/game" element={<Game />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/credits" element={<Credits />} />
-      <Route path="/results" element={<Results correctAnswers={0} incorrectAnswers={0} totalQuestions={0} timeTaken={0} />} />
+      <Route path="/results" element={<Results />} />
     </Routes>
   </Router>
 );
