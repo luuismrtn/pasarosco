@@ -16,6 +16,7 @@ const Settings: React.FC = () => {
   const bgMusicRef = useRef<Howl | null>(null);
   const effectSoundRef = useRef<Howl | null>(null);
 
+  // Recuperar los valores guardados desde localStorage cuando el componente se monta
   useEffect(() => {
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedEffectVolume = localStorage.getItem("effectVolume");
@@ -36,32 +37,42 @@ const Settings: React.FC = () => {
     }
   }, []);
 
+  // Iniciar la música de fondo cuando el componente se monta
   useEffect(() => {
     if (!bgMusicRef.current) {
       bgMusicRef.current = new Howl({
         src: [BgGame],
         loop: true,
-        volume: isBgMuted ? 0 : bgVolume,
+        volume: isBgMuted ? 0 : bgVolume, // Usar volumen guardado o muteado
       });
-    }
-    if (!isBgMuted) {
-      bgMusicRef.current.play();
+      bgMusicRef.current.play(); // Comienza a reproducir
     }
 
+    // Cleanup cuando el componente se desmonta
     return () => {
       if (bgMusicRef.current) {
         bgMusicRef.current.stop();
         bgMusicRef.current = null;
       }
     };
+  }, []); // Solo se ejecuta al montar el componente
+
+  // Control del volumen de la música de fondo
+  useEffect(() => {
+    if (bgMusicRef.current) {
+      bgMusicRef.current.volume(isBgMuted ? 0 : bgVolume); // Ajustar volumen o muteo
+    }
   }, [bgVolume, isBgMuted]);
 
+  // Control de los efectos de sonido
   useEffect(() => {
     if (!effectSoundRef.current) {
       effectSoundRef.current = new Howl({
         src: [EffectSound],
         volume: isEffectsMuted ? 0 : effectVolume,
       });
+    } else {
+      effectSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
     }
 
     return () => {
@@ -150,15 +161,21 @@ const Settings: React.FC = () => {
           {/* Icono de mute o de voz */}
           <div onClick={toggleBgMute} className="cursor-pointer">
             {isBgMuted ? (
-              <SpeakerXMarkIcon className="w-6 h-6 text-gray-500 hover:text-white transition duration-200" />
+              <SpeakerXMarkIcon className="w-6 h-6 text-white transition duration-200 animate-fill" />
             ) : (
-              <SpeakerWaveIcon className="w-6 h-6 text-white hover:text-gray-500 transition duration-200" />
+              <SpeakerWaveIcon className="w-6 h-6 text-white transition duration-200 animate-fill" />
             )}
           </div>
         </div>
-        <p className="mt-4 text-xl font-semibold">
-          {Math.round(bgVolume * 100)}%
-        </p>
+        {isBgMuted ? (
+          <p className="mt-4 text-xl font-semibold">
+            {Math.round(bgVolume * 100)}% (Silenciado)
+          </p>
+        ) : (
+          <p className="mt-4 text-xl font-semibold">
+            {Math.round(bgVolume * 100)}%
+          </p>
+        )}
       </div>
 
       {/* Contenedor para efectos de sonido */}
@@ -183,15 +200,21 @@ const Settings: React.FC = () => {
           {/* Icono de mute o de voz */}
           <div onClick={toggleEffectsMute} className="cursor-pointer">
             {isEffectsMuted ? (
-              <SpeakerXMarkIcon className="w-6 h-6 text-gray-500 hover:text-white transition duration-200" />
+              <SpeakerXMarkIcon className="w-6 h-6 text-white transition duration-200 animate-fill" />
             ) : (
-              <SpeakerWaveIcon className="w-6 h-6 text-white hover:text-gray-500 transition duration-200" />
+              <SpeakerWaveIcon className="w-6 h-6 text-white transition duration-200 animate-fill" />
             )}
           </div>
         </div>
-        <p className="mt-4 text-xl font-semibold">
-          {Math.round(effectVolume * 100)}%
-        </p>
+        {isEffectsMuted ? (
+          <p className="mt-4 text-xl font-semibold">
+            {Math.round(effectVolume * 100)}% (Silenciado)
+          </p>
+        ) : (
+          <p className="mt-4 text-xl font-semibold">
+            {Math.round(effectVolume * 100)}%
+          </p>
+        )}
         {/* Botón para probar el sonido */}
         <button
           onClick={handlePlayEffectSound}
