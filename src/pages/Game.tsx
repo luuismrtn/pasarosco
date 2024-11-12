@@ -16,6 +16,7 @@ import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
 
 const Game: React.FC = () => {
+  const time = 120;
   const navigate = useNavigate();
   const tempWords = wordsData.map((word) => ({
     ...word,
@@ -24,7 +25,8 @@ const Game: React.FC = () => {
   const [words, setWords] = useState<Word[]>(tempWords);
   const [index, setIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(120);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(time);
   const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -112,6 +114,9 @@ const Game: React.FC = () => {
   useEffect(() => {
     if (gameStarted && remainingTime === 0) {
       bgMusicRef.current.stop();
+      navigate("/results", {
+        state: { correctAnswers, wrongAnswers, time, words },
+      });
     }
   }, [remainingTime, gameStarted]);
 
@@ -127,23 +132,33 @@ const Game: React.FC = () => {
   }, [gameStarted, isPaused, isFailed]);
 
   // Lógica para manejar respuestas
+  const removeAccents = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+  
   const handleAnswer = (answer: string) => {
     const currentWord = words[index];
-
+  
     if (currentWord.status === "pending") {
-      if (answer.toLowerCase() === currentWord.word.toLowerCase()) {
+      const normalizedAnswer = removeAccents(answer.toLowerCase());
+      const normalizedWord = removeAccents(currentWord.word.toLowerCase());
+  
+      if (normalizedAnswer === normalizedWord) {
         currentWord.status = "correct";
         setCorrectAnswers((prev) => prev + 1);
         correctSoundRef.current.play();
-        const nextIndex = findNextIndex(index + 1);
-        setIndex(nextIndex);
+        if (correctAnswers + wrongAnswers < words.length - 1) {
+          const nextIndex = findNextIndex(index + 1);
+          setIndex(nextIndex);
+        }
       } else {
         currentWord.status = "incorrect";
+        setWrongAnswers((prev) => prev + 1);
         incorrectSoundRef.current.play();
         bgMusicRef.current.pause();
         setIsFailed(true);
       }
-
+  
       setWords((prevWords) => {
         const updatedWords = [...prevWords];
         updatedWords[index] = currentWord;
@@ -156,7 +171,6 @@ const Game: React.FC = () => {
   const findNextIndex = (startIndex: number): number => {
     let nextIndex = startIndex;
 
-    // Buscamos la siguiente palabra que esté pendiente
     while (words[nextIndex % words.length].status !== "pending") {
       nextIndex++;
     }
@@ -181,7 +195,7 @@ const Game: React.FC = () => {
     setWords(resetWords);
     setIndex(0);
     setCorrectAnswers(0);
-    setRemainingTime(120);
+    setRemainingTime(time);
     setCountdown(3);
     setGameStarted(false);
     setIsPaused(false);
@@ -189,17 +203,18 @@ const Game: React.FC = () => {
 
   // Manejo de las teclas Escape y Enter
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape" && (!isPaused || !isFailed)) {
+    if (e.key === "Escape" && !isPaused && !isFailed) {
       setIsPaused(true);
-      setIndex((prevIndex) => (prevIndex + 1) % words.length);
       bgMusicRef.current.pause();
     } else if (e.key === "Enter" && (isPaused || isFailed)) {
       bgMusicRef.current.play();
       setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       setIsPaused(false);
       setIsFailed(false);
-      const nextIndex = findNextIndex(index + 1);
-      setIndex(nextIndex);
+      if (correctAnswers + wrongAnswers < words.length - 1) {
+        const nextIndex = findNextIndex(index + 1);
+        setIndex(nextIndex);
+      }
     }
   };
 

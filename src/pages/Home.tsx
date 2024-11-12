@@ -37,9 +37,14 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
       {/* Título principal */}
-      <h1 className="text-9xl font-bold text-white font-rubik mb-16 drop-shadow-lg">
+      <h1 className="text-9xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
         Pasapalabra
       </h1>
+
+      {/* Subtítulo */}
+      <h2 className="text-3xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
+        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
+      </h2>
 
       {/* Caja de opciones */}
       <div className="text-center p-8 w-full max-w-md">

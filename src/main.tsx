@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Game from './pages/Game';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
+import Credits from './pages/Credits';
+import Results from './pages/Results';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -15,6 +17,8 @@ root.render(
       <Route path="/home" element={<Home />} />
       <Route path="/game" element={<Game />} />
       <Route path="/settings" element={<Settings />} />
+      <Route path="/credits" element={<Credits />} />
+      <Route path="/results" element={<Results correctAnswers={0} incorrectAnswers={0} totalQuestions={0} timeTaken={0} />} />
     </Routes>
   </Router>
 );
