@@ -1,0 +1,31 @@
+import { Word } from '../types/types';
+
+export const wordsData: Word[] = [
+  { letter: 'A', word: 'alonso', definition: 'Apellido del mejor piloto de Formula 1.', status: 'pending', letterType: 'start' },
+  { letter: 'B', word: 'burbuja', definition: 'Objeto redondo y transparente que se usa para hacer pompas.', status: 'pending', letterType: 'contains' },
+  { letter: 'C', word: 'cascabel', definition: 'Objeto que se pone en el cuello de los gatos para que no cacen pájaros.', status: 'pending', letterType: 'contains' },
+  { letter: 'D', word: 'dado', definition: 'Objeto cúbico que se utiliza para jugar.', status: 'pending', letterType: 'start' },
+  { letter: 'E', word: 'elefante', definition: 'Animal con trompa y grandes orejas.', status: 'pending', letterType: 'start' },
+  { letter: 'F', word: 'faro', definition: 'Torre alta con una luz en la parte superior que sirve para guiar a los barcos.', status: 'pending', letterType: 'start' },
+  { letter: 'G', word: 'gato', definition: 'Animal que suele caer de pie.', status: 'pending', letterType: 'start' },
+  { letter: 'H', word: 'huevo', definition: 'Alimento que pone la gallina.', status: 'pending', letterType: 'start' },
+  { letter: 'I', word: 'iglesia', definition: 'Lugar de culto para los cristianos.', status: 'pending', letterType: 'start' },
+  { letter: 'J', word: 'jirafa', definition: 'Animal con un cuello muy largo.', status: 'pending', letterType: 'start' },
+  { letter: 'K', word: 'koala', definition: 'Animal que vive en Australia y come hojas de eucalipto.', status: 'pending', letterType: 'start' },
+  { letter: 'L', word: 'luna', definition: 'Satélite natural de la Tierra.', status: 'pending', letterType: 'start' },
+  { letter: 'M', word: 'manzana', definition: 'Fruta roja y redonda.', status: 'pending', letterType: 'contains' },
+  { letter: 'N', word: 'nube', definition: 'Masas de vapor de agua en el cielo.', status: 'pending', letterType: 'contains' },
+  { letter: 'O', word: 'oso', definition: 'Animal que vive en el Polo Norte.', status: 'pending', letterType: 'start' },
+  { letter: 'P', word: 'pato', definition: 'Animal que nada en los ríos y lagos.', status: 'pending', letterType: 'start' },
+  { letter: 'Q', word: 'queso', definition: 'Alimento que se obtiene de la leche.', status: 'pending', letterType: 'start' },
+  { letter: 'R', word: 'ratón', definition: 'Animal pequeño que suele vivir en las casas.', status: 'pending', letterType: 'contains' },
+  { letter: 'S', word: 'sol', definition: 'Estrella que da luz y calor a la Tierra.', status: 'pending', letterType: 'start' },
+  { letter: 'T', word: 'tigre', definition: 'Animal grande y fuerte con rayas negras.', status: 'pending', letterType: 'start' },
+  { letter: 'U', word: 'uva', definition: 'Fruta pequeña y redonda que se utiliza para hacer vino.', status: 'pending', letterType: 'start' },
+  { letter: 'V', word: 'vaca', definition: 'Animal que da leche.', status: 'pending', letterType: 'start' },
+  { letter: 'W', word: 'whisky', definition: 'Bebida alcohólica que se obtiene de la cebada.', status: 'pending', letterType: 'contains' },
+  { letter: 'X', word: 'xilófono', definition: 'Instrumento musical de percusión.', status: 'pending', letterType: 'contains' },
+  { letter: 'Y', word: 'yogur', definition: 'Alimento lácteo con sabor a frutas.', status: 'pending', letterType: 'start' },
+  { letter: 'Z', word: 'zapato', definition: 'Calzado que se pone en los pies.', status: 'pending', letterType: 'start' },
+];
+
