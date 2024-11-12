@@ -6,4 +6,5 @@ export type Word = {
   letterType: "contains" | "start";
 };
 
+declare module 'howler';
   
