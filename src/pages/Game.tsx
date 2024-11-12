@@ -12,6 +12,8 @@ import Background from "../components/Background";
 import CorrectSound from "../assets/sounds/correct_sound.wav";
 import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
 import BgGame from "../assets/sounds/bg_game.wav";
+import PipSound from "../assets/sounds/pip-number.wav";
+import StartSound from "../assets/sounds/start_sound.wav";
 
 const Game: React.FC = () => {
   const navigate = useNavigate();
@@ -65,6 +67,10 @@ const Game: React.FC = () => {
     new Howl({ src: [BgGame], loop: true, volume: isBgMuted ? 0 : bgVolume })
   );
 
+  const pipSoundRef = useRef(new Howl({ src: [PipSound], loop: false, volume: isEffectsMuted ? 0 : effectVolume }));
+
+  const startSoundRef = useRef(new Howl({ src: [StartSound], loop: false, volume: isEffectsMuted ? 0 : effectVolume }));
+
   // Control del contador de cuenta atrás de inicio
   useEffect(() => {
     if (countdown === -1) {
@@ -76,6 +82,14 @@ const Game: React.FC = () => {
     const timer = setInterval(() => {
       setCountdown((prev) => prev - 1);
     }, 1000);
+
+    if (countdown === 3 || countdown === 2 || countdown === 1) {
+      pipSoundRef.current.play();
+    }
+
+    if (countdown === 0) {
+      startSoundRef.current.play();
+    }
 
     return () => clearInterval(timer);
   }, [countdown]);
