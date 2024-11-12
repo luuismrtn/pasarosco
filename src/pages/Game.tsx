@@ -28,6 +28,7 @@ const Game: React.FC = () => {
   const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
 
   // Estados para controlar volúmenes y muteo
   const [bgVolume, setBgVolume] = useState<number>(0.3);
@@ -61,15 +62,28 @@ const Game: React.FC = () => {
     new Howl({ src: [CorrectSound], volume: isEffectsMuted ? 0 : effectVolume })
   );
   const incorrectSoundRef = useRef(
-    new Howl({ src: [IncorrectSound], volume: isEffectsMuted ? 0 : effectVolume })
+    new Howl({
+      src: [IncorrectSound],
+      volume: isEffectsMuted ? 0 : effectVolume,
+    })
   );
   const bgMusicRef = useRef(
     new Howl({ src: [BgGame], loop: true, volume: isBgMuted ? 0 : bgVolume })
   );
 
-  const pipSoundRef = useRef(new Howl({ src: [PipSound], loop: false, volume: isEffectsMuted ? 0 : effectVolume }));
+  const pipSoundRef = useRef(
+    new Howl({
+      src: [PipSound],
+      volume: isEffectsMuted ? 0 : effectVolume,
+    })
+  );
 
-  const startSoundRef = useRef(new Howl({ src: [StartSound], loop: false, volume: isEffectsMuted ? 0 : effectVolume }));
+  const startSoundRef = useRef(
+    new Howl({
+      src: [StartSound],
+      volume: isEffectsMuted ? 0 : effectVolume,
+    })
+  );
 
   // Control del contador de cuenta atrás de inicio
   useEffect(() => {
@@ -103,14 +117,14 @@ const Game: React.FC = () => {
 
   // Temporizador del juego
   useEffect(() => {
-    if (gameStarted && !isPaused) {
+    if (gameStarted && !isPaused && !isFailed) {
       const timer = setInterval(() => {
         setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
 
       return () => clearInterval(timer);
     }
-  }, [gameStarted, isPaused]);
+  }, [gameStarted, isPaused, isFailed]);
 
   // Lógica para manejar respuestas
   const handleAnswer = (answer: string) => {
@@ -121,12 +135,13 @@ const Game: React.FC = () => {
         currentWord.status = "correct";
         setCorrectAnswers((prev) => prev + 1);
         correctSoundRef.current.play();
+        const nextIndex = findNextIndex(index + 1);
+        setIndex(nextIndex);
       } else {
         currentWord.status = "incorrect";
         incorrectSoundRef.current.play();
         bgMusicRef.current.pause();
-        setIsPaused(true);
-        setIndex((prevIndex) => (prevIndex + 1) % words.length);
+        setIsFailed(true);
       }
 
       setWords((prevWords) => {
@@ -134,9 +149,6 @@ const Game: React.FC = () => {
         updatedWords[index] = currentWord;
         return updatedWords;
       });
-
-      const nextIndex = findNextIndex(index + 1);
-      setIndex(nextIndex);
     }
   };
 
@@ -177,14 +189,17 @@ const Game: React.FC = () => {
 
   // Manejo de las teclas Escape y Enter
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Escape" && !isPaused) {
+    if (e.key === "Escape" && (!isPaused || !isFailed)) {
       setIsPaused(true);
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
       bgMusicRef.current.pause();
-    } else if (e.key === "Enter" && isPaused) {
+    } else if (e.key === "Enter" && (isPaused || isFailed)) {
       bgMusicRef.current.play();
       setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       setIsPaused(false);
+      setIsFailed(false);
+      const nextIndex = findNextIndex(index + 1);
+      setIndex(nextIndex);
     }
   };
 
@@ -194,7 +209,7 @@ const Game: React.FC = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isPaused]);
+  }, [isPaused, isFailed]);
 
   // Guardar los volúmenes en el localStorage cuando cambian
   useEffect(() => {
@@ -206,6 +221,8 @@ const Game: React.FC = () => {
     localStorage.setItem("effectVolume", effectVolume.toString());
     correctSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
     incorrectSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
+    pipSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
+    startSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
   }, [effectVolume, isEffectsMuted]);
 
   return (
@@ -263,6 +280,7 @@ const Game: React.FC = () => {
             onAnswer={handleAnswer}
             ready={gameStarted}
             paused={isPaused}
+            failed={isFailed}
           />
         </div>
       </div>
