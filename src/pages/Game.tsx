@@ -27,10 +27,43 @@ const Game: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Sonidos con useRef para que persistan durante la vida del componente
-  const correctSoundRef = useRef(new Howl({ src: [CorrectSound] }));
-  const incorrectSoundRef = useRef(new Howl({ src: [IncorrectSound] }));
-  const bgMusicRef = useRef(new Howl({ src: [BgGame], loop: true, volume: 0.2 }));
+  // Estados para controlar volúmenes y muteo
+  const [bgVolume, setBgVolume] = useState<number>(0.3);
+  const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
+  const [effectVolume, setEffectVolume] = useState<number>(0.3);
+  const [isEffectsMuted, setIsEffectsMuted] = useState<boolean>(false);
+
+  // Recuperar configuraciones de volumen desde el localStorage
+  useEffect(() => {
+    const savedBgVolume = localStorage.getItem("bgVolume");
+    const savedIsBgMuted = localStorage.getItem("isBgMuted");
+    const savedEffectVolume = localStorage.getItem("effectVolume");
+    const savedEffectsMuted = localStorage.getItem("isEffectsMuted");
+
+    if (savedBgVolume) {
+      setBgVolume(parseFloat(savedBgVolume));
+    }
+    if (savedIsBgMuted) {
+      setIsBgMuted(savedIsBgMuted === "true");
+    }
+    if (savedEffectVolume) {
+      setEffectVolume(parseFloat(savedEffectVolume));
+    }
+    if (savedEffectsMuted) {
+      setIsEffectsMuted(savedEffectsMuted === "true");
+    }
+  }, []);
+
+  // Inicialización de sonidos
+  const correctSoundRef = useRef(
+    new Howl({ src: [CorrectSound], volume: isEffectsMuted ? 0 : effectVolume })
+  );
+  const incorrectSoundRef = useRef(
+    new Howl({ src: [IncorrectSound], volume: isEffectsMuted ? 0 : effectVolume })
+  );
+  const bgMusicRef = useRef(
+    new Howl({ src: [BgGame], loop: true, volume: isBgMuted ? 0 : bgVolume })
+  );
 
   // Control del contador de cuenta atrás de inicio
   useEffect(() => {
@@ -47,6 +80,7 @@ const Game: React.FC = () => {
     return () => clearInterval(timer);
   }, [countdown]);
 
+  // Detener la música cuando se acaba el tiempo
   useEffect(() => {
     if (gameStarted && remainingTime === 0) {
       bgMusicRef.current.stop();
@@ -64,13 +98,6 @@ const Game: React.FC = () => {
     }
   }, [gameStarted, isPaused]);
 
-  // Detener la música cuando el componente se desmonte
-  useEffect(() => {
-    return () => {
-      bgMusicRef.current.stop();
-    };
-  }, []);
-
   // Lógica para manejar respuestas
   const handleAnswer = (answer: string) => {
     const currentWord = words[index];
@@ -83,6 +110,7 @@ const Game: React.FC = () => {
       } else {
         currentWord.status = "incorrect";
         incorrectSoundRef.current.play();
+        bgMusicRef.current.pause();
         setIsPaused(true);
         setIndex((prevIndex) => (prevIndex + 1) % words.length);
       }
@@ -153,6 +181,18 @@ const Game: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isPaused]);
+
+  // Guardar los volúmenes en el localStorage cuando cambian
+  useEffect(() => {
+    localStorage.setItem("bgVolume", bgVolume.toString());
+    bgMusicRef.current.volume(isBgMuted ? 0 : bgVolume);
+  }, [bgVolume, isBgMuted]);
+
+  useEffect(() => {
+    localStorage.setItem("effectVolume", effectVolume.toString());
+    correctSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
+    incorrectSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
+  }, [effectVolume, isEffectsMuted]);
 
   return (
     <div className="min-h-screen bg-primary flex flex-col justify-center items-center relative font-rubik">
