@@ -102,7 +102,7 @@ const Results: React.FC = () => {
                 key={index}
                 className={`text-xl font-medium ${getStatusColor(word.status)}`}
               >
-                {word.word}
+                {word.word[0]}
               </p>
             ))}
           </div>

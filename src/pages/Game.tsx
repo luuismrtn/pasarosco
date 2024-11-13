@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import WordWheel from "../components/WordWheel";
 import Question from "../components/Question";
 import Score from "../components/Score";
-import { wordsData } from "../data/questions";
 import { Word } from "../types/types";
 import Background from "../components/Background";
+
+import { getRosco, getRoscoIndex } from "../data/questions";
 
 import CorrectSound from "../assets/sounds/correct_sound.wav";
 import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
@@ -16,13 +17,10 @@ import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
 
 const Game: React.FC = () => {
+  const [rosco, setRosco] = useState<Word[]>([]);
   const time = 120;
   const navigate = useNavigate();
-  const tempWords = wordsData.map((word) => ({
-    ...word,
-    status: "pending" as "pending",
-  }));
-  const [words, setWords] = useState<Word[]>(tempWords);
+  const [words, setWords] = useState<Word[]>(rosco);
   const [index, setIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
@@ -32,14 +30,18 @@ const Game: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
 
-  // Estados para controlar volúmenes y muteo
   const [bgVolume, setBgVolume] = useState<number>(0.3);
   const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
   const [effectVolume, setEffectVolume] = useState<number>(0.3);
   const [isEffectsMuted, setIsEffectsMuted] = useState<boolean>(false);
 
-  // Recuperar configuraciones de volumen desde el localStorage
   useEffect(() => {
+    const fetchRosco = async () => {
+      const data = await getRoscoIndex("1");
+      setRosco(data);
+      setWords(data);
+    };
+    fetchRosco();
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedIsBgMuted = localStorage.getItem("isBgMuted");
     const savedEffectVolume = localStorage.getItem("effectVolume");
@@ -135,18 +137,22 @@ const Game: React.FC = () => {
   const removeAccents = (str: string) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
-  
+
   const handleAnswer = (answer: string) => {
     const currentWord = words[index];
-  
+
     if (currentWord.status === "pending") {
       const normalizedAnswer = removeAccents(answer.toLowerCase());
-      const normalizedWord = removeAccents(currentWord.word.toLowerCase());
-  
-      if (normalizedAnswer === normalizedWord) {
+
+      const isCorrect = currentWord.word.some(
+        (word) => normalizedAnswer === removeAccents(word.toLowerCase())
+      );
+
+      if (isCorrect) {
         currentWord.status = "correct";
         setCorrectAnswers((prev) => prev + 1);
         correctSoundRef.current.play();
+
         if (correctAnswers + wrongAnswers < words.length - 1) {
           const nextIndex = findNextIndex(index + 1);
           setIndex(nextIndex);
@@ -158,7 +164,7 @@ const Game: React.FC = () => {
         bgMusicRef.current.pause();
         setIsFailed(true);
       }
-  
+
       setWords((prevWords) => {
         const updatedWords = [...prevWords];
         updatedWords[index] = currentWord;
@@ -187,7 +193,7 @@ const Game: React.FC = () => {
   // Reiniciar el juego
   const restartGame = () => {
     bgMusicRef.current.stop();
-    const resetWords: Word[] = wordsData.map((word) => ({
+    const resetWords: Word[] = rosco.map((word) => ({
       ...word,
       status: "pending" as "pending",
     }));

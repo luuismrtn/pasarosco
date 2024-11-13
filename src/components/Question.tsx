@@ -42,7 +42,7 @@ const Question: React.FC<QuestionProps> = ({
             <br />
             <span className="text-xl text-white">
               La respuesta correcta es:{" "}
-              <span className="font-bold text-red-600">{word.word}</span>. Pulsa ENTER para seguir jugando
+              <span className="font-bold text-red-600">{word.word[0]}</span>. Pulsa ENTER para seguir jugando
             </span>
           </h2>
         ) : paused ? (
