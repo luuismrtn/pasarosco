@@ -18,7 +18,6 @@ export class RoscoService {
     time: number,
     roscoId?: number
   ) {
-    console.log("Palabras:", palabras);
 
     if (roscoId) {
       const { data, error } = await this.supabase
@@ -73,14 +72,16 @@ export class RoscoService {
   }
 
   // Función para actualizar un rosco
-  async updateRosco(roscoId: number, palabras: Word[], theme: string, time: number, name: string) {
+  async updateRosco(roscoId: number, palabras: Word[], theme: string, time: number, name: string, user_name: string) {
+    console.log("Palabras:", palabras);
     const { data, error } = await this.supabase
       .from("roscos")
       .update({
-        name,
+        name: name,
         words: palabras,
-        theme,
-        time,
+        theme: theme,
+        time: time,
+        user_name: user_name,
         date_modification: new Date().toISOString(),
       })
       .eq("id", roscoId);
@@ -127,7 +128,7 @@ export class RoscoService {
   }
 
 // Método para obtener todos los roscos
-async getAllRoscoss(): Promise<Rosco[]> {
+async getAllRoscos(): Promise<Rosco[]> {
     const { data, error } = await this.supabase
       .from("roscos")
       .select("id, user_name, date_modification, name, theme, time, words");

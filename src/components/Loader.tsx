@@ -1,7 +1,7 @@
 import React from "react";
 
 const Loader: React.FC = () => {
-  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const radius = 150;
 
   return (

@@ -6,6 +6,7 @@ import Settings from './pages/Settings';
 import Credits from './pages/Credits';
 import Results from './pages/Results';
 import RoscosList from './pages/RoscosList';
+import EditRosco from './pages/EditRosco';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -20,6 +21,7 @@ root.render(
       <Route path="/credits" element={<Credits />} />
       <Route path="/results" element={<Results />} />
       <Route path="/roscos" element={<RoscosList />} />
+      <Route path="/edit-rosco/:id" element={<EditRosco />} />
     </Routes>
   </Router>
 );
