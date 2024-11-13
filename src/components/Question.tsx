@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { Word } from "../types/types";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 
