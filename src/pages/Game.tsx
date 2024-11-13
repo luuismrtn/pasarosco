@@ -1,6 +1,6 @@
 import { Howl } from "howler";
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import WordWheel from "../components/WordWheel";
@@ -9,13 +9,12 @@ import Score from "../components/Score";
 import { Word } from "../types/types";
 import Background from "../components/Background";
 
-import { getRoscoIndex } from "../data/questions";
-
 import CorrectSound from "../assets/sounds/correct_sound.wav";
 import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
 import BgGame from "../assets/sounds/bg_game.wav";
 import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
+import { RoscoService } from "../data/RoscoService";
 
 const Game: React.FC = () => {
   const { id } = useParams() as { id: string };
@@ -37,12 +36,30 @@ const Game: React.FC = () => {
   const [effectVolume, setEffectVolume] = useState<number>(0.3);
   const [isEffectsMuted, setIsEffectsMuted] = useState<boolean>(false);
 
+  const roscosService = new RoscoService();
+
   useEffect(() => {
     const fetchRosco = async () => {
-      const data = await getRoscoIndex(id);
-      setRosco(data);
-      setWords(data);
+      try {
+        const roscoData = await roscosService.getRoscoById(parseInt(id));
+
+        if (!roscoData) {
+          console.error("Rosco no encontrado.");
+          return;
+        }
+
+        const data = roscoData.words.map((word: Word) => ({
+          ...word,
+          status: "pending" as "pending",
+        }));
+
+        setRosco(data);
+        setWords(data);
+      } catch (error) {
+        console.error("Error al obtener el rosco:", error);
+      }
     };
+
     fetchRosco();
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedIsBgMuted = localStorage.getItem("isBgMuted");
