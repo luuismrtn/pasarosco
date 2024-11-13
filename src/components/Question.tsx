@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Word } from "../types/types";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 
@@ -8,6 +8,7 @@ interface QuestionProps {
   ready: boolean;
   paused: boolean;
   failed: boolean;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 const Question: React.FC<QuestionProps> = ({
@@ -16,9 +17,10 @@ const Question: React.FC<QuestionProps> = ({
   ready,
   paused,
   failed,
+  inputRef,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -89,6 +91,7 @@ const Question: React.FC<QuestionProps> = ({
       >
         <input
           type="text"
+          ref={inputRef}
           value={inputValue}
           onChange={handleChange}
           disabled={!ready || paused || failed}

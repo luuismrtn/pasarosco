@@ -30,7 +30,7 @@ const Game: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
-
+  const inputRef = useRef<HTMLInputElement>(null);
   const [bgVolume, setBgVolume] = useState<number>(0.3);
   const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
   const [effectVolume, setEffectVolume] = useState<number>(0.3);
@@ -144,6 +144,7 @@ const Game: React.FC = () => {
   // Temporizador del juego
   useEffect(() => {
     if (gameStarted && !isPaused && !isFailed) {
+      inputRef.current?.focus();
       const timer = setInterval(() => {
         setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
@@ -205,7 +206,10 @@ const Game: React.FC = () => {
 
   // Ir al menú principal
   const goToMenu = () => {
-    bgMusicRef.current.stop();
+    if (!isBgMuted)
+    {
+      bgMusicRef.current.stop();
+    }
     navigate("/home");
   };
 
@@ -241,6 +245,8 @@ const Game: React.FC = () => {
         setIndex(nextIndex);
       }
     }
+
+    inputRef.current?.focus();
   };
 
   useEffect(() => {
@@ -316,6 +322,7 @@ const Game: React.FC = () => {
         {/* Pregunta y respuesta abajo */}
         <div className="mt-56 w-full z-0">
           <Question
+          inputRef={inputRef}
             word={words[index]}
             onAnswer={handleAnswer}
             ready={gameStarted}
