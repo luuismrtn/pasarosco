@@ -6,7 +6,7 @@ import { Word } from "../types/types";
 const Results: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { correctAnswers, wrongAnswers, time, words } = location.state || {};
+  const { correctAnswers, wrongAnswers, time, words, id } = location.state || {};
   const [formattedTime, setFormattedTime] = useState<string>("");
   const [wordsState] = useState<Word[]>(words || []);
 
@@ -21,7 +21,7 @@ const Results: React.FC = () => {
   }, [time]);
 
   const restartGame = () => {
-    navigate("/game");
+    navigate("/game/" + id);
   };
 
   const goToMenu = () => {

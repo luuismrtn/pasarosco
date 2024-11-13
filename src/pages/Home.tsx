@@ -50,7 +50,7 @@ const Home: React.FC = () => {
       <div className="text-center p-8 w-full max-w-md">
         <div className="space-y-6">
           <button
-            onClick={() => navigate("/game")}
+            onClick={() => navigate("/game/0")}
             className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
           >
             JUGAR

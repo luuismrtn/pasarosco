@@ -185,190 +185,188 @@
       }
     ],
     "1": [
-      [
-        {
-          "letter": "A",
-          "word": ["avión"],
-          "definition": "Vehículo que vuela por el aire.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "B",
-          "word": ["ballena"],
-          "definition": "Gran mamífero marino.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "C",
-          "word": ["coche"],
-          "definition": "Vehículo que se utiliza para el transporte terrestre.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "D",
-          "word": ["delfín"],
-          "definition": "Mamífero marino conocido por su inteligencia y agilidad.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "E",
-          "word": ["espejo"],
-          "definition": "Superficie reflectante que se usa para ver el reflejo de las cosas.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "F",
-          "word": ["flor"],
-          "definition": "Parte de la planta que suele tener colores y es muy apreciada por su belleza.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "G",
-          "word": ["guitarra"],
-          "definition": "Instrumento musical de cuerdas.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "H",
-          "word": ["hormiga"],
-          "definition": "Insecto pequeño que vive en colonias.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "I",
-          "word": ["isla"],
-          "definition": "Porción de tierra rodeada por agua.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "J",
-          "word": ["jirafa"],
-          "definition": "Animal con un cuello muy largo que vive en África.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "K",
-          "word": ["kilo"],
-          "definition": "Unidad de peso equivalente a mil gramos.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "L",
-          "word": ["lago"],
-          "definition": "Gran masa de agua dulce rodeada de tierra.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "M",
-          "word": ["montaña"],
-          "definition": "Elevación natural del terreno.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "N",
-          "word": ["naranja"],
-          "definition": "Fruta cítrica de color anaranjado.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "O",
-          "word": ["octavo"],
-          "definition": "Número que sigue al séptimo.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "P",
-          "word": ["piedra"],
-          "definition": "Materia sólida que se encuentra en la naturaleza.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "Q",
-          "word": ["queso"],
-          "definition": "Alimento que se obtiene a partir de la leche.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "R",
-          "word": ["ratón"],
-          "definition": "Pequeño mamífero roedor, conocido por su agilidad.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "S",
-          "word": ["serpiente"],
-          "definition": "Reptil alargado y sin patas.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "T",
-          "word": ["tornado"],
-          "definition": "Fenómeno meteorológico que consiste en una columna de aire que gira violentamente.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "U",
-          "word": ["unicornio"],
-          "definition": "Animal mitológico representado como un caballo con un cuerno en la frente.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "V",
-          "word": ["viento"],
-          "definition": "Movimiento del aire en la atmósfera.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "W",
-          "word": ["whisky"],
-          "definition": "Bebida alcohólica destilada de la cebada.",
-          "status": "pending",
-          "letterType": "contains"
-        },
-        {
-          "letter": "X",
-          "word": ["xenón"],
-          "definition": "Elemento químico noble, gas incoloro e inodoro.",
-          "status": "pending",
-          "letterType": "contains"
-        },
-        {
-          "letter": "Y",
-          "word": ["yogur"],
-          "definition": "Producto lácteo fermentado.",
-          "status": "pending",
-          "letterType": "start"
-        },
-        {
-          "letter": "Z",
-          "word": ["zebra"],
-          "definition": "Animal salvaje con rayas blancas y negras, similar al caballo.",
-          "status": "pending",
-          "letterType": "start"
-        }
-      ]
+      {
+        "letter": "A",
+        "word": ["avión"],
+        "definition": "Vehículo que vuela por el aire.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "B",
+        "word": ["ballena"],
+        "definition": "Gran mamífero marino.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "C",
+        "word": ["coche"],
+        "definition": "Vehículo que se utiliza para el transporte terrestre.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "D",
+        "word": ["delfín"],
+        "definition": "Mamífero marino conocido por su inteligencia y agilidad.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "E",
+        "word": ["espejo"],
+        "definition": "Superficie reflectante que se usa para ver el reflejo de las cosas.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "F",
+        "word": ["flor"],
+        "definition": "Parte de la planta que suele tener colores y es muy apreciada por su belleza.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "G",
+        "word": ["guitarra"],
+        "definition": "Instrumento musical de cuerdas.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "H",
+        "word": ["hormiga"],
+        "definition": "Insecto pequeño que vive en colonias.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "I",
+        "word": ["isla"],
+        "definition": "Porción de tierra rodeada por agua.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "J",
+        "word": ["jirafa"],
+        "definition": "Animal con un cuello muy largo que vive en África.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "K",
+        "word": ["kilo"],
+        "definition": "Unidad de peso equivalente a mil gramos.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "L",
+        "word": ["lago"],
+        "definition": "Gran masa de agua dulce rodeada de tierra.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "M",
+        "word": ["montaña"],
+        "definition": "Elevación natural del terreno.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "N",
+        "word": ["naranja"],
+        "definition": "Fruta cítrica de color anaranjado.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "O",
+        "word": ["octavo"],
+        "definition": "Número que sigue al séptimo.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "P",
+        "word": ["piedra"],
+        "definition": "Materia sólida que se encuentra en la naturaleza.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "Q",
+        "word": ["queso"],
+        "definition": "Alimento que se obtiene a partir de la leche.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "R",
+        "word": ["ratón"],
+        "definition": "Pequeño mamífero roedor, conocido por su agilidad.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "S",
+        "word": ["serpiente"],
+        "definition": "Reptil alargado y sin patas.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "T",
+        "word": ["tornado"],
+        "definition": "Fenómeno meteorológico que consiste en una columna de aire que gira violentamente.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "U",
+        "word": ["unicornio"],
+        "definition": "Animal mitológico representado como un caballo con un cuerno en la frente.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "V",
+        "word": ["viento"],
+        "definition": "Movimiento del aire en la atmósfera.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "W",
+        "word": ["whisky"],
+        "definition": "Bebida alcohólica destilada de la cebada.",
+        "status": "pending",
+        "letterType": "contains"
+      },
+      {
+        "letter": "X",
+        "word": ["xenón"],
+        "definition": "Elemento químico noble, gas incoloro e inodoro.",
+        "status": "pending",
+        "letterType": "contains"
+      },
+      {
+        "letter": "Y",
+        "word": ["yogur"],
+        "definition": "Producto lácteo fermentado.",
+        "status": "pending",
+        "letterType": "start"
+      },
+      {
+        "letter": "Z",
+        "word": ["zebra"],
+        "definition": "Animal salvaje con rayas blancas y negras, similar al caballo.",
+        "status": "pending",
+        "letterType": "start"
+      }
     ],
     "2": [
       {

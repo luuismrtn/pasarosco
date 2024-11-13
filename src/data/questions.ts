@@ -2,9 +2,13 @@ import { Word } from "../types/types";
 import dataJson from "./data.json";
 
 const loadRoscoData = (index: string): Word[] => {
+  console.log("index", index);
   const data = JSON.parse(JSON.stringify(dataJson));
-  const roscos = data.roscos;
-  const rosco = roscos[index][0].map(parseWord);
+  console.log("data", data);
+  const roscos = data.roscos[index];
+  console.log("roscos", roscos);
+  const rosco = roscos.map(parseWord);
+  console.log("rosco", rosco);
   return rosco;
 };
 

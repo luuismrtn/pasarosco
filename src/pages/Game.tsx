@@ -1,5 +1,6 @@
 import { Howl } from "howler";
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from 'react-router-dom';
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import WordWheel from "../components/WordWheel";
@@ -8,7 +9,7 @@ import Score from "../components/Score";
 import { Word } from "../types/types";
 import Background from "../components/Background";
 
-import { getRosco, getRoscoIndex } from "../data/questions";
+import { getRoscoIndex } from "../data/questions";
 
 import CorrectSound from "../assets/sounds/correct_sound.wav";
 import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
@@ -17,6 +18,7 @@ import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
 
 const Game: React.FC = () => {
+  const { id } = useParams() as { id: string };
   const [rosco, setRosco] = useState<Word[]>([]);
   const time = 120;
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ const Game: React.FC = () => {
 
   useEffect(() => {
     const fetchRosco = async () => {
-      const data = await getRoscoIndex("1");
+      const data = await getRoscoIndex(id);
       setRosco(data);
       setWords(data);
     };
@@ -117,7 +119,7 @@ const Game: React.FC = () => {
     if (gameStarted && remainingTime === 0) {
       bgMusicRef.current.stop();
       navigate("/results", {
-        state: { correctAnswers, wrongAnswers, time, words },
+        state: { correctAnswers, wrongAnswers, time, words, id },
       });
     }
   }, [remainingTime, gameStarted]);
