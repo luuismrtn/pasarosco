@@ -8,6 +8,7 @@ interface QuestionProps {
   ready: boolean;
   paused: boolean;
   failed: boolean;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 const Question: React.FC<QuestionProps> = ({
@@ -16,9 +17,10 @@ const Question: React.FC<QuestionProps> = ({
   ready,
   paused,
   failed,
+  inputRef,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -42,7 +44,7 @@ const Question: React.FC<QuestionProps> = ({
             <br />
             <span className="text-xl text-white">
               La respuesta correcta es:{" "}
-              <span className="font-bold text-red-600">{word.word}</span>. Pulsa ENTER para seguir jugando
+              <span className="font-bold text-red-600">{word.word[0]}</span>. Pulsa ENTER para seguir jugando
             </span>
           </h2>
         ) : paused ? (
@@ -89,6 +91,7 @@ const Question: React.FC<QuestionProps> = ({
       >
         <input
           type="text"
+          ref={inputRef}
           value={inputValue}
           onChange={handleChange}
           disabled={!ready || paused || failed}
