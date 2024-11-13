@@ -43,24 +43,24 @@ const Settings: React.FC = () => {
       bgMusicRef.current = new Howl({
         src: [BgGame],
         loop: true,
-        volume: isBgMuted ? 0 : bgVolume, // Usar volumen guardado o muteado
+        volume: isBgMuted ? 0 : bgVolume,
       });
-      bgMusicRef.current.play(); // Comienza a reproducir
+      bgMusicRef.current.play();
     }
 
     // Cleanup cuando el componente se desmonta
     return () => {
-      if (bgMusicRef.current) {
+      if (bgMusicRef.current && !isBgMuted) {
         bgMusicRef.current.stop();
         bgMusicRef.current = null;
       }
     };
-  }, []); // Solo se ejecuta al montar el componente
+  }, []);
 
   // Control del volumen de la música de fondo
   useEffect(() => {
     if (bgMusicRef.current) {
-      bgMusicRef.current.volume(isBgMuted ? 0 : bgVolume); // Ajustar volumen o muteo
+      bgMusicRef.current.volume(isBgMuted ? 0 : bgVolume);
     }
   }, [bgVolume, isBgMuted]);
 
@@ -76,7 +76,7 @@ const Settings: React.FC = () => {
     }
 
     return () => {
-      if (effectSoundRef.current) {
+      if (effectSoundRef.current && !isEffectsMuted) {
         effectSoundRef.current.stop();
         effectSoundRef.current = null;
       }

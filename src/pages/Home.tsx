@@ -30,7 +30,9 @@ const Home: React.FC = () => {
     bgMusic.play();
 
     return () => {
-      bgMusic.stop();
+      if (!isBgMuted) {
+        bgMusic.stop();
+      }
     };
   }, [bgVolume, isBgMuted]);
 
@@ -83,7 +85,7 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.1.0
+        Versión 1.1.2
       </div>
     </div>
   );
