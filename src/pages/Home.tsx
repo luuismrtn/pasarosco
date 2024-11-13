@@ -43,7 +43,8 @@ const Home: React.FC = () => {
 
       {/* Subtítulo */}
       <h2 className="text-3xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
-        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
+        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el
+        castellano!
       </h2>
 
       {/* Caja de opciones */}
@@ -54,6 +55,12 @@ const Home: React.FC = () => {
             className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
           >
             JUGAR
+          </button>
+          <button
+            onClick={() => navigate("/roscos")}
+            className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
+          >
+            LISTA DE ROSCOS
           </button>
           <button
             onClick={() => navigate("/settings")}

@@ -19,13 +19,13 @@ import { RoscoService } from "../data/RoscoService";
 const Game: React.FC = () => {
   const { id } = useParams() as { id: string };
   const [rosco, setRosco] = useState<Word[]>([]);
-  const time = 120;
   const navigate = useNavigate();
+  const [time, setTime] = useState<number>(120);
   const [words, setWords] = useState<Word[]>(rosco);
   const [index, setIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(time);
+  const [remainingTime, setRemainingTime] = useState(120);
   const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -42,7 +42,6 @@ const Game: React.FC = () => {
     const fetchRosco = async () => {
       try {
         const roscoData = await roscosService.getRoscoById(parseInt(id));
-
         if (!roscoData) {
           console.error("Rosco no encontrado.");
           return;
@@ -52,7 +51,8 @@ const Game: React.FC = () => {
           ...word,
           status: "pending" as "pending",
         }));
-
+        setRemainingTime(roscoData.time);
+        setTime(roscoData.time);
         setRosco(data);
         setWords(data);
       } catch (error) {
