@@ -48,7 +48,7 @@ const Game: React.FC = () => {
   useEffect(() => {
     const fetchRosco = async () => {
       try {
-        const roscoData = await roscosService.getRoscoById(parseInt(id));
+        const roscoData = await roscosService.getRoscoById(id);
         if (!roscoData) {
           console.error("Rosco no encontrado.");
           return;

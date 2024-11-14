@@ -7,12 +7,13 @@ import Credits from './pages/Credits';
 import Results from './pages/Results';
 import RoscosList from './pages/RoscosList';
 import EditRosco from './pages/EditRosco';
+import CreateRosco from './pages/CreateRosco';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <Router>  {/* Aquí envolvemos todo con Router */}
+  <Router>
     <Routes>
       <Route path="*" element={<Home />} />
       <Route path="/home" element={<Home />} />
@@ -22,6 +23,7 @@ root.render(
       <Route path="/results" element={<Results />} />
       <Route path="/roscos" element={<RoscosList />} />
       <Route path="/edit-rosco/:id" element={<EditRosco />} />
+      <Route path="/create-rosco/" element={<CreateRosco />} />
     </Routes>
   </Router>
 );

@@ -12,13 +12,13 @@ export class RoscoService {
 
   // Función para guardar o actualizar un rosco
   async saveRosco(
-    nombreUsuario: string,
     palabras: Word[],
     theme: string,
     time: number,
-    roscoId?: number
+    name: string,
+    user_name: string,
+    roscoId?: string
   ) {
-
     if (roscoId) {
       const { data, error } = await this.supabase
         .from("roscos")
@@ -31,6 +31,7 @@ export class RoscoService {
         return null;
       }
 
+      // Si el rosco existe, actualizamos
       if (data) {
         const { data: updatedData, error: updateError } = await this.supabase
           .from("roscos")
@@ -38,6 +39,8 @@ export class RoscoService {
             words: palabras,
             theme,
             time,
+            name,
+            user_name,
             date_modification: new Date().toISOString(),
           })
           .eq("id", roscoId);
@@ -51,29 +54,37 @@ export class RoscoService {
       }
     }
 
-    const { data, error } = await this.supabase.from("roscos").insert([
-      {
-        id: roscoId,
-        user_name: nombreUsuario,
-        words: palabras,
-        theme,
-        time,
-        date_modification: new Date().toISOString(),
-        name: `Rosco_${roscoId}`,
-      },
-    ]);
+    // Si el rosco no existe, lo insertamos
+    const { data: insertData, error: insertError } = await this.supabase
+      .from("roscos")
+      .insert([
+        {
+          user_name,
+          words: palabras,
+          theme,
+          time,
+          date_modification: new Date().toISOString(),
+          name: name || `Rosco_${Math.random().toString(36).substring(2)}`,
+        },
+      ]);
 
-    if (error) {
-      console.error("Error al guardar el rosco:", error);
+    if (insertError) {
+      console.error("Error al guardar el rosco:", insertError);
       return null;
     }
 
-    return data;
+    return insertData;
   }
 
   // Función para actualizar un rosco
-  async updateRosco(roscoId: number, palabras: Word[], theme: string, time: number, name: string, user_name: string) {
-    console.log("Palabras:", palabras);
+  async updateRosco(
+    roscoId: string,
+    palabras: Word[],
+    theme: string,
+    time: number,
+    name: string,
+    user_name: string
+  ) {
     const { data, error } = await this.supabase
       .from("roscos")
       .update({
@@ -95,7 +106,7 @@ export class RoscoService {
   }
 
   // Función para obtener un rosco por su ID
-  async getRoscoById(roscoId: number): Promise<Rosco | null> {
+  async getRoscoById(roscoId: string): Promise<Rosco | null> {
     const { data, error } = await this.supabase
       .from("roscos")
       .select("*")
@@ -127,22 +138,22 @@ export class RoscoService {
     return data;
   }
 
-// Método para obtener todos los roscos
-async getAllRoscos(): Promise<Rosco[]> {
+  // Método para obtener todos los roscos
+  async getAllRoscos(): Promise<Rosco[]> {
     const { data, error } = await this.supabase
       .from("roscos")
       .select("id, user_name, date_modification, name, theme, time, words");
-  
+
     if (error) {
       console.error("Error al obtener los roscos:", error);
       return [];
     }
-  
+
     return data;
   }
 
   // Función para eliminar un rosco por su ID
-  async deleteRosco(roscoId: number) {
+  async deleteRosco(roscoId: string) { 
     const { data, error } = await this.supabase
       .from("roscos")
       .delete()

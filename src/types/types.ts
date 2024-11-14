@@ -7,7 +7,7 @@ export type Word = {
 };
 
 export type Rosco = {
-  id: number;
+  id: string;
   name: string;
   user_name: string;
   theme: string;
