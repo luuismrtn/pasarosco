@@ -16,12 +16,15 @@ const Settings: React.FC = () => {
   const bgMusicRef = useRef<Howl | null>(null);
   const effectSoundRef = useRef<Howl | null>(null);
 
+  const [showRoscoId, setShowRoscoId] = useState<boolean>(true);
+
   // Recuperar los valores guardados desde localStorage cuando el componente se monta
   useEffect(() => {
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedEffectVolume = localStorage.getItem("effectVolume");
     const savedBgMuted = localStorage.getItem("isBgMuted");
     const savedEffectsMuted = localStorage.getItem("isEffectsMuted");
+    const savedShowRoscoId = localStorage.getItem("showRoscoId");
 
     if (savedBgVolume) {
       setBgVolume(parseFloat(savedBgVolume));
@@ -34,6 +37,9 @@ const Settings: React.FC = () => {
     }
     if (savedEffectsMuted) {
       setIsEffectsMuted(savedEffectsMuted === "true");
+    }
+    if (savedShowRoscoId) {
+      setShowRoscoId(savedShowRoscoId === "true");
     }
   }, []);
 
@@ -119,6 +125,14 @@ const Settings: React.FC = () => {
     });
   };
 
+  const toggleShowRoscoId = () => {
+    setShowRoscoId((prev) => {
+      const newState = !prev;
+      localStorage.setItem("showRoscoId", newState.toString());
+      return newState;
+    });
+  };
+
   const handlePlayEffectSound = () => {
     if (effectSoundRef.current) {
       effectSoundRef.current.play();
@@ -126,6 +140,9 @@ const Settings: React.FC = () => {
   };
 
   const goToMenu = () => {
+    if (bgMusicRef.current) {
+      bgMusicRef.current.stop();
+    }
     navigate("/home");
   };
 
@@ -222,6 +239,39 @@ const Settings: React.FC = () => {
         >
           Probar Efecto
         </button>
+      </div>
+
+      {/* Contenedor para mostrar el ID del rosco */}
+      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
+        <label
+          htmlFor="showRoscoId"
+          className="text-2xl font-semibold mb-4 block"
+        >
+          ¿Mostrar el ID del Rosco en la pantalla?
+        </label>
+
+        <div className="flex items-center justify-center space-x-4">
+          {/* Switch Toggle */}
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              id="showRoscoId"
+              checked={showRoscoId}
+              onChange={toggleShowRoscoId}
+              className="sr-only"
+            />
+            <div
+              className={`w-14 h-8 rounded-full transition-all duration-300 ${
+                showRoscoId ? "bg-blue-500" : "bg-red-500"
+              }`}
+            ></div>
+            <div
+              className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-200 ${
+                showRoscoId ? "transform translate-x-6 bg-white" : "bg-white"
+              }`}
+            ></div>
+          </label>
+        </div>
       </div>
     </div>
   );

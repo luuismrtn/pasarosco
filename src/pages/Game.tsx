@@ -39,6 +39,8 @@ const Game: React.FC = () => {
   const [effectVolume, setEffectVolume] = useState<number>(0.3);
   const [isEffectsMuted, setIsEffectsMuted] = useState<boolean>(false);
 
+  const [isId, setIsId] = useState<boolean>(true);
+
   const roscosService = new RoscoService();
 
   const wait = (ms: number) => {
@@ -85,6 +87,7 @@ const Game: React.FC = () => {
     const savedIsBgMuted = localStorage.getItem("isBgMuted");
     const savedEffectVolume = localStorage.getItem("effectVolume");
     const savedEffectsMuted = localStorage.getItem("isEffectsMuted");
+    const savedShowRoscoId = localStorage.getItem("showRoscoId");
 
     if (savedBgVolume) {
       setBgVolume(parseFloat(savedBgVolume));
@@ -97,6 +100,9 @@ const Game: React.FC = () => {
     }
     if (savedEffectsMuted) {
       setIsEffectsMuted(savedEffectsMuted === "true");
+    }
+    if (savedShowRoscoId) {
+      setIsId(savedShowRoscoId === "true");
     }
   }, []);
 
@@ -311,6 +317,13 @@ const Game: React.FC = () => {
           >
             <ArrowLeftIcon className="w-8 h-8" />
           </button>
+
+          {/* ID */}
+          {isId ? (
+            <p className="absolute top-6 text-white text-2xl">
+              ID del rosco: {id}
+            </p>
+          ) : null}
 
           {/* Botón para reiniciar el juego */}
           <button
