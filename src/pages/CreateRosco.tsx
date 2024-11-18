@@ -184,8 +184,6 @@ const CreateRosco: React.FC = () => {
 
     setErrors(newErrors);
 
-    console.log(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
@@ -195,14 +193,26 @@ const CreateRosco: React.FC = () => {
     }
   };
 
-  const confirmCreate = () => {
+  const confirmCreate = async () => {
     const words = parseToJSON();
-
-    roscosService.saveRosco(words, theme, time, roscoName, userName);
-
-    setIsModalOpen(false);
-    navigate("/roscos");
+  
+    try {
+      const id = await roscosService.saveRosco(words, theme, time, roscoName, userName);
+  
+      if (!id) {
+        throw new Error("No se pudo crear el rosco.");
+      }
+  
+      setIsModalOpen(false);
+  
+      navigate("/roscos", {
+        state: { create: true, code: id },
+      });
+    } catch (error) {
+      console.error("Error al crear el rosco:", error);
+    }
   };
+  
 
   const goToBack = () => {
     navigate("/roscos");

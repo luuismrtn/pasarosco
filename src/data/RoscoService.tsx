@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Word, Rosco } from "../types/types";
+import { v4 as uuidv4 } from "uuid";
 
 export class RoscoService {
   private supabase;
@@ -19,6 +20,8 @@ export class RoscoService {
     user_name: string,
     roscoId?: string
   ) {
+    const id = roscoId || uuidv4();
+
     if (roscoId) {
       const { data, error } = await this.supabase
         .from("roscos")
@@ -33,7 +36,7 @@ export class RoscoService {
 
       // Si el rosco existe, actualizamos
       if (data) {
-        const { data: updatedData, error: updateError } = await this.supabase
+        const { error: updateError } = await this.supabase
           .from("roscos")
           .update({
             words: palabras,
@@ -50,30 +53,29 @@ export class RoscoService {
           return null;
         }
 
-        return updatedData;
+        return roscoId;
       }
     }
 
     // Si el rosco no existe, lo insertamos
-    const { data: insertData, error: insertError } = await this.supabase
-      .from("roscos")
-      .insert([
-        {
-          user_name,
-          words: palabras,
-          theme,
-          time,
-          date_modification: new Date().toISOString(),
-          name: name || `Rosco_${Math.random().toString(36).substring(2)}`,
-        },
-      ]);
+    const { error: insertError } = await this.supabase.from("roscos").insert([
+      {
+        id: id,
+        user_name,
+        words: palabras,
+        theme,
+        time,
+        date_modification: new Date().toISOString(),
+        name: name || `Rosco_${id}`,
+      },
+    ]);
 
     if (insertError) {
       console.error("Error al guardar el rosco:", insertError);
       return null;
     }
 
-    return insertData;
+    return id;
   }
 
   // Función para actualizar un rosco
@@ -152,8 +154,27 @@ export class RoscoService {
     return data;
   }
 
+  async existsRosco(roscoId: string): Promise<boolean> {
+    try {
+      const { data, error } = await this.supabase
+        .from("roscos")
+        .select("*")
+        .eq("id", roscoId)
+        .single();
+
+      if (error) {
+        throw new Error(`Error al verificar el rosco: ${error.message}`);
+      }
+
+      return data !== null;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
   // Función para eliminar un rosco por su ID
-  async deleteRosco(roscoId: string) { 
+  async deleteRosco(roscoId: string) {
     const { data, error } = await this.supabase
       .from("roscos")
       .delete()

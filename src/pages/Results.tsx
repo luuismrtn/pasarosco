@@ -10,8 +10,6 @@ const Results: React.FC = () => {
   const [formattedTime, setFormattedTime] = useState<string>("");
   const [wordsState] = useState<Word[]>(words || []);
 
-  console.log(wordsState);
-
   useEffect(() => {
     if (time !== undefined) {
       const minutes = Math.floor(time / 60);
