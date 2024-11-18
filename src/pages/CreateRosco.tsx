@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import { Word } from "../types/types";
+import { Word, themes } from "../types/types";
 import { RoscoService } from "../data/RoscoService";
 import Instructions from "../components/Instructions";
 
@@ -54,7 +54,6 @@ const CreateRosco: React.FC = () => {
     setTheme(empty);
     setUserName(empty);
     setRoscoName(empty);
-
   }, []);
 
   const handleWordChange = (letter: string, word: string) => {
@@ -106,8 +105,7 @@ const CreateRosco: React.FC = () => {
     }
 
     if (!userName || userName.trim() === "") {
-      newErrors.userName =
-        "El nombre de usuario no puede estar vacío.";
+      newErrors.userName = "El nombre de usuario no puede estar vacío.";
     }
 
     if (roscoName.length > 25) {
@@ -116,16 +114,11 @@ const CreateRosco: React.FC = () => {
     }
 
     if (!roscoName || roscoName.trim() === "") {
-      newErrors.roscoName =
-        "El nombre del rosco no puede estar vacío.";
+      newErrors.roscoName = "El nombre del rosco no puede estar vacío.";
     }
 
-    if (theme.length > 25) {
-      newErrors.theme = "La temática no puede tener más de 25 caracteres";
-    }
-
-    if (!theme || roscoName.trim() === "") {
-      newErrors.theme = "La temática no puede estar vacía.";
+    if (theme === "") {
+      newErrors.theme = "Elige una temática válida";
     }
 
     Object.keys(words).forEach((letter) => {
@@ -167,7 +160,8 @@ const CreateRosco: React.FC = () => {
           }
           if (
             wordType[letter] === "contains" &&
-            (!lowerWord.includes(lowerLetter) || lowerWord.startsWith(lowerLetter))
+            (!lowerWord.includes(lowerLetter) ||
+              lowerWord.startsWith(lowerLetter))
           ) {
             return false;
           }
@@ -195,16 +189,22 @@ const CreateRosco: React.FC = () => {
 
   const confirmCreate = async () => {
     const words = parseToJSON();
-  
+
     try {
-      const id = await roscosService.saveRosco(words, theme, time, roscoName, userName);
-  
+      const id = await roscosService.saveRosco(
+        words,
+        theme,
+        time,
+        roscoName,
+        userName
+      );
+
       if (!id) {
         throw new Error("No se pudo crear el rosco.");
       }
-  
+
       setIsModalOpen(false);
-  
+
       navigate("/roscos", {
         state: { create: true, code: id },
       });
@@ -212,7 +212,6 @@ const CreateRosco: React.FC = () => {
       console.error("Error al crear el rosco:", error);
     }
   };
-  
 
   const goToBack = () => {
     navigate("/roscos");
@@ -272,7 +271,9 @@ const CreateRosco: React.FC = () => {
                   }`}
                   placeholder="Ingrese su nombre"
                 />
-                {errors.userName && <p className="text-red-500">{errors.userName}</p>}
+                {errors.userName && (
+                  <p className="text-red-500">{errors.userName}</p>
+                )}
               </div>
             </div>
 
@@ -294,15 +295,20 @@ const CreateRosco: React.FC = () => {
               </div>
               <div>
                 <label className="text-white font-bold mb-2">Temática</label>
-                <input
-                  type="text"
+                <select
                   value={theme}
                   onChange={(e) => setTheme(e.target.value)}
                   className={`p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     errors.theme ? "border-red-500" : ""
                   }`}
-                  placeholder="Ingrese la temática del rosco"
-                />
+                >
+                  <option value="">Seleccione una temática</option>
+                  {themes.map((themeOption) => (
+                    <option key={themeOption} value={themeOption}>
+                      {themeOption}
+                    </option>
+                  ))}
+                </select>
                 {errors.theme && <p className="text-red-500">{errors.theme}</p>}
               </div>
             </div>

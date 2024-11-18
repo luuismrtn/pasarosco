@@ -16,5 +16,9 @@ export type Rosco = {
   date_modification: string;
 }
 
+export type Theme = "Random" | "Naturaleza" | "Música" | "Deportes" | "Historia";
+
+export const themes: Theme[] = ["Random", "Naturaleza", "Música", "Deportes", "Historia"];
+
 declare module 'howler';
   

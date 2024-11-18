@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import { Rosco, Word } from "../types/types";
+import { Rosco, Word, themes } from "../types/types";
 import { RoscoService } from "../data/RoscoService";
 
 const EditRosco: React.FC = () => {
@@ -105,26 +105,37 @@ const EditRosco: React.FC = () => {
   const validateForm = () => {
     const newErrors: any = {};
 
-    // Validar tiempo
     if (time <= 5) {
       newErrors.time = "El tiempo debe ser mayor a 5 segundos";
     }
 
-    // Validar título del rosco
+    if (userName.length > 25) {
+      newErrors.userName =
+        "El nombre de usuario no puede tener más de 25 caracteres";
+    }
+
+    if (!userName || userName.trim() === "") {
+      newErrors.userName = "El nombre de usuario no puede estar vacío.";
+    }
+
     if (roscoName.length > 25) {
       newErrors.roscoName =
         "El nombre del rosco no puede tener más de 25 caracteres";
     }
 
-    // Validar temática
-    if (theme.length > 25) {
-      newErrors.theme = "La temática no puede tener más de 25 caracteres";
+    if (!roscoName || roscoName.trim() === "") {
+      newErrors.roscoName = "El nombre del rosco no puede estar vacío.";
     }
 
-    // Validar definiciones y respuestas
+    if (theme === "") {
+      newErrors.theme = "Elige una temática válida";
+    }
+
     Object.keys(words).forEach((letter) => {
       const word = words[letter];
       const definition = definitions[letter];
+
+      console.log("Word", word);
 
       if (!word || word.trim() === "") {
         newErrors[
@@ -159,7 +170,8 @@ const EditRosco: React.FC = () => {
           }
           if (
             wordType[letter] === "contains" &&
-            (!lowerWord.includes(lowerLetter) || lowerWord.startsWith(lowerLetter))
+            (!lowerWord.includes(lowerLetter) ||
+              lowerWord.startsWith(lowerLetter))
           ) {
             return false;
           }
@@ -188,14 +200,7 @@ const EditRosco: React.FC = () => {
   const confirmSaveChanges = () => {
     const words = parseToJSON();
 
-    roscosService.updateRosco(
-      id,
-      words,
-      theme,
-      time,
-      roscoName,
-      userName
-    );
+    roscosService.updateRosco(id, words, theme, time, roscoName, userName);
 
     setIsModalOpen(false);
     navigate("/roscos");
@@ -270,15 +275,20 @@ const EditRosco: React.FC = () => {
           </div>
           <div>
             <label className="text-white font-bold mb-2">Temática</label>
-            <input
-              type="text"
+            <select
               value={theme}
               onChange={(e) => setTheme(e.target.value)}
               className={`p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.theme ? "border-red-500" : ""
               }`}
-              placeholder="Ingrese la temática del rosco"
-            />
+            >
+              <option value="">Seleccione una temática</option>
+              {themes.map((themeOption) => (
+                <option key={themeOption} value={themeOption}>
+                  {themeOption}
+                </option>
+              ))}
+            </select>
             {errors.theme && <p className="text-red-500">{errors.theme}</p>}
           </div>
         </div>
