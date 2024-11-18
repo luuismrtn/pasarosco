@@ -51,7 +51,10 @@ const Settings: React.FC = () => {
         loop: true,
         volume: isBgMuted ? 0 : bgVolume,
       });
-      bgMusicRef.current.play();
+      
+      if (!isBgMuted) {
+        bgMusicRef.current.play();
+      }
     }
 
     // Cleanup cuando el componente se desmonta

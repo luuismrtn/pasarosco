@@ -74,7 +74,13 @@ const Game: React.FC = () => {
         await wait(500);
 
         setLoading(false);
-        pipSoundRef.current.play();
+        if (!isBgMuted) {
+          bgMusicRef.current.play();
+        }
+        if(!isEffectsMuted) {
+          pipSoundRef.current.play();
+        }
+
       } catch (error) {
         console.error("Error al obtener el rosco:", error);
         setLoading(false);
@@ -104,6 +110,15 @@ const Game: React.FC = () => {
     if (savedShowRoscoId) {
       setIsId(savedShowRoscoId === "true");
     }
+
+    return () => {
+      if (!isBgMuted) {
+        bgMusicRef.current.stop();
+      }
+      if (!isEffectsMuted) {
+        pipSoundRef.current.stop();
+      }
+    };
   }, []);
 
   // Inicialización de sonidos
