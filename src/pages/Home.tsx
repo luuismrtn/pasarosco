@@ -16,7 +16,7 @@ const Home: React.FC = () => {
       setBgVolume(parseFloat(savedBgVolume));
     }
     if (savedIsBgMuted) {
-      setIsBgMuted(savedIsBgMuted === "true");
+      setIsBgMuted(true);
     }
   }, []);
 
@@ -30,7 +30,7 @@ const Home: React.FC = () => {
     if (!isBgMuted) {
       bgMusic.play();
     }
-    
+
     return () => {
       if (!isBgMuted) {
         bgMusic.stop();
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
   const handleGameStart = () => {
     const randNum = Math.floor(Math.random() * 5);
     navigate("/game/" + randNum);
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
@@ -52,7 +52,8 @@ const Home: React.FC = () => {
 
       {/* Subtítulo */}
       <h2 className="text-3xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
-        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
+        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el
+        castellano!
       </h2>
 
       {/* Caja de opciones */}
@@ -87,7 +88,17 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.1.6
+        Versión 1.1.7
+      </div>
+
+      {/* Botón para ir al blog */}
+      <div className="absolute bottom-4 right-4 text-white text-sm font-medium font-rubik">
+        <button
+          onClick={() => navigate("/blog")}
+          className="w-full px-9 py-3 text-white font-bold text-lg rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
+        >
+          BLOG
+        </button>
       </div>
     </div>
   );
