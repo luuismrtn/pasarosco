@@ -3,12 +3,21 @@ import { Word, Rosco } from "../types/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class RoscoService {
-  private supabase;
+  private supabase!: ReturnType<typeof createClient>;
+  static instance: RoscoService;
 
   constructor() {
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    if (!RoscoService.instance) {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      this.supabase = createClient(supabaseUrl, supabaseKey);
+      RoscoService.instance = this;
+    }
+    return RoscoService.instance;
+  }
+
+  getSupabase() {
+    return this.supabase;
   }
 
   // Función para guardar o actualizar un rosco
@@ -120,9 +129,7 @@ export class RoscoService {
       return null;
     }
 
-    console.log("Rosco:", data);
-
-    return data;
+    return data as Rosco;
   }
 
   // Función para obtener todos los roscos de un usuario
@@ -137,7 +144,7 @@ export class RoscoService {
       return [];
     }
 
-    return data;
+    return data as Rosco[];
   }
 
   // Método para obtener todos los roscos
@@ -151,7 +158,7 @@ export class RoscoService {
       return [];
     }
 
-    return data;
+    return data as Rosco[];
   }
 
   async existsRosco(roscoId: string): Promise<boolean> {

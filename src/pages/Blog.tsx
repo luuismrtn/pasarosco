@@ -40,6 +40,7 @@ const Blog: React.FC = () => {
                 Versión 1.2.0:
               </h3>
               <ul className="list-disc list-inside pl-4">
+                <li>YA ESTAN DISPONIBLES LOS USUARIOS.</li>
                 <li>Añadido el sistema para crear los roscos desde la web.</li>
                 <li>Añadido el sistema para unirte a roscos desde la web.</li>
                 <li>Ahora se ve la ID del rosco que estan jugando en el GAME (Se puede hacer invisible en los ajustes).</li>
