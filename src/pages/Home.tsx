@@ -86,11 +86,6 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Versión de la app en la parte inferior izquierda */}
-      <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.1.7
-      </div>
-
       {/* Botón para ir al blog */}
       <div className="absolute bottom-4 right-4 text-white text-sm font-medium font-rubik">
         <button
@@ -99,6 +94,11 @@ const Home: React.FC = () => {
         >
           BLOG
         </button>
+      </div>
+
+      {/* Versión de la app en la parte inferior izquierda */}
+      <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
+        Versión 1.1.8
       </div>
     </div>
   );

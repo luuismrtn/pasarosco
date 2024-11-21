@@ -10,6 +10,10 @@ import {
 import { Rosco } from "../types/types";
 
 import RandomPNG from "../assets/theme/random.png";
+import SportPNG from "../assets/theme/sport.png";
+import HistoryPNG from "../assets/theme/history.png";
+import NaturePNG from "../assets/theme/nature.png";
+import MusicPNG from "../assets/theme/music.png";
 import Loader from "../components/Loader";
 
 const RoscosListPage = () => {
@@ -129,6 +133,14 @@ const RoscosListPage = () => {
                     src={
                       rosco.theme === "Random"
                         ? RandomPNG
+                        : rosco.theme === "Deportes"
+                        ? SportPNG
+                        : rosco.theme === "Historia"
+                        ? HistoryPNG
+                        : rosco.theme === "Naturaleza"
+                        ? NaturePNG
+                        : rosco.theme === "Música"
+                        ? MusicPNG
                         : "https://via.placeholder.com/400x200"
                     }
                     alt={`Imagen de ${rosco.name}`}

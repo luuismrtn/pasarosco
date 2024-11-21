@@ -46,6 +46,7 @@ const Blog: React.FC = () => {
                 <li>Nueva sección de BLOG.</li>
                 <li>Ahora el historial de versiones se puede ver desde la web.</li>
                 <li>Al crear el rosco, los temas ya no son libres, sino que puedes elegir de una lista.</li>
+                <li>Ahora en la lista de roscos se va a poder ver que temática es gracias al banner.</li>
               </ul>
             </div>
 
