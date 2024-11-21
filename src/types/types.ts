@@ -7,7 +7,7 @@ export type Word = {
 };
 
 export type Rosco = {
-  id: number;
+  id: string;
   name: string;
   user_name: string;
   theme: string;
@@ -15,6 +15,10 @@ export type Rosco = {
   words: Word[];
   date_modification: string;
 }
+
+export type Theme = "Random" | "Naturaleza" | "Música" | "Deportes" | "Historia";
+
+export const themes: Theme[] = ["Random", "Naturaleza", "Música", "Deportes", "Historia"];
 
 declare module 'howler';
   

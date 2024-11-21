@@ -121,6 +121,12 @@ const Credits: React.FC = () => {
               </a>{" "}
               — License: Attribution 4.0
             </li>
+            <li className="text-lg font-semibold">Idea del juego:</li>
+            <li>
+              Basada en el programa de televisión{" "}
+              <span className="font-semibold text-blue-200">Pasapalabra </span>
+              de Antena 3.
+            </li>
           </ul>
         </section>
 

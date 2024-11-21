@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import { Rosco, Word } from "../types/types";
+import { Rosco, Word, themes } from "../types/types";
 import { RoscoService } from "../data/RoscoService";
 
 const EditRosco: React.FC = () => {
@@ -14,6 +14,7 @@ const EditRosco: React.FC = () => {
   const [wordType, setWordType] = useState<{ [key: string]: string }>({});
   const [definitions, setDefinitions] = useState<{ [key: string]: string }>({});
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [errors, setErrors] = useState<any>({});
   const navigate = useNavigate();
   const { id } = useParams() as { id: string };
   const roscosService = new RoscoService();
@@ -21,7 +22,7 @@ const EditRosco: React.FC = () => {
   useEffect(() => {
     const fetchRosco = async () => {
       try {
-        const roscosData = await roscosService.getRoscoById(parseInt(id));
+        const roscosData = await roscosService.getRoscoById(id);
         setRosco(roscosData || undefined);
       } catch (error) {
         console.error("Error al obtener los roscos:", error);
@@ -100,21 +101,106 @@ const EditRosco: React.FC = () => {
     return wordsArray;
   };
 
+  // Funciones de validación
+  const validateForm = () => {
+    const newErrors: any = {};
+
+    if (time <= 5) {
+      newErrors.time = "El tiempo debe ser mayor a 5 segundos";
+    }
+
+    if (userName.length > 25) {
+      newErrors.userName =
+        "El nombre de usuario no puede tener más de 25 caracteres";
+    }
+
+    if (!userName || userName.trim() === "") {
+      newErrors.userName = "El nombre de usuario no puede estar vacío.";
+    }
+
+    if (roscoName.length > 25) {
+      newErrors.roscoName =
+        "El nombre del rosco no puede tener más de 25 caracteres";
+    }
+
+    if (!roscoName || roscoName.trim() === "") {
+      newErrors.roscoName = "El nombre del rosco no puede estar vacío.";
+    }
+
+    if (theme === "") {
+      newErrors.theme = "Elige una temática válida";
+    }
+
+    Object.keys(words).forEach((letter) => {
+      const word = words[letter];
+      const definition = definitions[letter];
+
+      console.log("Word", word);
+
+      if (!word || word.trim() === "") {
+        newErrors[
+          `word_${letter}`
+        ] = `La palabra para ${letter} no puede estar vacía`;
+      }
+
+      if (!definition || word.trim() === "") {
+        newErrors[
+          `definition_${letter}`
+        ] = `La definición para ${letter} no puede estar vacía`;
+      }
+
+      if (definition && definition.length > 200) {
+        newErrors[
+          `definition_${letter}`
+        ] = `La definición para ${letter} no puede tener más de 200 caracteres`;
+      }
+
+      // Validar respuesta según tipo (start o contains)
+      if (word) {
+        const wordArray = word.split(",");
+        const validWord = wordArray.every((w) => {
+          const lowerLetter = letter.toLowerCase();
+          const lowerWord = w.toLowerCase();
+
+          if (
+            wordType[letter] === "start" &&
+            !lowerWord.startsWith(lowerLetter)
+          ) {
+            return false;
+          }
+          if (
+            wordType[letter] === "contains" &&
+            (!lowerWord.includes(lowerLetter) ||
+              lowerWord.startsWith(lowerLetter))
+          ) {
+            return false;
+          }
+          return true;
+        });
+
+        if (!validWord) {
+          newErrors[
+            `answer_${letter}`
+          ] = `La palabra para ${letter} no cumple con el tipo de respuesta (${wordType[letter]})`;
+        }
+      }
+    });
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSaveChanges = () => {
-    setIsModalOpen(true);
+    if (validateForm()) {
+      setIsModalOpen(true);
+    }
   };
 
   const confirmSaveChanges = () => {
     const words = parseToJSON();
 
-    roscosService.updateRosco(
-      parseInt(id),
-      words,
-      theme,
-      time,
-      roscoName,
-      userName
-    );
+    roscosService.updateRosco(id, words, theme, time, roscoName, userName);
 
     setIsModalOpen(false);
     navigate("/roscos");
@@ -147,10 +233,16 @@ const EditRosco: React.FC = () => {
               type="text"
               value={roscoName}
               onChange={(e) => setRoscoName(e.target.value)}
-              className="p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.roscoName ? "border-red-500" : ""
+              }`}
               placeholder="Ingrese el nombre del rosco"
             />
+            {errors.roscoName && (
+              <p className="text-red-500">{errors.roscoName}</p>
+            )}
           </div>
+
           <div>
             <label className="text-white font-bold mb-2">
               Nombre de Usuario
@@ -165,31 +257,6 @@ const EditRosco: React.FC = () => {
           </div>
         </div>
 
-        {/* Modal de Confirmación */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-xl font-semibold mb-4">
-              ¿Está seguro de que desea guardar los cambios?
-            </h2>
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={confirmSaveChanges}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
-              >
-                Confirmar
-              </button>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
         <div className="flex flex-col space-y-6">
           <div>
             <label className="text-white font-bold mb-2">
@@ -199,19 +266,30 @@ const EditRosco: React.FC = () => {
               type="number"
               value={time}
               onChange={(e) => setTime(Number(e.target.value))}
-              className="p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.time ? "border-red-500" : ""
+              }`}
               placeholder="Ingrese el tiempo en segundos"
             />
+            {errors.time && <p className="text-red-500">{errors.time}</p>}
           </div>
           <div>
             <label className="text-white font-bold mb-2">Temática</label>
-            <input
-              type="text"
+            <select
               value={theme}
               onChange={(e) => setTheme(e.target.value)}
-              className="p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Ingrese la temática del rosco"
-            />
+              className={`p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.theme ? "border-red-500" : ""
+              }`}
+            >
+              <option value="">Seleccione una temática</option>
+              {themes.map((themeOption) => (
+                <option key={themeOption} value={themeOption}>
+                  {themeOption}
+                </option>
+              ))}
+            </select>
+            {errors.theme && <p className="text-red-500">{errors.theme}</p>}
           </div>
         </div>
       </div>
@@ -219,19 +297,22 @@ const EditRosco: React.FC = () => {
       <div className="w-2/3">
         {alphabet.map((letter) => (
           <div key={letter} className="flex flex-col items-start mb-4">
-            {/* Pregunta (definición) encima de la respuesta */}
             <div className="mb-2 w-full">
               <input
                 type="text"
                 value={parseJSONDefinitionAnswer(letter)}
                 onChange={(e) => handleDefinitionChange(letter, e.target.value)}
-                className="p-3 text-black rounded-lg shadow-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`p-3 text-black rounded-lg shadow-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors[`definition_${letter}`] ? "border-red-500" : ""
+                }`}
                 placeholder={`Definición para ${letter}`}
               />
+              {errors[`definition_${letter}`] && (
+                <p className="text-red-500">{errors[`definition_${letter}`]}</p>
+              )}
             </div>
 
             <div className="flex items-center w-full">
-              {/* Selector de tipo de palabra */}
               <div className="mr-4">
                 <select
                   value={parseJSONTypeAnswer(letter)}
@@ -243,20 +324,28 @@ const EditRosco: React.FC = () => {
                 </select>
               </div>
 
-              {/* Letra del rosco */}
               <div className="mr-4 text-4xl font-bold text-white w-7">
                 {letter}
               </div>
 
-              {/* Campo de palabra */}
               <div className="flex-grow">
                 <input
                   type="text"
                   value={parseJSONAnswer(letter)}
                   onChange={(e) => handleWordChange(letter, e.target.value)}
-                  className="p-3 text-black rounded-lg shadow-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`p-3 text-black rounded-lg shadow-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    errors[`word_${letter}`] || errors[`answer_${letter}`]
+                      ? "border-red-500"
+                      : ""
+                  }`}
                   placeholder={`Palabra para ${letter}`}
                 />
+                {errors[`word_${letter}`] && (
+                  <p className="text-red-500">{errors[`word_${letter}`]}</p>
+                )}
+                {errors[`answer_${letter}`] && (
+                  <p className="text-red-500">{errors[`answer_${letter}`]}</p>
+                )}
               </div>
             </div>
           </div>
@@ -269,6 +358,32 @@ const EditRosco: React.FC = () => {
       >
         Guardar Cambios
       </button>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">¿Guardar los cambios?</h2>
+            <p className="mb-4">
+              ¿Estás seguro de que quieres guardar los cambios realizados en el
+              rosco?
+            </p>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 mr-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmSaveChanges}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
