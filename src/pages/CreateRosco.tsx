@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import { Word, themes } from "../types/types";
-import { RoscoService } from "../data/RoscoService";
+import { Word, themes, difficulties } from "../types/types";
+import Loader from "../components/Loader";
 import Instructions from "../components/Instructions";
+import { useUser } from "../contexts/UserContext";
 
 const CreateRosco: React.FC = () => {
-  const [userName, setUserName] = useState<string>("");
+  const { user, loadingUser, roscosService } = useUser();
+  const [difficulty, setdifficulty] = useState<string>("");
   const [time, setTime] = useState<number>(120);
   const [roscoName, setRoscoName] = useState<string>("");
   const [theme, setTheme] = useState<string>("");
@@ -17,7 +19,6 @@ const CreateRosco: React.FC = () => {
   const [errors, setErrors] = useState<any>({});
   const [isAccept, setAccept] = useState<boolean>(false);
   const navigate = useNavigate();
-  const roscosService = new RoscoService();
 
   useEffect(() => {
     const empty = "";
@@ -52,7 +53,7 @@ const CreateRosco: React.FC = () => {
 
     setWords(initialWords);
     setTheme(empty);
-    setUserName(empty);
+    setdifficulty(empty);
     setRoscoName(empty);
   }, []);
 
@@ -99,13 +100,8 @@ const CreateRosco: React.FC = () => {
       newErrors.time = "El tiempo debe ser mayor a 5 segundos";
     }
 
-    if (userName.length > 25) {
-      newErrors.userName =
-        "El nombre de usuario no puede tener más de 25 caracteres";
-    }
-
-    if (!userName || userName.trim() === "") {
-      newErrors.userName = "El nombre de usuario no puede estar vacío.";
+    if (difficulty === "") {
+      newErrors.difficulty = "Elige una dificultad válida";
     }
 
     if (roscoName.length > 25) {
@@ -196,7 +192,9 @@ const CreateRosco: React.FC = () => {
         theme,
         time,
         roscoName,
-        userName
+        user.user_metadata.user_name,
+        user.email,
+        difficulty,
       );
 
       if (!id) {
@@ -222,6 +220,10 @@ const CreateRosco: React.FC = () => {
   };
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+  if (loadingUser) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -259,21 +261,22 @@ const CreateRosco: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-white font-bold mb-2">
-                  Nombre de Usuario
-                </label>
-                <input
-                  type="text"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
+                <label className="text-white font-bold mb-2">Dificultad</label>
+                <select
+                  value={difficulty}
+                  onChange={(e) => setdifficulty(e.target.value)}
                   className={`p-3 text-black rounded-lg shadow-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.userName ? "border-red-500" : ""
+                    errors.difficulty ? "border-red-500" : ""
                   }`}
-                  placeholder="Ingrese su nombre"
-                />
-                {errors.userName && (
-                  <p className="text-red-500">{errors.userName}</p>
-                )}
+                >
+                  <option value="">Seleccione una dificultad</option>
+                  {difficulties.map((difficultyOption) => (
+                    <option key={difficultyOption} value={difficultyOption}>
+                      {difficultyOption}
+                    </option>
+                  ))}
+                </select>
+                {errors.difficulty && <p className="text-red-500">{errors.difficulty}</p>}
               </div>
             </div>
 

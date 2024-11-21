@@ -13,12 +13,15 @@ export type Rosco = {
   theme: string;
   time: number;
   words: Word[];
+  difficulty: string;
   date_modification: string;
 }
 
 export type Theme = "Random" | "Naturaleza" | "Música" | "Deportes" | "Historia";
 
 export const themes: Theme[] = ["Random", "Naturaleza", "Música", "Deportes", "Historia"];
+
+export const difficulties: ["Super Easy", "Easy", "Medium", "Hard", "Hardcore"] = ["Super Easy", "Easy", "Medium", "Hard", "Hardcore"];
 
 declare module 'howler';
   

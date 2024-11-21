@@ -2,18 +2,15 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Howl } from "howler";
 import BgMusic from "../assets/sounds/background_home.wav";
-import { RoscoService } from "../data/RoscoService";
 import Loader from "../components/Loader";
 import { useUser } from "../contexts/UserContext";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const roscosService = new RoscoService();
-  const supabase = roscosService.getSupabase();
   const [bgVolume, setBgVolume] = useState<number>(0.5);
   const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
   const bgMusicRef = useRef<Howl | null>(null);
-  const { user, loadingUser } = useUser();
+  const { user, loadingUser, roscosService } = useUser();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
   // Cargar ajustes de volumen y mute desde localStorage
@@ -68,7 +65,7 @@ const Home: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await roscosService.getSupabase().auth.signOut();
     setMenuVisible(false);
   };
 
@@ -178,7 +175,7 @@ const Home: React.FC = () => {
       <div className="absolute bottom-4 right-4">
         <button
           onClick={() => navigate("/blog")}
-          className="w-full px-9 py-3 text-white font-bold text-lg rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
+          className="w-full px-6 py-2 text-white font-bold text-lg rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
           aria-label="Ir al blog"
         >
           BLOG
@@ -187,7 +184,7 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.2.0
+        Versión 1.2.1
       </div>
     </div>
   );
