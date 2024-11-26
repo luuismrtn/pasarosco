@@ -2,19 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Howl } from "howler";
 import BgMusic from "../assets/sounds/background_home.wav";
-import { RoscoService } from "../data/RoscoService";
-import Loader from "../components/Loader";
+import Loader from "../layouts/Loader";
 import { useUser } from "../contexts/UserContext";
+import ButtonSection from "../components/ButtonSection";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const roscosService = new RoscoService();
-  const supabase = roscosService.getSupabase();
   const [bgVolume, setBgVolume] = useState<number>(0.5);
   const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
   const bgMusicRef = useRef<Howl | null>(null);
-  const { user, loadingUser } = useUser();
+  const { user, loadingUser, roscosService } = useUser();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   // Cargar ajustes de volumen y mute desde localStorage
   useEffect(() => {
@@ -53,6 +53,25 @@ const Home: React.FC = () => {
     };
   }, [bgVolume, isBgMuted]);
 
+  // Cerrar el menú al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuVisible(false);
+      }
+    };
+
+    if (menuVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuVisible]);
+
   const handleGameStart = () => {
     const randNum = Math.floor(Math.random() * 5);
     navigate("/game/" + randNum);
@@ -68,7 +87,8 @@ const Home: React.FC = () => {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await roscosService.getSupabase().auth.signOut();
+    navigate("/login");
     setMenuVisible(false);
   };
 
@@ -92,34 +112,15 @@ const Home: React.FC = () => {
       {/* Caja de opciones */}
       <div className="text-center p-8 w-full max-w-md">
         <div className="space-y-6">
-          <button
+          <ButtonSection
+            text="JUGAR"
+            to="/game"
+            size="large"
             onClick={handleGameStart}
-            className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
-            aria-label="Comenzar el juego"
-          >
-            JUGAR
-          </button>
-          <button
-            onClick={() => navigate("/roscos")}
-            className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
-            aria-label="Ir a la lista de roscos"
-          >
-            LISTA DE ROSCOS
-          </button>
-          <button
-            onClick={() => navigate("/settings")}
-            className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
-            aria-label="Abrir opciones"
-          >
-            OPCIONES
-          </button>
-          <button
-            onClick={() => navigate("/credits")}
-            className="w-full px-12 py-4 text-white font-bold text-3xl rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
-            aria-label="Ver créditos"
-          >
-            CRÉDITOS
-          </button>
+          />
+          <ButtonSection text="LISTA DE ROSCOS" to="/roscos" size="large" />
+          <ButtonSection text="OPCIONES" to="/settings" size="large" />
+          <ButtonSection text="CRÉDITOS" to="/credits" size="large" />
         </div>
       </div>
 
@@ -132,7 +133,9 @@ const Home: React.FC = () => {
           >
             <div className="flex flex-row items-center justify-end">
               <div className="text-white text-xl mr-4">
-                {user.user_metadata.user_name ? user.user_metadata.user_name : user.email}
+                {user.user_metadata.user_name
+                  ? user.user_metadata.user_name
+                  : user.email}
               </div>
               <div className="w-14 h-14 bg-transparent rounded-full border-2 border-white flex items-center justify-center hover:ring-4 ring-indigo-300 transition-all">
                 <svg
@@ -146,18 +149,15 @@ const Home: React.FC = () => {
             </div>
           </button>
         ) : (
-          <button
-            onClick={() => navigate("/login")}
-            className="w-full px-9 py-3 text-white font-bold text-lg rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
-            aria-label="Iniciar sesión"
-          >
-            INICIAR SESIÓN
-          </button>
+          <ButtonSection text="INICIAR SESIÓN" to="/login" size="medium" />
         )}
 
         {/* Menú desplegable */}
         {menuVisible && (
-          <div className="absolute right-0 mt-2 bg-white text-gray-800 rounded-lg shadow-md w-48">
+          <div
+            ref={menuRef}
+            className="absolute right-0 mt-2 bg-white text-gray-800 rounded-lg shadow-md w-48"
+          >
             <button
               onClick={handleProfileClick}
               className="w-full px-4 py-2 text-left hover:bg-indigo-100"
@@ -176,18 +176,12 @@ const Home: React.FC = () => {
 
       {/* Botón para ir al blog */}
       <div className="absolute bottom-4 right-4">
-        <button
-          onClick={() => navigate("/blog")}
-          className="w-full px-9 py-3 text-white font-bold text-lg rounded-full shadow-md transition-transform transform bg-transparent border-2 border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none"
-          aria-label="Ir al blog"
-        >
-          BLOG
-        </button>
+        <ButtonSection text="BLOG" to="/blog" size="small" />
       </div>
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.2.0
+        Versión 1.2.5
       </div>
     </div>
   );

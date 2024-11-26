@@ -3,11 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
-import WordWheel from "../components/WordWheel";
-import Question from "../components/Question";
-import Score from "../components/Score";
+import WordWheel from "../layouts/WordWheel";
+import Question from "../layouts/Question";
+import Score from "../layouts/Score";
 import { Word } from "../types/types";
-import Background from "../components/Background";
+import Background from "../layouts/Background";
 
 import CorrectSound from "../assets/sounds/correct_sound.wav";
 import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
@@ -16,7 +16,7 @@ import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
 import { RoscoService } from "../data/RoscoService";
 
-import Loader from "../components/Loader";
+import Loader from "../layouts/Loader";
 
 const Game: React.FC = () => {
   const { id } = useParams() as { id: string };
@@ -77,10 +77,9 @@ const Game: React.FC = () => {
         if (!isBgMuted) {
           bgMusicRef.current.play();
         }
-        if(!isEffectsMuted) {
+        if (!isEffectsMuted) {
           pipSoundRef.current.play();
         }
-
       } catch (error) {
         console.error("Error al obtener el rosco:", error);
         setLoading(false);

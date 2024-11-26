@@ -12,6 +12,7 @@ import CreateRosco from "./pages/CreateRosco";
 import Blog from "./pages/Blog";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 import "./index.css";
 
 const root = ReactDOM.createRoot(
@@ -34,6 +35,7 @@ root.render(
         <Route path="/blog" element={<Blog />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   </UserProvider>

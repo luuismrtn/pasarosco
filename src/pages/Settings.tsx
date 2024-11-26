@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Howl } from "howler";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import BgGame from "../assets/sounds/bg_game.wav";
 import EffectSound from "../assets/sounds/correct_sound.wav";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
+import BackButton from "../components/BackButton";
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ const Settings: React.FC = () => {
 
   const [showRoscoId, setShowRoscoId] = useState<boolean>(true);
 
-  // Recuperar los valores guardados desde localStorage cuando el componente se monta
   useEffect(() => {
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedEffectVolume = localStorage.getItem("effectVolume");
@@ -43,7 +42,6 @@ const Settings: React.FC = () => {
     }
   }, []);
 
-  // Iniciar la música de fondo cuando el componente se monta
   useEffect(() => {
     if (!bgMusicRef.current) {
       bgMusicRef.current = new Howl({
@@ -151,12 +149,9 @@ const Settings: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col justify-center items-center font-rubik text-white">
-      <button
-        onClick={goToMenu}
-        className="absolute top-8 left-8 p-2 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
+
+      {/* Título */}
 
       <h1 className="text-6xl font-extrabold mt-15 mb-20 text-white drop-shadow-lg">
         Configuración

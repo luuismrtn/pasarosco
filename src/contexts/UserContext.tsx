@@ -5,6 +5,7 @@ interface UserContextType {
   user: any;
   loadingUser: boolean;
   setUser: React.Dispatch<React.SetStateAction<any>>;
+  roscosService: RoscoService;
 }
 
 interface UserProviderProps {
@@ -47,7 +48,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [supabase]);
 
   return (
-    <UserContext.Provider value={{ user, loadingUser, setUser }}>
+    <UserContext.Provider value={{ user, loadingUser, setUser, roscosService }}>
       {children}
     </UserContext.Provider>
   );

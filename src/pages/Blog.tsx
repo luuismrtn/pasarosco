@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import BackButton from "../components/BackButton";
 
 const Blog: React.FC = () => {
   const navigate = useNavigate();
@@ -12,18 +12,11 @@ const Blog: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center text-white font-rubik px-4 py-8">
       {/* Botón para regresar al menú */}
-      <button
-        onClick={goToMenu}
-        className="absolute top-8 left-8 p-2 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título */}
       <h1 className="text-6xl font-extrabold mb-8 mt-10 drop-shadow-lg">
-        <span className="text-white bg-clip-text">
-          Blog
-        </span>
+        <span className="text-white bg-clip-text">Blog</span>
       </h1>
 
       {/* Contenedor principal */}
@@ -34,6 +27,21 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
+            {/* Versión 1.2.5 */}
+            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+              <h3 className="text-xl font-semibold text-yellow-300">
+                Versión 1.2.5:
+              </h3>
+              <ul className="list-disc list-inside pl-4">
+                <li>Nueva página de perfil para poder ver los roscos creados y la información del usuario.</li>
+                <li>Ahora solo se pueden crear roscos si has iniciado sesión previamente.</li>
+                <li>Atributo de dificultad añadido a cada rosco.</li>
+                <li>Se ha reemplazado el logo antiguo por uno nuevo más moderno.</li>
+                <li>Se ha añadido la función de filtrar en la lista de roscos para jugar.</li>
+                <li>Botón de volver hacia atrás unificado.</li>
+              </ul>
+            </div>
+
             {/* Versión 1.2.0 */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
@@ -43,11 +51,22 @@ const Blog: React.FC = () => {
                 <li>YA ESTAN DISPONIBLES LOS USUARIOS.</li>
                 <li>Añadido el sistema para crear los roscos desde la web.</li>
                 <li>Añadido el sistema para unirte a roscos desde la web.</li>
-                <li>Ahora se ve la ID del rosco que estan jugando en el GAME (Se puede hacer invisible en los ajustes).</li>
+                <li>
+                  Ahora se ve la ID del rosco que estan jugando en el GAME (Se
+                  puede hacer invisible en los ajustes).
+                </li>
                 <li>Nueva sección de BLOG.</li>
-                <li>Ahora el historial de versiones se puede ver desde la web.</li>
-                <li>Al crear el rosco, los temas ya no son libres, sino que puedes elegir de una lista.</li>
-                <li>Ahora en la lista de roscos se va a poder ver que temática es gracias al banner.</li>
+                <li>
+                  Ahora el historial de versiones se puede ver desde la web.
+                </li>
+                <li>
+                  Al crear el rosco, los temas ya no son libres, sino que puedes
+                  elegir de una lista.
+                </li>
+                <li>
+                  Ahora en la lista de roscos se va a poder ver que temática es
+                  gracias al banner.
+                </li>
               </ul>
             </div>
 
@@ -72,7 +91,10 @@ const Blog: React.FC = () => {
                 <li>Añadida base de datos.</li>
                 <li>Añadida lista de roscos.</li>
                 <li>Fallo de sonido arreglado.</li>
-                <li>Ahora los fallos se muestran en los las mismas casillas de formulario.</li>
+                <li>
+                  Ahora los fallos se muestran en los las mismas casillas de
+                  formulario.
+                </li>
                 <li>Sistema de cargado añadido</li>
               </ul>
             </div>

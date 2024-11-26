@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { RoscoService } from "../data/RoscoService";
-import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -51,14 +51,9 @@ const Login: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-500 font-rubik">
 
       {/* Botón de retroceso */}
-      <button
-        onClick={goToMenu}
-        aria-label="Volver al menú principal"
-        className="absolute top-8 left-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-indigo-600 transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToMenu} hoverText="hover:text-purple-600" />
 
+      {/* Contenedor principal */}
       <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-xl transform transition-all">
         <h1 className="text-3xl font-extrabold mb-6 text-center text-indigo-600">
           Inicia Sesión

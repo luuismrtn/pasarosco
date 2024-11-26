@@ -27,6 +27,8 @@ export class RoscoService {
     time: number,
     name: string,
     user_name: string,
+    user_email: string,
+    difficulty: string,
     roscoId?: string
   ) {
     const id = roscoId || uuidv4();
@@ -53,6 +55,8 @@ export class RoscoService {
             time,
             name,
             user_name,
+            user_email,
+            difficulty,
             date_modification: new Date().toISOString(),
           })
           .eq("id", roscoId);
@@ -71,9 +75,11 @@ export class RoscoService {
       {
         id: id,
         user_name,
+        user_email,
         words: palabras,
         theme,
         time,
+        difficulty,
         date_modification: new Date().toISOString(),
         name: name || `Rosco_${id}`,
       },
@@ -94,7 +100,9 @@ export class RoscoService {
     theme: string,
     time: number,
     name: string,
-    user_name: string
+    user_name: string,
+    user_email: string,
+    difficulty: string
   ) {
     const { data, error } = await this.supabase
       .from("roscos")
@@ -104,6 +112,8 @@ export class RoscoService {
         theme: theme,
         time: time,
         user_name: user_name,
+        user_email,
+        difficulty,
         date_modification: new Date().toISOString(),
       })
       .eq("id", roscoId);
@@ -132,6 +142,24 @@ export class RoscoService {
     return data as Rosco;
   }
 
+  // Función para obtener todos los roscos por email
+  async getRoscodByEmail(user_email: string): Promise<Rosco[]> {
+    const { data, error } = await this.supabase
+      .from("roscos")
+      .select("*")
+      .eq("user_email", user_email);
+
+    if (error) {
+      console.error(
+        "Error al obtener los roscos del usuario por email:",
+        error
+      );
+      return [];
+    }
+
+    return data as Rosco[];
+  }
+
   // Función para obtener todos los roscos de un usuario
   async getRoscodByUser(nombreUsuario: string): Promise<Rosco[]> {
     const { data, error } = await this.supabase
@@ -151,7 +179,7 @@ export class RoscoService {
   async getAllRoscos(): Promise<Rosco[]> {
     const { data, error } = await this.supabase
       .from("roscos")
-      .select("id, user_name, date_modification, name, theme, time, words");
+      .select("id, user_name, date_modification, name, theme, time, words, difficulty");
 
     if (error) {
       console.error("Error al obtener los roscos:", error);
