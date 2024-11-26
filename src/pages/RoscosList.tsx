@@ -14,7 +14,8 @@ import SportPNG from "../assets/theme/sport.png";
 import HistoryPNG from "../assets/theme/history.png";
 import NaturePNG from "../assets/theme/nature.png";
 import MusicPNG from "../assets/theme/music.png";
-import Loader from "../components/Loader";
+import Loader from "../layouts/Loader";
+import ButtonSection from "../components/ButtonSection";
 
 const RoscosListPage = () => {
   const { user, loadingUser, roscosService } = useUser();
@@ -41,7 +42,7 @@ const RoscosListPage = () => {
     };
 
     fetchRoscos();
-    
+
     if (create && code) {
       setIsModalCreateOpen(true);
     }
@@ -85,7 +86,7 @@ const RoscosListPage = () => {
     }
   };
 
-  if (loading && loadingUser) {
+  if (loading || loadingUser) {
     return <Loader />;
   }
 
@@ -108,23 +109,12 @@ const RoscosListPage = () => {
         <div className="absolute top-8 right-8 flex flex-col items-end justify-end gap-4">
           {/* Botón de crear nuevo rosco */}
           {user ? (
-            <button
-              onClick={goToCreateRosco}
-              className="flex items-center gap-2 px-4 py-2 text-white font-semibold text-xl rounded-full shadow-md transition-transform transform bg-transparent border border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none w-fit"
-            >
-              <PlusIcon className="w-6 h-6" />
-              <span>Crear Rosco nuevo</span>
-            </button>
+            <ButtonSection text="Crear Rosco nuevo" onClick={goToCreateRosco} size="icon" icon={<PlusIcon className="w-6 h-6" />} />
           ) : null}
 
           {/* Botón de unirse a un rosco */}
-          <button
-            onClick={goToJoinRosco}
-            className="flex items-center gap-2 px-4 py-2 text-white font-semibold text-xl rounded-full shadow-md transition-transform transform bg-transparent border border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none w-fit"
-          >
-            <ArrowRightCircleIcon className="w-6 h-6" />
-            <span>Unirse a un rosco</span>
-          </button>
+          <ButtonSection text="Unirse a un rosco" onClick={goToJoinRosco} size="icon" icon={<ArrowRightCircleIcon className="w-6 h-6" />} />
+
         </div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

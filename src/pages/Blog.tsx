@@ -40,6 +40,7 @@ const Blog: React.FC = () => {
               <ul className="list-disc list-inside pl-4">
                 <li>Ahora solo se pueden crear roscos si has iniciado sesión previamente.</li>
                 <li>Atributo de dificultad añadido a cada rosco.</li>
+                <li>Se ha reemplazado el logo antiguo por uno nuevo más moderno.</li>
               </ul>
             </div>
 
