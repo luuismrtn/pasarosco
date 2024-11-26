@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import BackButton from "../components/BackButton";
 
 const Blog: React.FC = () => {
   const navigate = useNavigate();
@@ -12,12 +12,7 @@ const Blog: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center text-white font-rubik px-4 py-8">
       {/* Botón para regresar al menú */}
-      <button
-        onClick={goToMenu}
-        className="absolute top-8 left-8 p-2 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título */}
       <h1 className="text-6xl font-extrabold mb-8 mt-10 drop-shadow-lg">
@@ -32,16 +27,18 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
-            {/* Versión 1.2.X */}
+            {/* Versión 1.2.5 */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
-                Versión 1.2.X:
+                Versión 1.2.5:
               </h3>
               <ul className="list-disc list-inside pl-4">
+                <li>Nueva página de perfil para poder ver los roscos creados y la información del usuario.</li>
                 <li>Ahora solo se pueden crear roscos si has iniciado sesión previamente.</li>
                 <li>Atributo de dificultad añadido a cada rosco.</li>
                 <li>Se ha reemplazado el logo antiguo por uno nuevo más moderno.</li>
                 <li>Se ha añadido la función de filtrar en la lista de roscos para jugar.</li>
+                <li>Botón de volver hacia atrás unificado.</li>
               </ul>
             </div>
 

@@ -80,6 +80,11 @@ const CreateRosco: React.FC = () => {
     return <Loader />;
   }
 
+  if (!user) {
+    navigate("/login");
+    return null;
+  }
+
   return (
     <div>
       {!isAccept ? (

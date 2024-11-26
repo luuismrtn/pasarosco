@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { RoscoService } from "../data/RoscoService";
+import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 const Signup: React.FC = () => {
+  const { roscosService } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const roscosService = new RoscoService();
   const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -45,6 +46,7 @@ const Signup: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-teal-500">
+      <BackButton onClick={() => navigate("/home")} hoverText="hover:text-teal-600" />
       <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md transform transition-all">
         <h1 className="text-3xl font-extrabold mb-6 text-center text-teal-600">
           Crea tu cuenta

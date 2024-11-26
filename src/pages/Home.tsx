@@ -14,6 +14,8 @@ const Home: React.FC = () => {
   const { user, loadingUser, roscosService } = useUser();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
   // Cargar ajustes de volumen y mute desde localStorage
   useEffect(() => {
     const savedBgVolume = localStorage.getItem("bgVolume");
@@ -51,6 +53,25 @@ const Home: React.FC = () => {
     };
   }, [bgVolume, isBgMuted]);
 
+  // Cerrar el menú al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuVisible(false);
+      }
+    };
+
+    if (menuVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuVisible]);
+
   const handleGameStart = () => {
     const randNum = Math.floor(Math.random() * 5);
     navigate("/game/" + randNum);
@@ -67,6 +88,7 @@ const Home: React.FC = () => {
 
   const handleLogout = async () => {
     await roscosService.getSupabase().auth.signOut();
+    navigate("/login");
     setMenuVisible(false);
   };
 
@@ -132,7 +154,10 @@ const Home: React.FC = () => {
 
         {/* Menú desplegable */}
         {menuVisible && (
-          <div className="absolute right-0 mt-2 bg-white text-gray-800 rounded-lg shadow-md w-48">
+          <div
+            ref={menuRef}
+            className="absolute right-0 mt-2 bg-white text-gray-800 rounded-lg shadow-md w-48"
+          >
             <button
               onClick={handleProfileClick}
               className="w-full px-4 py-2 text-left hover:bg-indigo-100"
@@ -151,12 +176,12 @@ const Home: React.FC = () => {
 
       {/* Botón para ir al blog */}
       <div className="absolute bottom-4 right-4">
-      <ButtonSection text="BLOG" to="/blog" size="small" />
+        <ButtonSection text="BLOG" to="/blog" size="small" />
       </div>
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.2.4 
+        Versión 1.2.5
       </div>
     </div>
   );

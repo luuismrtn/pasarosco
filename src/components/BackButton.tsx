@@ -3,12 +3,12 @@ import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 interface BackButtonProps {
   onClick: () => void;
-  hoverText?: string; // Clase personalizada para el texto en hover
+  hoverText?: string;
 }
 
 const BackButton: React.FC<BackButtonProps> = ({
   onClick,
-  hoverText = "text-primary", // Valor predeterminado para el hover
+  hoverText = "text-primary",
 }) => {
   return (
     <button

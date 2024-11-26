@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Word, themes, difficulties } from "../types/types";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import BackButton from "./BackButton";
 
 type RoscoFormProps = {
   initialWords: { [key: string]: string };
@@ -185,12 +185,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 p-8 flex flex-col items-center font-rubik">
       <h1 className="text-4xl font-bold text-white mb-8">{text}</h1>
 
-      <button
-        onClick={goToBack}
-        className="absolute top-8 left-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToBack} hoverText="hover:text-primary" />
 
       <div className="grid grid-cols-2 gap-6 w-2/3 mb-8">
         <div className="flex flex-col space-y-6">

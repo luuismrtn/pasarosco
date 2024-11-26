@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowLeftIcon, PlusIcon } from "@heroicons/react/24/solid";
+import { PlusIcon } from "@heroicons/react/24/solid";
 import {
   ClipboardIcon,
   CheckCircleIcon,
   ArrowRightCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Rosco } from "../types/types";
-
-import RandomPNG from "../assets/theme/random.png";
-import SportPNG from "../assets/theme/sport.png";
-import HistoryPNG from "../assets/theme/history.png";
-import NaturePNG from "../assets/theme/nature.png";
-import MusicPNG from "../assets/theme/music.png";
 import Loader from "../layouts/Loader";
 import ButtonSection from "../components/ButtonSection";
+import RoscoCard from "../components/RoscoCard";
+import BackButton from "../components/BackButton";
 
 const RoscosListPage = () => {
   const { user, loadingUser, roscosService } = useUser();
@@ -129,12 +125,7 @@ const RoscosListPage = () => {
         </h1>
 
         {/* Botón de retroceso */}
-        <button
-          onClick={goToMenu}
-          className="absolute top-8 left-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
-        >
-          <ArrowLeftIcon className="w-8 h-8" />
-        </button>
+        <BackButton onClick={goToMenu} hoverText="hover:text-blue-600" />
 
         {/* Botones de crear y unirse a un rosco */}
         <div className="absolute top-8 right-8 flex flex-col items-end justify-end gap-4">
@@ -157,94 +148,60 @@ const RoscosListPage = () => {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row justify-center items-center mb-8 gap-4 text-black">
+        <div className="flex flex-col md:flex-row justify-center items-center mb-8 gap-4 text-gray-900">
           {/* Filtro por temática */}
-          <select
-            value={filters.theme}
-            onChange={(e) => setFilters({ ...filters, theme: e.target.value })}
-            className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none"
-          >
-            <option value="">Todas las temáticas</option>
-            <option value="Random">Random</option>
-            <option value="Deportes">Deportes</option>
-            <option value="Historia">Historia</option>
-            <option value="Naturaleza">Naturaleza</option>
-            <option value="Música">Música</option>
-          </select>
+          <div className="relative">
+            <select
+              value={filters.theme}
+              onChange={(e) =>
+                setFilters({ ...filters, theme: e.target.value })
+              }
+              className="p-3 pl-4 pr-8 bg-white text-gray-800 rounded-lg border-2 border-purple-300 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm transition duration-200 hover:shadow-md"
+            >
+              <option value="">Todas las temáticas</option>
+              <option value="Random">Random</option>
+              <option value="Deportes">Deportes</option>
+              <option value="Historia">Historia</option>
+              <option value="Naturaleza">Naturaleza</option>
+              <option value="Música">Música</option>
+            </select>
+          </div>
 
           {/* Filtro por dificultad */}
-          <select
-            value={filters.difficulty}
-            onChange={(e) =>
-              setFilters({ ...filters, difficulty: e.target.value })
-            }
-            className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none"
-          >
-            <option value="">Todas las dificultades</option>
-            <option value="Super Easy">Muy Fácil</option>
-            <option value="Easy">Fácil</option>
-            <option value="Medium">Media</option>
-            <option value="Hard">Difícil</option>
-            <option value="Hardcore">Muy Difícil</option>
-          </select>
+          <div className="relative">
+            <select
+              value={filters.difficulty}
+              onChange={(e) =>
+                setFilters({ ...filters, difficulty: e.target.value })
+              }
+              className="p-3 pl-4 pr-8 bg-white text-gray-800 rounded-lg border-2 border-blue-300 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm transition duration-200 hover:shadow-md"
+            >
+              <option value="">Todas las dificultades</option>
+              <option value="Super Easy">Muy Fácil</option>
+              <option value="Easy">Fácil</option>
+              <option value="Medium">Media</option>
+              <option value="Hard">Difícil</option>
+              <option value="Hardcore">Muy Difícil</option>
+            </select>
+          </div>
 
           {/* Ordenar por */}
-          <select
-            value={filters.sort}
-            onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
-            className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none"
-          >
-            <option value="recent">Más recientes</option>
-            <option value="oldest">Más antiguos</option>
-          </select>
+          <div className="relative">
+            <select
+              value={filters.sort}
+              onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+              className="p-3 pl-4 pr-8 bg-white text-gray-800 rounded-lg border-2 border-green-300 focus:ring-2 focus:ring-green-500 focus:outline-none shadow-sm transition duration-200 hover:shadow-md"
+            >
+              <option value="recent">Más recientes</option>
+              <option value="oldest">Más antiguos</option>
+            </select>
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredRoscos.length > 0 ? (
             filteredRoscos.map((rosco) => (
-              <div
-                key={rosco.id}
-                className="bg-white text-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl cursor-pointer"
-                onClick={() => goToGame(rosco.id)}
-              >
-                {/* Contenido del rosco */}
-                <img
-                  src={
-                    rosco.theme === "Random"
-                      ? RandomPNG
-                      : rosco.theme === "Deportes"
-                      ? SportPNG
-                      : rosco.theme === "Historia"
-                      ? HistoryPNG
-                      : rosco.theme === "Naturaleza"
-                      ? NaturePNG
-                      : rosco.theme === "Música"
-                      ? MusicPNG
-                      : "https://via.placeholder.com/400x200"
-                  }
-                  alt={`Imagen de ${rosco.name}`}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold">
-                    {rosco.name || "Sin nombre"}
-                  </h3>
-                  <p className="text-sm text-gray-600">Tema: {rosco.theme}</p>
-                  <p className="text-sm text-gray-600">
-                    Autor: {rosco.user_name}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Última modificación:{" "}
-                    {new Date(rosco.date_modification).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Tiempo: {rosco.time} segundos
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Dificultad: {rosco.difficulty || "No especificada"}
-                  </p>
-                </div>
-              </div>
+              <RoscoCard key={rosco.id} rosco={rosco} onClick={goToGame} />
             ))
           ) : (
             <div className="text-center text-lg text-gray-500">

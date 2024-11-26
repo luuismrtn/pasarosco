@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import BackButton from "../components/BackButton";
 
 const Credits: React.FC = () => {
   const navigate = useNavigate();
@@ -12,12 +12,7 @@ const Credits: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center text-white font-rubik px-4 py-8">
       {/* Botón para regresar al menú */}
-      <button
-        onClick={goToMenu}
-        className="absolute top-8 left-8 p-2 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título */}
       <h1 className="text-6xl font-extrabold mb-10 mt-10 drop-shadow-lg">Créditos</h1>
