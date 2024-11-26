@@ -41,18 +41,55 @@ const RoscoCard: React.FC<RoscoCardProps> = ({ rosco, onClick }) => {
         className="w-full h-48 object-cover"
       />
       {/* Contenido del rosco */}
-      <div className="p-6">
-        <h3 className="text-xl font-semibold">{rosco.name || "Sin nombre"}</h3>
-        <p className="text-sm text-gray-600">Tema: {rosco.theme}</p>
-        <p className="text-sm text-gray-600">Autor: {rosco.user_name}</p>
-        <p className="text-sm text-gray-600">
-          Última modificación:{" "}
-          {new Date(rosco.date_modification).toLocaleDateString()}
-        </p>
-        <p className="text-sm text-gray-600">Tiempo: {rosco.time} segundos</p>
-        <p className="text-sm text-gray-600">
-          Dificultad: {rosco.difficulty || "No especificada"}
-        </p>
+      <div className="p-6 bg-white rounded-lg shadow-lg">
+        <div className="flex justify-between items-center pb-4">
+          <h3 className="text-2xl font-semibold text-indigo-700">
+            {rosco.name || "Sin nombre"}
+          </h3>
+
+          {/* Dificultad con color condicional */}
+          <span
+            className={`px-3 py-1 text-sm font-semibold rounded-full ${
+              rosco.difficulty === "Super Easy"
+                ? "bg-green-500 text-white"
+                : rosco.difficulty === "Easy"
+                ? "bg-green-400 text-white"
+                : rosco.difficulty === "Medium"
+                ? "bg-yellow-400 text-black"
+                : rosco.difficulty === "Hard"
+                ? "bg-red-600 text-white"
+                : rosco.difficulty === "Hardcore"
+                ? "bg-red-800 text-white"
+                : "bg-gray-300 text-gray-700"
+            }`}
+          >
+            {rosco.difficulty || "No especificada"}
+          </span>
+        </div>
+
+        {/* Círculo azul con el tiempo debajo de la dificultad */}
+        <div className="flex justify-end">
+          <div className="absolute w-14 h-14 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold">
+            {rosco.time} s
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">Tema:</span>{" "}
+            {rosco.theme || "No especificado"}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">Autor:</span>{" "}
+            {rosco.user_name || "Desconocido"}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-800">
+              Última modificación:
+            </span>{" "}
+            {new Date(rosco.date_modification).toLocaleDateString()}
+          </p>
+        </div>
       </div>
     </div>
   );

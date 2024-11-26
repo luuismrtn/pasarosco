@@ -27,6 +27,16 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
+            {/* Versión 1.2.X */}
+            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+              <h3 className="text-xl font-semibold text-yellow-300">
+                Versión 1.2.X:
+              </h3>
+              <ul className="list-disc list-inside pl-4">
+                <li>Nuevo diseño de las tarjetas de cada rosco.</li>
+              </ul>
+            </div>
+
             {/* Versión 1.2.5 */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
