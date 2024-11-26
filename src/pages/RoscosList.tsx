@@ -28,6 +28,11 @@ const RoscosListPage = () => {
   const [isModalJoinOpen, setIsModalJoinOpen] = useState<boolean>(false);
   const [joinCode, setJoinCode] = useState("");
   const [joinError, setJoinError] = useState("");
+  const [filters, setFilters] = useState({
+    theme: "",
+    difficulty: "",
+    sort: "recent",
+  });
 
   useEffect(() => {
     const fetchRoscos = async () => {
@@ -47,6 +52,32 @@ const RoscosListPage = () => {
       setIsModalCreateOpen(true);
     }
   }, [create, code, navigate, location.pathname]);
+
+  const filteredRoscos = roscos
+    .filter((rosco) => {
+      if (filters.theme && rosco.theme !== filters.theme) {
+        return false;
+      }
+      if (filters.difficulty && rosco.difficulty !== filters.difficulty) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (filters.sort === "recent") {
+        return (
+          new Date(b.date_modification).getTime() -
+          new Date(a.date_modification).getTime()
+        );
+      }
+      if (filters.sort === "oldest") {
+        return (
+          new Date(a.date_modification).getTime() -
+          new Date(b.date_modification).getTime()
+        );
+      }
+      return 0;
+    });
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -109,22 +140,74 @@ const RoscosListPage = () => {
         <div className="absolute top-8 right-8 flex flex-col items-end justify-end gap-4">
           {/* Botón de crear nuevo rosco */}
           {user ? (
-            <ButtonSection text="Crear Rosco nuevo" onClick={goToCreateRosco} size="icon" icon={<PlusIcon className="w-6 h-6" />} />
+            <ButtonSection
+              text="Crear Rosco nuevo"
+              onClick={goToCreateRosco}
+              size="icon"
+              icon={<PlusIcon className="w-6 h-6" />}
+            />
           ) : null}
 
           {/* Botón de unirse a un rosco */}
-          <ButtonSection text="Unirse a un rosco" onClick={goToJoinRosco} size="icon" icon={<ArrowRightCircleIcon className="w-6 h-6" />} />
+          <ButtonSection
+            text="Unirse a un rosco"
+            onClick={goToJoinRosco}
+            size="icon"
+            icon={<ArrowRightCircleIcon className="w-6 h-6" />}
+          />
+        </div>
 
+        <div className="flex flex-col md:flex-row justify-center items-center mb-8 gap-4 text-black">
+          {/* Filtro por temática */}
+          <select
+            value={filters.theme}
+            onChange={(e) => setFilters({ ...filters, theme: e.target.value })}
+            className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none"
+          >
+            <option value="">Todas las temáticas</option>
+            <option value="Random">Random</option>
+            <option value="Deportes">Deportes</option>
+            <option value="Historia">Historia</option>
+            <option value="Naturaleza">Naturaleza</option>
+            <option value="Música">Música</option>
+          </select>
+
+          {/* Filtro por dificultad */}
+          <select
+            value={filters.difficulty}
+            onChange={(e) =>
+              setFilters({ ...filters, difficulty: e.target.value })
+            }
+            className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none"
+          >
+            <option value="">Todas las dificultades</option>
+            <option value="Super Easy">Muy Fácil</option>
+            <option value="Easy">Fácil</option>
+            <option value="Medium">Media</option>
+            <option value="Hard">Difícil</option>
+            <option value="Hardcore">Muy Difícil</option>
+          </select>
+
+          {/* Ordenar por */}
+          <select
+            value={filters.sort}
+            onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+            className="p-2 rounded-lg border-2 border-gray-300 focus:outline-none"
+          >
+            <option value="recent">Más recientes</option>
+            <option value="oldest">Más antiguos</option>
+          </select>
         </div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {roscos.length > 0 ? (
-            roscos.map((rosco) => (
+          {filteredRoscos.length > 0 ? (
+            filteredRoscos.map((rosco) => (
               <div
                 key={rosco.id}
                 className="bg-white text-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl cursor-pointer"
                 onClick={() => goToGame(rosco.id)}
               >
+                {/* Contenido del rosco */}
                 <img
                   src={
                     rosco.theme === "Random"
@@ -156,6 +239,9 @@ const RoscosListPage = () => {
                   </p>
                   <p className="text-sm text-gray-600">
                     Tiempo: {rosco.time} segundos
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Dificultad: {rosco.difficulty || "No especificada"}
                   </p>
                 </div>
               </div>

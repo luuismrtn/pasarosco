@@ -179,7 +179,7 @@ export class RoscoService {
   async getAllRoscos(): Promise<Rosco[]> {
     const { data, error } = await this.supabase
       .from("roscos")
-      .select("id, user_name, date_modification, name, theme, time, words");
+      .select("id, user_name, date_modification, name, theme, time, words, difficulty");
 
     if (error) {
       console.error("Error al obtener los roscos:", error);

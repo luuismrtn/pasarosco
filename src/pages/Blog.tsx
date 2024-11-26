@@ -41,6 +41,7 @@ const Blog: React.FC = () => {
                 <li>Ahora solo se pueden crear roscos si has iniciado sesión previamente.</li>
                 <li>Atributo de dificultad añadido a cada rosco.</li>
                 <li>Se ha reemplazado el logo antiguo por uno nuevo más moderno.</li>
+                <li>Se ha añadido la función de filtrar en la lista de roscos para jugar.</li>
               </ul>
             </div>
 
