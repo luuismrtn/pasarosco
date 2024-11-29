@@ -34,6 +34,7 @@ const Blog: React.FC = () => {
               </h3>
               <ul className="list-disc list-inside pl-4">
                 <li>Nuevo diseño de las tarjetas de cada rosco.</li>
+                <li>Ahora se puede editar, eliminar y compartir desde la página de perfil.</li>
               </ul>
             </div>
 

@@ -6,12 +6,25 @@ import NaturePNG from "../assets/theme/nature.png";
 import MusicPNG from "../assets/theme/music.png";
 import { Rosco } from "../types/types";
 
+import { TrashIcon, PencilIcon, ShareIcon } from "@heroicons/react/24/solid";
+
 interface RoscoCardProps {
   rosco: Rosco;
   onClick: (id: string) => void;
+  editable?: boolean;
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string) => void;
+  onShare?: (id: string) => void;
 }
 
-const RoscoCard: React.FC<RoscoCardProps> = ({ rosco, onClick }) => {
+const RoscoCard: React.FC<RoscoCardProps> = ({
+  rosco,
+  onClick,
+  editable = false,
+  onEdit,
+  onDelete,
+  onShare,
+}) => {
   const getImageByTheme = (theme: string) => {
     switch (theme) {
       case "Random":
@@ -90,6 +103,39 @@ const RoscoCard: React.FC<RoscoCardProps> = ({ rosco, onClick }) => {
             {new Date(rosco.date_modification).toLocaleDateString()}
           </p>
         </div>
+
+        {/* Botones de Editar, Eliminar, y Compartir */}
+        {editable && (
+          <div className="flex mt-4 space-x-2 h-5">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit && onEdit(rosco.id);
+              }}
+              className="flex-1 flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out transform hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            >
+              <PencilIcon className="w-6 h-6" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete && onDelete(rosco.id);
+              }}
+              className="flex-1 flex items-center justify-center bg-gradient-to-r from-red-500 to-red-700 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out transform hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-red-300"
+            >
+              <TrashIcon className="w-6 h-6" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onShare && onShare(rosco.id);
+              }}
+              className="flex-1 flex items-center justify-center bg-gradient-to-r from-green-500 to-green-700 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out transform hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-green-300"
+            >
+              <ShareIcon className="w-6 h-6" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

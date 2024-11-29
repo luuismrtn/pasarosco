@@ -5,21 +5,24 @@ import Loader from "../layouts/Loader";
 import { Rosco } from "../types/types";
 import BackButton from "../components/BackButton";
 import RoscoCard from "../components/RoscoCard";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const Profile = () => {
   const { user, loadingUser, roscosService } = useUser();
   const [userRoscos, setUserRoscos] = useState([] as Rosco[]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedRoscoId, setSelectedRoscoId] = useState<string>("");
+
   const navigate = useNavigate();
 
-useEffect(() => {
+  useEffect(() => {
     if (!loadingUser && !user) {
       navigate("/login");
     }
   }, [user]);
 
   useEffect(() => {
-
     if (!user) {
       navigate("/login");
       return;
@@ -39,13 +42,42 @@ useEffect(() => {
     fetchUserRoscos();
   }, [user]);
 
+  const handleDelete = (id: string) => {
+      setIsModalOpen(true);
+      setSelectedRoscoId(id);
+  };
+
+
+  const confirmDelete = async () => {
+    try {
+      await roscosService.deleteRosco(selectedRoscoId);
+      setUserRoscos((roscos) => roscos.filter((rosco) => rosco.id !== selectedRoscoId));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error al eliminar el rosco:", error);
+    }
+  };
+
+  const handleShare = (id: string) => {
+    const url = `${window.location.origin}/game/${id}`;
+    navigator.clipboard.writeText(url);
+    alert("Enlace copiado al portapapeles: " + url);
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/edit-rosco/${id}`);
+  };
+
   if (loading || loadingUser) {
     return <Loader />;
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-900 text-white p-8 flex flex-col items-center font-rubik">
-      <BackButton onClick={() => navigate("/home")} hoverText="hover:text-purple-600" />
+      <BackButton
+        onClick={() => navigate("/home")}
+        hoverText="hover:text-purple-600"
+      />
 
       <div className="w-full max-w-7xl bg-white text-gray-800 rounded-2xl shadow-2xl p-8 overflow-hidden">
         {/* Encabezado del perfil */}
@@ -81,7 +113,15 @@ useEffect(() => {
           {userRoscos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {userRoscos.map((rosco) => (
-                <RoscoCard key={rosco.id} rosco={rosco} onClick={(id) => navigate(`/game/${id}`)} />
+                <RoscoCard
+                  key={rosco.id}
+                  rosco={rosco}
+                  onClick={(id) => navigate(`/game/${id}`)}
+                  editable={true}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onShare={handleShare}
+                />
               ))}
             </div>
           ) : (
@@ -96,6 +136,15 @@ useEffect(() => {
           )}
         </div>
       </div>
+      <ConfirmationModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        text={"¿Eliminar rosco?"}
+        description={
+          "¿Estás seguro de que deseas eliminar este rosco? Esta acción no se puede deshacer."
+        }
+        confirm={confirmDelete}
+      />
     </div>
   );
 };

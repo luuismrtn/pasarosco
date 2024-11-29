@@ -241,11 +241,11 @@ const RoscosListPage = () => {
               {/* Mostrar URL */}
               <div className="bg-gray-100 p-4 rounded-md text-gray-800 font-mono text-lg mb-6">
                 <span className="font-semibold">URL: </span>
-                <span className="text-blue-600">{`https://pasapalabra-pro.vercel.app/game/${code}`}</span>
+                <span className="text-blue-600">{`${window.location.origin}/game/${code}`}</span>
                 <button
                   onClick={() =>
                     copyToClipboard(
-                      `https://pasapalabra-pro.vercel.app/game/${code}`
+                      `${window.location.origin}/game/${code}`
                     )
                   }
                   className="ml-4 p-2 text-gray-500 hover:text-gray-700"
