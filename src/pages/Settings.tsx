@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Howl } from "howler";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BgGame from "../assets/sounds/bg_game.wav";
 import EffectSound from "../assets/sounds/correct_sound.wav";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";

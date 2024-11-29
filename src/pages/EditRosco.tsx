@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { Rosco, Word } from "../types/types";
 import RoscoForm from "../components/RoscoForm";
 import { useUser } from "../contexts/UserContext";
@@ -20,6 +20,12 @@ const EditRosco: React.FC = () => {
   const { id } = useParams() as { id: string };
 
   useEffect(() => {
+    if (!loadingUser && !user) {
+      navigate("/login");
+    }
+  }, [user]);
+
+  useEffect(() => {
     const fetchRosco = async () => {
       try {
         const roscosData = await roscosService.getRoscoById(id);
@@ -36,7 +42,7 @@ const EditRosco: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    if (rosco) {
+    if (rosco && user) {
       setDifficulty(rosco.difficulty || "easy");
       setTime(rosco.time || 120);
       setRoscoName(rosco.name || "");
@@ -57,7 +63,7 @@ const EditRosco: React.FC = () => {
 
       setLoading(false);
     }
-  }, [rosco]);
+  }, [rosco, user]);
 
   const confirmUpdate = async (
     words: Word[],
@@ -70,20 +76,22 @@ const EditRosco: React.FC = () => {
       if (!rosco) {
         throw new Error("Rosco no encontrado.");
       }
+      if (!user) {
+        throw new Error("Usuario no encontrado.");
+      }
       const id = await roscosService.updateRosco(
         rosco.id,
         words,
         theme,
         time,
         roscoName,
-        user.user_metadata.user_name,
-        user.email,
         difficulty
       );
 
       navigate("/roscos", {
         state: { update: true, code: id },
       });
+      
     } catch (error) {
       console.error("Error al actualizar el rosco:", error);
     }
@@ -91,6 +99,10 @@ const EditRosco: React.FC = () => {
 
   if (loadingUser || loading) {
     return <Loader />;
+  }
+
+  if (rosco?.user_email !== user?.email && user?.role !== "admin") {
+    navigate("/roscos");
   }
 
   return (

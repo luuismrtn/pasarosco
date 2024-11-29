@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useUser } from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BackButton from "../components/BackButton";
 
 const Signup: React.FC = () => {

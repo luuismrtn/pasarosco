@@ -1,8 +1,7 @@
 import { Howl } from "howler";
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
-import { useNavigate } from "react-router-dom";
 import WordWheel from "../layouts/WordWheel";
 import Question from "../layouts/Question";
 import Score from "../layouts/Score";

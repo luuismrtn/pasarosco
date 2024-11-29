@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Howl } from "howler";
 import BgMusic from "../assets/sounds/background_home.wav";
 import Loader from "../layouts/Loader";
@@ -16,7 +16,6 @@ const Home: React.FC = () => {
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // Cargar ajustes de volumen y mute desde localStorage
   useEffect(() => {
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedIsBgMuted = localStorage.getItem("isBgMuted");
@@ -133,8 +132,8 @@ const Home: React.FC = () => {
           >
             <div className="flex flex-row items-center justify-end">
               <div className="text-white text-xl mr-4">
-                {user.user_metadata.user_name
-                  ? user.user_metadata.user_name
+                {user.username
+                  ? user.username
                   : user.email}
               </div>
               <div className="w-14 h-14 bg-transparent rounded-full border-2 border-white flex items-center justify-center hover:ring-4 ring-indigo-300 transition-all">

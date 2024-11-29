@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Word, themes, difficulties } from "../types/types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BackButton from "./BackButton";
 
 type RoscoFormProps = {

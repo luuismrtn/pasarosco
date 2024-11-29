@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { UserProvider } from "./contexts/UserContext";
 import Game from "./pages/Game";
 import Home from "./pages/Home";
