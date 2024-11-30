@@ -120,7 +120,7 @@ const RoscosListPage = () => {
   return (
     <div className="font-rubik">
       <div className="min-h-screen bg-gradient-to-br from-blue-600 to-indigo-800 text-white p-8">
-        <h1 className="text-4xl font-bold text-center mb-8 drop-shadow-lg">
+        <h1 className="text-4xl font-bold text-center mb-8 drop-shadow-lg mt-10">
           Lista de Roscos
         </h1>
 
@@ -198,7 +198,7 @@ const RoscosListPage = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:max-w-5xl">
           {filteredRoscos.length > 0 ? (
             filteredRoscos.map((rosco) => (
               <RoscoCard key={rosco.id} rosco={rosco} onClick={goToGame} />

@@ -59,14 +59,12 @@ const Settings: React.FC = () => {
     };
   }, []);
 
-  // Control del volumen de la música de fondo
   useEffect(() => {
     if (bgMusicRef.current) {
       bgMusicRef.current.volume(isBgMuted ? 0 : bgVolume);
     }
   }, [bgVolume, isBgMuted]);
 
-  // Control de los efectos de sonido
   useEffect(() => {
     if (!effectSoundRef.current) {
       effectSoundRef.current = new Howl({
@@ -162,12 +160,12 @@ const Settings: React.FC = () => {
 
       {/* Título */}
 
-      <h1 className="text-6xl font-extrabold mt-15 mb-20 text-white drop-shadow-lg">
+      <h1 className="text-6xl font-extrabold mt-16 mb-20 text-white drop-shadow-lg md:text-6xl lg:mt-16 lg:mb-16">
         Configuración
       </h1>
 
       {/* Contenedor para el volumen de música de fondo */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 text-center transform transition-all hover:scale-105 hover:shadow-xl">
+      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 text-center transform transition-all hover:scale-105 hover:shadow-xl lg:w-2/3">
         <label htmlFor="bgVolume" className="text-2xl font-semibold mb-4 block">
           Volumen Música de Fondo
         </label>
@@ -210,7 +208,7 @@ const Settings: React.FC = () => {
       </div>
 
       {/* Contenedor para efectos de sonido */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
+      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl lg:w-2/3">
         <label
           htmlFor="effectVolume"
           className="text-2xl font-semibold mb-4 block"
@@ -256,7 +254,7 @@ const Settings: React.FC = () => {
       </div>
 
       {/* Contenedor para mostrar el ID del rosco */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl">
+      <div className="bg-white bg-opacity-20 p-8 mb-16 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl lg:w-2/3">
         <label
           htmlFor="showRoscoId"
           className="text-2xl font-semibold mb-4 block"

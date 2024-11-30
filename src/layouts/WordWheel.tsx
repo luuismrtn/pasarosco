@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Word } from "../types/types";
 
 interface WordWheelProps {
@@ -12,14 +12,32 @@ const WordWheel: React.FC<WordWheelProps> = ({
   currentLetterIndex,
   ready,
 }) => {
+  const [radius, setRadius] = useState<number>(275);
+
+  useEffect(() => {
+    const updateRadius = () => {
+      if (window.innerWidth < 1280) {
+        setRadius(200);
+      } else {
+        setRadius(275);
+      }
+    };
+
+    window.addEventListener("resize", updateRadius);
+
+    updateRadius();
+
+    return () => {
+      window.removeEventListener("resize", updateRadius);
+    };
+  }, []);
   const letters = words.map((word) => word.letter);
-  const radius = 275;
 
   return (
-    <div className="relative flex justify-center items-center w-full h-64">
+    <div className="relative flex justify-center items-center w-full h-64 md:h-32">
       {/* Letra activa en el centro */}
       {ready && (
-        <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl font-bold rounded-full z-10">
+        <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl md:text-8xl font-bold rounded-full z-10">
           {letters[currentLetterIndex]}
         </div>
       )}
@@ -42,7 +60,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
                 }}
               >
                 <div
-                  className={`flex justify-center items-center w-12 h-12 border-4 border-white rounded-full text-white text-lg font-bold ${
+                  className={`flex justify-center items-center w-12 h-12 md:w-10 md:h-10 border-4 border-white rounded-full text-white text-lg font-bold ${
                     index === currentLetterIndex && ready ? "blinking" : ""
                   } ${
                     currentWord.status === "pending"

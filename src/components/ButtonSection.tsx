@@ -46,10 +46,10 @@ const ButtonSection = ({
   }, [effectVolume, isEffectsMuted]);
 
   const sizeClasses = {
-    small: "px-6 py-2 text-lg",
-    icon: "px-4 py-2 text-xl",
+    small: "px-6 py-2 text-lg lg:text-sm lg:px-4 lg:py-2",
+    icon: "px-4 py-2 text-xl lg:text-base lg:px-3 lg:py-1",
     medium: "px-9 py-3 text-lg",
-    large: "px-8 py-4 text-3xl",
+    large: "px-8 py-4 text-3xl sm:text-xl lg:text-2xl lg:px-6 lg:py-3",
   };
 
   const handleClick = () => {

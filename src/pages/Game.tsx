@@ -347,7 +347,7 @@ const Game: React.FC = () => {
           <div className="p-8 flex flex-col justify-center items-center w-full">
             {/* Contador de inicio de 5 segundos */}
             {!gameStarted && (
-              <div className="absolute text-white text-9xl font-bold mb-64">
+              <div className="absolute text-white text-9xl font-bold mb-64 lg:mb-56">
                 {countdown > 0 ? countdown : "¡YA!"}
               </div>
             )}
@@ -356,7 +356,7 @@ const Game: React.FC = () => {
             <div className="relative mt-40 flex justify-center items-center w-full">
               {/* Tiempo a los lados rosco */}
               {gameStarted && (
-                <div className="absolute z-0 w-3/4">
+                <div className="absolute z-0 w-10/12">
                   <Score
                     correctAnswers={correctAnswers}
                     remainingTime={remainingTime}
@@ -372,7 +372,7 @@ const Game: React.FC = () => {
             </div>
 
             {/* Pregunta y respuesta abajo */}
-            <div className="mt-56 w-full z-0">
+            <div className="mt-56 w-full z-0 lg:mt-44">
               <Question
                 inputRef={inputRef}
                 word={words[index]}
