@@ -33,6 +33,18 @@ const Credits: React.FC = () => {
           <ul className="space-y-4 text-left px-6">
             <li className="text-lg font-semibold">Efectos de sonido:</li>
             <li>
+              Hover del botón:{" "}
+              <span className="font-semibold text-blue-200">hover_button_sound.wav</span>{" "}
+              by Fachii —{" "}
+              <a
+                href="https://freesound.org/s/338229/"
+                className="text-blue-400 hover:underline"
+              >
+                freesound.org
+              </a>{" "}
+              — License: Creative Commons 0
+            </li>
+            <li>
               Respuesta correcta:{" "}
               <span className="font-semibold text-blue-200">correct1.wav</span>{" "}
               by StavSounds —{" "}

@@ -30,13 +30,14 @@ const Blog: React.FC = () => {
             {/* Versión 1.2.X */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
-                Versión 1.2.X:
+                Versión 1.2.11:
               </h3>
               <ul className="list-disc list-inside pl-4">
                 <li>Nuevo diseño de las tarjetas de cada rosco.</li>
                 <li>Ahora se puede editar, eliminar y compartir desde la página de perfil.</li>
                 <li>Ahora se puede crear o entrar a un rosco desde la página principal.</li>
                 <li>Arreglado bug del sonido en la página principal.</li>
+                <li>Ya no se quita la sesión en la página de perfil cuando recargas la página.</li>
               </ul>
             </div>
 
