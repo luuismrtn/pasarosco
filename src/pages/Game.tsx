@@ -312,79 +312,79 @@ const Game: React.FC = () => {
     startSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
   }, [effectVolume, isEffectsMuted]);
 
+  if (isloading) {
+    return <Loader />;
+  }
+
   return (
     <div>
-      {isloading ? (
-        <Loader />
-      ) : (
-        <div className="min-h-screen bg-primary flex flex-col justify-center items-center relative font-rubik">
-          {/* Fondo animado */}
-          <Background />
+      <div className="min-h-screen bg-primary flex flex-col justify-center items-center font-rubik">
+        {/* Fondo animado */}
+        <Background />
 
-          {/* Botón para volver al menú */}
-          <button
-            onClick={goToMenu}
-            className="absolute top-8 left-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
-          >
-            <ArrowLeftIcon className="w-8 h-8" />
-          </button>
+        {/* Botón para volver al menú */}
+        <button
+          onClick={goToMenu}
+          className="absolute top-8 left-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
+        >
+          <ArrowLeftIcon className="w-8 h-8" />
+        </button>
 
-          {/* ID */}
-          {isId ? (
-            <p className="absolute top-6 text-white text-2xl">
-              ID del rosco: {id}
-            </p>
-          ) : null}
+        {/* ID */}
+        {isId ? (
+          <p className="absolute top-6 text-white text-2xl">
+            ID del rosco: {id}
+          </p>
+        ) : null}
 
-          {/* Botón para reiniciar el juego */}
-          <button
-            onClick={restartGame}
-            className="absolute top-8 right-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
-          >
-            <ArrowPathIcon className="w-8 h-8" />
-          </button>
+        {/* Botón para reiniciar el juego */}
+        <button
+          onClick={restartGame}
+          className="absolute top-8 right-8 p-2 bg-transparent text-white rounded-full hover:bg-white hover:text-primary transition duration-200"
+        >
+          <ArrowPathIcon className="w-8 h-8" />
+        </button>
 
-          <div className="p-8 flex flex-col justify-center items-center w-full">
-            {/* Contador de inicio de 5 segundos */}
-            {!gameStarted && (
-              <div className="absolute text-white text-9xl font-bold mb-64 lg:mb-56">
-                {countdown > 0 ? countdown : "¡YA!"}
+        <div className="p-8 flex flex-col justify-center items-center w-full">
+          {/* Contador de inicio de 5 segundos */}
+          {!gameStarted && (
+            <div className="absolute text-white text-9xl font-bold mb-64 lg:mb-56">
+              {countdown > 0 ? countdown : "¡YA!"}
+            </div>
+          )}
+
+          {/* Rosco */}
+          <div className="relative mt-40 flex justify-center items-center w-full">
+            {/* Tiempo a los lados rosco */}
+            {gameStarted && (
+              <div className="absolute z-0 w-10/12">
+                <Score
+                  correctAnswers={correctAnswers}
+                  remainingTime={remainingTime}
+                />
               </div>
             )}
 
-            {/* Rosco */}
-            <div className="relative mt-40 flex justify-center items-center w-full">
-              {/* Tiempo a los lados rosco */}
-              {gameStarted && (
-                <div className="absolute z-0 w-10/12">
-                  <Score
-                    correctAnswers={correctAnswers}
-                    remainingTime={remainingTime}
-                  />
-                </div>
-              )}
+            <WordWheel
+              words={words}
+              currentLetterIndex={index}
+              ready={gameStarted}
+            />
+          </div>
 
-              <WordWheel
-                words={words}
-                currentLetterIndex={index}
-                ready={gameStarted}
-              />
-            </div>
-
-            {/* Pregunta y respuesta abajo */}
-            <div className="mt-56 w-full z-0 lg:mt-44">
-              <Question
-                inputRef={inputRef}
-                word={words[index]}
-                onAnswer={handleAnswer}
-                ready={gameStarted}
-                paused={isPaused}
-                failed={isFailed}
-              />
-            </div>
+          {/* Pregunta y respuesta abajo */}
+          <div className="mt-56 w-full z-0 lg:mt-44">
+            <Question
+              inputRef={inputRef}
+              word={words[index]}
+              onAnswer={handleAnswer}
+              ready={gameStarted}
+              paused={isPaused}
+              failed={isFailed}
+            />
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -13,13 +13,24 @@ const WordWheel: React.FC<WordWheelProps> = ({
   ready,
 }) => {
   const [radius, setRadius] = useState<number>(275);
+  const [heightCircle, setHeightCircle] = useState<number>(10);
+  const [marginBottom, setMarginBottom] = useState<number>(10);
+
 
   useEffect(() => {
     const updateRadius = () => {
       if (window.innerWidth < 1280) {
         setRadius(200);
-      } else {
-        setRadius(275);
+        setHeightCircle(10);
+        setMarginBottom(0);
+      } else if (window.innerWidth < 1350) {
+        setRadius(210);
+        setHeightCircle(10);
+        setMarginBottom(2);
+      } else if (window.innerWidth < 1536) {
+        setRadius(250);
+        setHeightCircle(12);
+        setMarginBottom(20);
       }
     };
 
@@ -34,10 +45,10 @@ const WordWheel: React.FC<WordWheelProps> = ({
   const letters = words.map((word) => word.letter);
 
   return (
-    <div className="relative flex justify-center items-center w-full h-64 md:h-32">
+    <div className={`relative flex justify-center items-center w-full h-64 lg:h-32 mb-${marginBottom}`}>
       {/* Letra activa en el centro */}
       {ready && (
-        <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl md:text-8xl font-bold rounded-full z-10">
+        <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl font-bold rounded-full z-10 lg:text-8xl xl:text-9xl">
           {letters[currentLetterIndex]}
         </div>
       )}
@@ -60,7 +71,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
                 }}
               >
                 <div
-                  className={`flex justify-center items-center w-12 h-12 md:w-10 md:h-10 border-4 border-white rounded-full text-white text-lg font-bold ${
+                  className={`flex justify-center items-center w-${heightCircle} h-${heightCircle} border-4 border-white rounded-full text-white text-lg font-bold ${
                     index === currentLetterIndex && ready ? "blinking" : ""
                   } ${
                     currentWord.status === "pending"

@@ -83,12 +83,12 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
       {/* Título principal */}
-      <h1 className="text-9xl sm:text-7xl lg:text-8xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
+      <h1 className="text-9xl lg:text-8xl xl:text-8xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
         Pasapalabra
       </h1>
 
       {/* Subtítulo */}
-      <h2 className="text-2xl sm:text-1xl lg:text-2xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
+      <h2 className="text-2xl lg:text-2xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
         ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
       </h2>
 
@@ -115,7 +115,7 @@ const Home: React.FC = () => {
             aria-label="Abrir perfil del usuario"
           >
             <div className="flex flex-row items-center justify-end">
-              <div className="text-white text-xl sm:text-lg lg:text-1xl mr-4">
+              <div className="text-white text-xl lg:text-xl mr-4">
                 {user.username ? user.username : user.email}
               </div>
               <div className="w-12 h-12 bg-transparent rounded-full border-2 border-white flex items-center justify-center hover:ring-4 ring-indigo-300 transition-all">
