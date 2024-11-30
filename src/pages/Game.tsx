@@ -1,8 +1,7 @@
 import { Howl } from "howler";
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
-import { useNavigate } from "react-router-dom";
 import WordWheel from "../layouts/WordWheel";
 import Question from "../layouts/Question";
 import Score from "../layouts/Score";
@@ -74,9 +73,6 @@ const Game: React.FC = () => {
         await wait(500);
 
         setLoading(false);
-        if (!isBgMuted) {
-          bgMusicRef.current.play();
-        }
         if (!isEffectsMuted) {
           pipSoundRef.current.play();
         }
@@ -170,6 +166,7 @@ const Game: React.FC = () => {
 
     if (countdown === 0) {
       startSoundRef.current.play();
+      bgMusicRef.current.play();
       setGameStarted(true);
     }
 

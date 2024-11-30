@@ -1,24 +1,36 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Loader from "../layouts/Loader";
 import { Rosco } from "../types/types";
 import BackButton from "../components/BackButton";
 import RoscoCard from "../components/RoscoCard";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const Profile = () => {
   const { user, loadingUser, roscosService } = useUser();
   const [userRoscos, setUserRoscos] = useState([] as Rosco[]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedRoscoId, setSelectedRoscoId] = useState<string>("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!loadingUser && !user) {
+      navigate("/login");
+    }
+  }, [loadingUser, user, navigate]);
+
+  useEffect(() => {
+    if (loadingUser || !user) {
+      return;
+    }
+
     const fetchUserRoscos = async () => {
       try {
-        if (user) {
-          const roscos = await roscosService.getRoscodByEmail(user.email);
-          setUserRoscos(roscos || []);
-        }
+        const roscos = await roscosService.getRoscodByEmail(user.email);
+        setUserRoscos(roscos || []);
       } catch (error) {
         console.error("Error al obtener los roscos del usuario:", error);
       } finally {
@@ -27,28 +39,45 @@ const Profile = () => {
     };
 
     fetchUserRoscos();
-  }, [user, roscosService]);
+  }, [loadingUser, user, roscosService]);
 
-  const goToMenu = () => {
-    navigate("/menu");
+  const handleDelete = (id: string) => {
+    setIsModalOpen(true);
+    setSelectedRoscoId(id);
   };
 
-  const goToGame = (id: string) => {
-    navigate(`/game/${id}`);
+  const confirmDelete = async () => {
+    try {
+      await roscosService.deleteRosco(selectedRoscoId);
+      setUserRoscos((roscos) =>
+        roscos.filter((rosco) => rosco.id !== selectedRoscoId)
+      );
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error al eliminar el rosco:", error);
+    }
+  };
+
+  const handleShare = (id: string) => {
+    const url = `${window.location.origin}/game/${id}`;
+    navigator.clipboard.writeText(url);
+    alert("Enlace copiado al portapapeles: " + url);
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/edit-rosco/${id}`);
   };
 
   if (loading || loadingUser) {
     return <Loader />;
   }
 
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-900 text-white p-8 flex flex-col items-center font-rubik">
-      <BackButton onClick={goToMenu} hoverText="hover:text-purple-600" />
+      <BackButton
+        onClick={() => navigate("/home")}
+        hoverText="hover:text-purple-600"
+      />
 
       <div className="w-full max-w-7xl bg-white text-gray-800 rounded-2xl shadow-2xl p-8 overflow-hidden">
         {/* Encabezado del perfil */}
@@ -68,11 +97,11 @@ const Profile = () => {
           </h2>
           <p className="text-lg">
             <span className="font-medium text-purple-700">Nombre:</span>{" "}
-            {user.user_metadata.user_name || "Sin nombre"}
+            {user?.username || "Sin nombre"}
           </p>
           <p className="text-lg">
             <span className="font-medium text-purple-700">Correo:</span>{" "}
-            {user.email}
+            {user?.email}
           </p>
         </div>
 
@@ -84,7 +113,15 @@ const Profile = () => {
           {userRoscos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {userRoscos.map((rosco) => (
-                <RoscoCard key={rosco.id} rosco={rosco} onClick={goToGame} />
+                <RoscoCard
+                  key={rosco.id}
+                  rosco={rosco}
+                  onClick={(id) => navigate(`/game/${id}`)}
+                  editable={true}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onShare={handleShare}
+                />
               ))}
             </div>
           ) : (
@@ -99,6 +136,15 @@ const Profile = () => {
           )}
         </div>
       </div>
+      <ConfirmationModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        text={"¿Eliminar rosco?"}
+        description={
+          "¿Estás seguro de que deseas eliminar este rosco? Esta acción no se puede deshacer."
+        }
+        confirm={confirmDelete}
+      />
     </div>
   );
 };

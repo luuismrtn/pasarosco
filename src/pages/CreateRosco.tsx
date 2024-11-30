@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Word } from "../types/types";
 import Loader from "../layouts/Loader";
 import Instructions from "../layouts/Instructions";
@@ -55,8 +55,8 @@ const CreateRosco: React.FC = () => {
         theme,
         time,
         roscoName,
-        user.user_metadata.user_name,
-        user.email,
+        user?.username || "",
+        user?.email || "",
         difficulty
       );
 

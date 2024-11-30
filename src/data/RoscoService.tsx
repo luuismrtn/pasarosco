@@ -96,23 +96,19 @@ export class RoscoService {
   // Función para actualizar un rosco
   async updateRosco(
     roscoId: string,
-    palabras: Word[],
+    words: Word[],
     theme: string,
     time: number,
     name: string,
-    user_name: string,
-    user_email: string,
     difficulty: string
   ) {
     const { data, error } = await this.supabase
       .from("roscos")
       .update({
         name: name,
-        words: palabras,
+        words: words,
         theme: theme,
         time: time,
-        user_name: user_name,
-        user_email,
         difficulty,
         date_modification: new Date().toISOString(),
       })
@@ -179,8 +175,8 @@ export class RoscoService {
   async getAllRoscos(): Promise<Rosco[]> {
     const { data, error } = await this.supabase
       .from("roscos")
-      .select("id, user_name, date_modification, name, theme, time, words, difficulty");
-
+      .select("*");
+  
     if (error) {
       console.error("Error al obtener los roscos:", error);
       return [];

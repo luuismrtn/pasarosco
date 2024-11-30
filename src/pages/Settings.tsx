@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Howl } from "howler";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BgGame from "../assets/sounds/bg_game.wav";
 import EffectSound from "../assets/sounds/correct_sound.wav";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
@@ -49,13 +49,8 @@ const Settings: React.FC = () => {
         loop: true,
         volume: isBgMuted ? 0 : bgVolume,
       });
-      
-      if (!isBgMuted) {
-        bgMusicRef.current.play();
-      }
     }
 
-    // Cleanup cuando el componente se desmonta
     return () => {
       if (bgMusicRef.current && !isBgMuted) {
         bgMusicRef.current.stop();
@@ -140,6 +135,20 @@ const Settings: React.FC = () => {
     }
   };
 
+  const handlePlayMusic = () => {
+
+    if (bgMusicRef.current?.playing()) {
+      bgMusicRef.current.pause();
+      return;
+    }
+
+    if (bgMusicRef.current) {
+      bgMusicRef.current.play();
+      return;
+    }
+    
+  };
+
   const goToMenu = () => {
     if (bgMusicRef.current) {
       bgMusicRef.current.stop();
@@ -191,6 +200,13 @@ const Settings: React.FC = () => {
             {Math.round(bgVolume * 100)}%
           </p>
         )}
+        {/* Botón para probar el sonido */}
+        <button
+          onClick={handlePlayMusic}
+          className="mt-6 py-2 px-6 bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          Probar Música
+        </button>
       </div>
 
       {/* Contenedor para efectos de sonido */}

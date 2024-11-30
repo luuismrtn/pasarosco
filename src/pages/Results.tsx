@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import { Word } from "../types/types";
 

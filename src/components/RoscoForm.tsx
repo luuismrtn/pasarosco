@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Word, themes, difficulties } from "../types/types";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BackButton from "./BackButton";
+import ConfirmationModal from "./ConfirmationModal";
 
 type RoscoFormProps = {
   initialWords: { [key: string]: string };
@@ -330,41 +331,17 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
         Guardar Cambios
       </button>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            {text === "Editar Rosco" ? (
-              <h2 className="text-2xl font-bold mb-4">¿Actualizar rosco?</h2>
-            ) : (
-              <h2 className="text-2xl font-bold mb-4">¿Crear rosco?</h2>
-            )}
-            {text === "Editar Rosco" ? (
-              <p className="mb-4">
-                ¿Estás seguro de que quieres editar el rosco?
-              </p>
-            ) : (
-              <p className="mb-4">
-                ¿Estás seguro de que quieres crear el rosco?
-              </p>
-            )}
-
-            <div className="flex justify-end">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 mr-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={confirm}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
-              >
-                Confirmar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        text={text === "Editar Rosco" ? "¿Actualizar rosco?" : "¿Crear rosco?"}
+        description={
+          text === "Editar Rosco"
+            ? "¿Estás seguro de que quieres actualizar el rosco?"
+            : "¿Estás seguro de que quieres crear el rosco?"
+        }
+        confirm={confirm}
+      />
     </div>
   );
 };

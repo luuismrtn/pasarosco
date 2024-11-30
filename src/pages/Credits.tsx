@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import BackButton from "../components/BackButton";
 
 const Credits: React.FC = () => {
@@ -25,13 +25,25 @@ const Credits: React.FC = () => {
           <p className="text-lg font-semibold">Luis Martín García</p>
         </section>
 
-        <div className="border-t-2 border-gray-300 my-6"></div> {/* Separador de secciones */}
+        <div className="border-t-2 border-gray-300 my-6"></div>
 
         {/* Recursos */}
         <section className="text-xl mb-6">
           <h2 className="text-3xl font-bold mb-4">Recursos:</h2>
           <ul className="space-y-4 text-left px-6">
             <li className="text-lg font-semibold">Efectos de sonido:</li>
+            <li>
+              Hover del botón:{" "}
+              <span className="font-semibold text-blue-200">hover_button_sound.wav</span>{" "}
+              by Fachii —{" "}
+              <a
+                href="https://freesound.org/s/338229/"
+                className="text-blue-400 hover:underline"
+              >
+                freesound.org
+              </a>{" "}
+              — License: Creative Commons 0
+            </li>
             <li>
               Respuesta correcta:{" "}
               <span className="font-semibold text-blue-200">correct1.wav</span>{" "}
@@ -89,20 +101,6 @@ const Credits: React.FC = () => {
               <span className="font-semibold">Música:</span>
             </li>
             <li>
-              Principal:{" "}
-              <span className="font-semibold text-blue-200">
-                Mushroom Background Music
-              </span>{" "}
-              by Sunsai —{" "}
-              <a
-                href="https://freesound.org/s/415804/"
-                className="text-blue-400 hover:underline"
-              >
-                freesound.org
-              </a>{" "}
-              — License: Attribution 4.0
-            </li>
-            <li>
               Configuración y juego:{" "}
               <span className="font-semibold text-blue-200">
                 There Will Be Stars
@@ -125,12 +123,12 @@ const Credits: React.FC = () => {
           </ul>
         </section>
 
-        <div className="border-t-2 border-gray-300 my-6"></div> {/* Separador de secciones */}
+        <div className="border-t-2 border-gray-300 my-6"></div>
 
         {/* Tecnologías Utilizadas */}
         <section className="text-xl">
           <h2 className="text-3xl font-bold mb-4">Tecnologías Utilizadas</h2>
-          <p className="text-lg">React, TypeScript, Tailwind CSS</p>
+          <p className="text-lg">React, TypeScript, Tailwind CSS, SupaBase</p>
         </section>
       </div>
 

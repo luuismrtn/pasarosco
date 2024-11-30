@@ -15,6 +15,7 @@ export type Rosco = {
   words: Word[];
   difficulty: string;
   date_modification: string;
+  user_email: string;
 }
 
 export type Theme = "Random" | "Naturaleza" | "Música" | "Deportes" | "Historia";
