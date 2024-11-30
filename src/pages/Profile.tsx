@@ -20,11 +20,10 @@ const Profile = () => {
     if (!loadingUser && !user) {
       navigate("/login");
     }
-  }, [user]);
+  }, [loadingUser, user, navigate]);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
+    if (loadingUser || !user) {
       return;
     }
 
@@ -40,18 +39,19 @@ const Profile = () => {
     };
 
     fetchUserRoscos();
-  }, [user]);
+  }, [loadingUser, user, roscosService]);
 
   const handleDelete = (id: string) => {
-      setIsModalOpen(true);
-      setSelectedRoscoId(id);
+    setIsModalOpen(true);
+    setSelectedRoscoId(id);
   };
-
 
   const confirmDelete = async () => {
     try {
       await roscosService.deleteRosco(selectedRoscoId);
-      setUserRoscos((roscos) => roscos.filter((rosco) => rosco.id !== selectedRoscoId));
+      setUserRoscos((roscos) =>
+        roscos.filter((rosco) => rosco.id !== selectedRoscoId)
+      );
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error al eliminar el rosco:", error);

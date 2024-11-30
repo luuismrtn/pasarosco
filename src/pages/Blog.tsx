@@ -36,6 +36,7 @@ const Blog: React.FC = () => {
                 <li>Nuevo diseño de las tarjetas de cada rosco.</li>
                 <li>Ahora se puede editar, eliminar y compartir desde la página de perfil.</li>
                 <li>Ahora se puede crear o entrar a un rosco desde la página principal.</li>
+                <li>Arreglado bug del sonido en la página principal.</li>
               </ul>
             </div>
 

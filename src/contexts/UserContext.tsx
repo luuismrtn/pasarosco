@@ -47,7 +47,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           console.error("Error al obtener la sesión:", sessionError.message);
           setUser(null);
         } else if (session?.user) {
-          
           const { data: userData, error: userError } = await supabase
             .from("users")
             .select("id, email, username, role")
@@ -75,7 +74,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session?.user) {
-          
           supabase
             .from("users")
             .select("id, email, username, role")
@@ -88,12 +86,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
               } else {
                 setUser(data as user);
               }
+              setLoadingUser(false);
             });
         } else {
           setUser(null);
+          setLoadingUser(false);
         }
-
-        setLoadingUser(false);
       }
     );
 
