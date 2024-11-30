@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
-import { Howl } from "howler";
-import BgMusic from "../assets/sounds/background_home.wav";
 import Loader from "../layouts/Loader";
 import { useUser } from "../contexts/UserContext";
 import ButtonSection from "../components/ButtonSection";
@@ -11,9 +9,6 @@ import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const [bgVolume, setBgVolume] = useState<number>(0.5);
-  const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
-  const bgMusicRef = useRef<Howl | null>(null);
   const { user, loadingUser, roscosService } = useUser();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const [isModalJoinOpen, setIsModalJoinOpen] = useState<boolean>(false);
@@ -21,42 +16,6 @@ const Home: React.FC = () => {
   const [joinError, setJoinError] = useState("");
 
   const menuRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const savedBgVolume = localStorage.getItem("bgVolume");
-    const savedIsBgMuted = localStorage.getItem("isBgMuted");
-
-    if (savedBgVolume) {
-      setBgVolume(parseFloat(savedBgVolume));
-    }
-    if (savedIsBgMuted === "true") {
-      setIsBgMuted(true);
-    }
-  }, []);
-
-  // Reproductor de música de fondo
-  useEffect(() => {
-    if (!bgMusicRef.current) {
-      bgMusicRef.current = new Howl({
-        src: [BgMusic],
-        loop: true,
-        volume: bgVolume,
-      });
-    }
-
-    const bgMusic = bgMusicRef.current;
-
-    if (isBgMuted) {
-      bgMusic.volume(0);
-    } else {
-      bgMusic.volume(bgVolume);
-      bgMusic.play();
-    }
-
-    return () => {
-      bgMusic.stop();
-    };
-  }, [bgVolume, isBgMuted]);
 
   // Cerrar el menú al hacer clic fuera
   useEffect(() => {
@@ -272,7 +231,7 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.2.8
+        Versión 1.2.9
       </div>
     </div>
   );

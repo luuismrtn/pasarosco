@@ -25,7 +25,7 @@ const Credits: React.FC = () => {
           <p className="text-lg font-semibold">Luis Martín García</p>
         </section>
 
-        <div className="border-t-2 border-gray-300 my-6"></div> {/* Separador de secciones */}
+        <div className="border-t-2 border-gray-300 my-6"></div>
 
         {/* Recursos */}
         <section className="text-xl mb-6">
@@ -89,20 +89,6 @@ const Credits: React.FC = () => {
               <span className="font-semibold">Música:</span>
             </li>
             <li>
-              Principal:{" "}
-              <span className="font-semibold text-blue-200">
-                Mushroom Background Music
-              </span>{" "}
-              by Sunsai —{" "}
-              <a
-                href="https://freesound.org/s/415804/"
-                className="text-blue-400 hover:underline"
-              >
-                freesound.org
-              </a>{" "}
-              — License: Attribution 4.0
-            </li>
-            <li>
               Configuración y juego:{" "}
               <span className="font-semibold text-blue-200">
                 There Will Be Stars
@@ -125,12 +111,12 @@ const Credits: React.FC = () => {
           </ul>
         </section>
 
-        <div className="border-t-2 border-gray-300 my-6"></div> {/* Separador de secciones */}
+        <div className="border-t-2 border-gray-300 my-6"></div>
 
         {/* Tecnologías Utilizadas */}
         <section className="text-xl">
           <h2 className="text-3xl font-bold mb-4">Tecnologías Utilizadas</h2>
-          <p className="text-lg">React, TypeScript, Tailwind CSS</p>
+          <p className="text-lg">React, TypeScript, Tailwind CSS, SupaBase</p>
         </section>
       </div>
 

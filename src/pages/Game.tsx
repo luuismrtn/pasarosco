@@ -73,9 +73,6 @@ const Game: React.FC = () => {
         await wait(500);
 
         setLoading(false);
-        if (!isBgMuted) {
-          bgMusicRef.current.play();
-        }
         if (!isEffectsMuted) {
           pipSoundRef.current.play();
         }
@@ -169,6 +166,7 @@ const Game: React.FC = () => {
 
     if (countdown === 0) {
       startSoundRef.current.play();
+      bgMusicRef.current.play();
       setGameStarted(true);
     }
 
