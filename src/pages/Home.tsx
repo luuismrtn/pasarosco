@@ -6,6 +6,9 @@ import Loader from "../layouts/Loader";
 import { useUser } from "../contexts/UserContext";
 import ButtonSection from "../components/ButtonSection";
 
+import { PlusIcon } from "@heroicons/react/24/solid";
+import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
+
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [bgVolume, setBgVolume] = useState<number>(0.5);
@@ -13,6 +16,9 @@ const Home: React.FC = () => {
   const bgMusicRef = useRef<Howl | null>(null);
   const { user, loadingUser, roscosService } = useUser();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const [isModalJoinOpen, setIsModalJoinOpen] = useState<boolean>(false);
+  const [joinCode, setJoinCode] = useState("");
+  const [joinError, setJoinError] = useState("");
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -91,6 +97,27 @@ const Home: React.FC = () => {
     setMenuVisible(false);
   };
 
+  const goToCreateRosco = () => {
+    navigate("/create-rosco");
+  };
+
+  const goToJoinRosco = () => {
+    setIsModalJoinOpen(true);
+  };
+
+  const handleJoinRosco = async (code: string) => {
+    if (!code.trim()) {
+      alert("Por favor, introduce un código válido.");
+      return;
+    }
+
+    if (await roscosService.existsRosco(code)) {
+      navigate(`/game/${code}`);
+    } else {
+      setJoinError("El código introducido no es válido.");
+    }
+  };
+
   if (loadingUser) {
     return <Loader />;
   }
@@ -132,9 +159,7 @@ const Home: React.FC = () => {
           >
             <div className="flex flex-row items-center justify-end">
               <div className="text-white text-xl mr-4">
-                {user.username
-                  ? user.username
-                  : user.email}
+                {user.username ? user.username : user.email}
               </div>
               <div className="w-14 h-14 bg-transparent rounded-full border-2 border-white flex items-center justify-center hover:ring-4 ring-indigo-300 transition-all">
                 <svg
@@ -178,9 +203,76 @@ const Home: React.FC = () => {
         <ButtonSection text="BLOG" to="/blog" size="small" />
       </div>
 
+      {/* Botones de crear y unirse a un rosco */}
+      {user && (
+        <div className="absolute top-8 left-8 flex flex-col items-start justify-end gap-4">
+        {/* Botón de crear nuevo rosco */}
+        {user ? (
+          <ButtonSection
+            text="Crear Rosco nuevo"
+            onClick={goToCreateRosco}
+            size="icon"
+            icon={<PlusIcon className="w-6 h-6" />}
+          />
+        ) : null}
+
+        {/* Botón de unirse a un rosco */}
+        <ButtonSection
+          text="Unirse a un rosco"
+          onClick={goToJoinRosco}
+          size="icon"
+          icon={<ArrowRightCircleIcon className="w-6 h-6" />}
+        />
+      </div>
+      )}
+
+      {isModalJoinOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md font-rubik">
+          <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl text-center">
+            {/* Título del modal */}
+            <h2 className="text-3xl font-semibold text-gray-900 mb-4 drop-shadow-lg">
+              Unirse a un Rosco
+            </h2>
+
+            {/* Mensaje */}
+            <p className="text-gray-700 mb-6 text-lg font-medium">
+              Ingresa el código único del rosco para unirte y comenzar a jugar.
+            </p>
+
+            {/* Input para el código */}
+            <input
+              type="text"
+              placeholder="Introduce el código del rosco"
+              className={`w-full p-4 border-2 border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6 transition-all duration-300 ease-in-out ${
+                joinError ? "border-red-500 mb-0" : ""
+              }`}
+              value={joinCode}
+              onChange={(e) => setJoinCode(e.target.value)}
+            />
+            {joinError && <p className="text-red-500 mb-6">{joinError}</p>}
+
+            {/* Botón para unirse */}
+            <button
+              onClick={() => handleJoinRosco(joinCode)}
+              className="w-full px-6 py-3 mb-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+            >
+              Unirse
+            </button>
+
+            {/* Botón para cerrar el modal */}
+            <button
+              onClick={() => setIsModalJoinOpen(false)}
+              className="w-full px-6 py-3 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.2.7
+        Versión 1.2.8
       </div>
     </div>
   );
