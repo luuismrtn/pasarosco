@@ -14,7 +14,6 @@ const WordWheel: React.FC<WordWheelProps> = ({
 }) => {
   const [radius, setRadius] = useState<number>(275);
   const [heightCircle, setHeightCircle] = useState<number>(10);
-  const [marginBottom, setMarginBottom] = useState<number>(10);
 
 
   useEffect(() => {
@@ -22,15 +21,15 @@ const WordWheel: React.FC<WordWheelProps> = ({
       if (window.innerWidth < 1280) {
         setRadius(200);
         setHeightCircle(8);
-        setMarginBottom(0);
+      } else if (window.innerWidth < 1150) {
+        setRadius(220);
+        setHeightCircle(12);
       } else if (window.innerWidth < 1350) {
         setRadius(220);
         setHeightCircle(12);
-        setMarginBottom(6);
       } else if (window.innerWidth >= 1350) {
         setRadius(250);
         setHeightCircle(12);
-        setMarginBottom(12);
       }
     };
 
@@ -45,7 +44,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
   const letters = words.map((word) => word.letter);
 
   return (
-    <div className={`relative flex justify-center items-center w-full h-64 lg:h-32 mb-${marginBottom}`}>
+    <div className={`relative flex justify-center items-center w-full h-64 lg:h-32`}>
       {/* Letra activa en el centro */}
       {ready && (
         <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl font-bold rounded-full z-10 lg:text-8xl xl:text-9xl">
