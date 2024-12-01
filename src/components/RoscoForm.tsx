@@ -293,6 +293,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
               <div className="mr-4">
                 <select
                   onChange={(e) => handleWordTypeChange(letter, e.target.value)}
+                  value={wordType[letter] || "start"}
                   className="p-3 text-black rounded-lg shadow-md w-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="start">Empieza</option>

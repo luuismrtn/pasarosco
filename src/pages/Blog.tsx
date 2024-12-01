@@ -27,15 +27,31 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
+            {/* Versión 1.3.X */}
+            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+              <h3 className="text-xl font-semibold text-yellow-300">
+                Versión 1.3.X:
+              </h3>
+              <ul className="list-disc list-inside pl-4">
+                <li>Error arreglado: Antes si editabas un rosco y la palabra CONTENIA la letra, no se mostraba bien el menú.</li>
+              </ul>
+            </div>
+
             {/* Versión 1.3.1 */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.3.1:
               </h3>
               <ul className="list-disc list-inside pl-4">
-                <li>Arreglados las dimensiones en las patallas pequeñas de escritorio.</li>
+                <li>
+                  Arreglados las dimensiones en las patallas pequeñas de
+                  escritorio.
+                </li>
                 <li>Ahora no se queda colgado al teminar un rosco.</li>
-                <li>Ahora para crear o editar una respuesta en el editor se pueden empezar las palabras respuesta con letras con tilde.</li>
+                <li>
+                  Ahora para crear o editar una respuesta en el editor se pueden
+                  empezar las palabras respuesta con letras con tilde.
+                </li>
               </ul>
             </div>
 
