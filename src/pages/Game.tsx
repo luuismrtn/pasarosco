@@ -63,6 +63,8 @@ const Game: React.FC = () => {
         setTime(roscoData.time);
         setRosco(data);
         setWords(data);
+        setCorrectAnswers(0);
+        setWrongAnswers(0);
 
         correctSoundRef.current.load();
         incorrectSoundRef.current.load();
@@ -144,7 +146,6 @@ const Game: React.FC = () => {
     })
   );
 
-  // Control del contador de cuenta atrás de inicio
   useEffect(() => {
     if (isloading) return;
 
@@ -173,7 +174,6 @@ const Game: React.FC = () => {
     return () => clearInterval(timer);
   }, [countdown, isloading]);
 
-  // Detener la música cuando se acaba el tiempo
   useEffect(() => {
     if (gameStarted && remainingTime === 0) {
       bgMusicRef.current.stop();
@@ -183,7 +183,15 @@ const Game: React.FC = () => {
     }
   }, [remainingTime, gameStarted]);
 
-  // Temporizador del juego
+  useEffect(() => {
+    if (correctAnswers + wrongAnswers === 26) {
+      bgMusicRef.current.stop();
+      navigate("/results", {
+        state: { correctAnswers, wrongAnswers, time, words, id },
+      });
+    }
+  }, [correctAnswers, wrongAnswers]);
+
   useEffect(() => {
     if (gameStarted && !isPaused && !isFailed) {
       inputRef.current?.focus();
@@ -195,7 +203,6 @@ const Game: React.FC = () => {
     }
   }, [gameStarted, isPaused, isFailed]);
 
-  // Lógica para manejar respuestas
   const removeAccents = (str: string) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
@@ -215,10 +222,7 @@ const Game: React.FC = () => {
         setCorrectAnswers((prev) => prev + 1);
         correctSoundRef.current.play();
 
-        if (correctAnswers + wrongAnswers < words.length - 1) {
-          const nextIndex = findNextIndex(index + 1);
-          setIndex(nextIndex);
-        }
+        setIndex(findNextIndex(index + 1));
       } else {
         currentWord.status = "incorrect";
         setWrongAnswers((prev) => prev + 1);
@@ -235,7 +239,6 @@ const Game: React.FC = () => {
     }
   };
 
-  // Función para encontrar el siguiente índice no contestado
   const findNextIndex = (startIndex: number): number => {
     let nextIndex = startIndex;
 
@@ -246,7 +249,6 @@ const Game: React.FC = () => {
     return nextIndex % words.length;
   };
 
-  // Ir al menú principal
   const goToMenu = () => {
     if (!isBgMuted) {
       bgMusicRef.current.stop();
@@ -254,7 +256,6 @@ const Game: React.FC = () => {
     navigate("/home");
   };
 
-  // Reiniciar el juego
   const restartGame = () => {
     bgMusicRef.current.stop();
     const resetWords: Word[] = rosco.map((word) => ({
@@ -271,7 +272,6 @@ const Game: React.FC = () => {
     setIsPaused(false);
   };
 
-  // Manejo de las teclas Escape y Enter
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape" && !isPaused && !isFailed) {
       setIsPaused(true);
@@ -281,10 +281,7 @@ const Game: React.FC = () => {
       setRemainingTime((prev) => (prev > 0 ? prev - 1 : 0));
       setIsPaused(false);
       setIsFailed(false);
-      if (correctAnswers + wrongAnswers < words.length - 1) {
-        const nextIndex = findNextIndex(index + 1);
-        setIndex(nextIndex);
-      }
+      setIndex(findNextIndex(index + 1));
     }
 
     inputRef.current?.focus();
@@ -298,7 +295,6 @@ const Game: React.FC = () => {
     };
   }, [isPaused, isFailed]);
 
-  // Guardar los volúmenes en el localStorage cuando cambian
   useEffect(() => {
     localStorage.setItem("bgVolume", bgVolume.toString());
     bgMusicRef.current.volume(isBgMuted ? 0 : bgVolume);
@@ -331,7 +327,7 @@ const Game: React.FC = () => {
 
       {/* ID */}
       {isId && (
-        <p className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-base opacity-50">
+        <p className="absolute bottom-4 left-4 text-white text-base opacity-50">
           {id}
         </p>
       )}
@@ -347,7 +343,7 @@ const Game: React.FC = () => {
       <div className="flex-grow p-8 flex flex-col justify-center items-center">
         {/* Contador de inicio de 3 segundos */}
         {!gameStarted && (
-          <div className="absolute text-white text-9xl font-bold">
+          <div className="absolute text-white text-9xl lg:text-8xl xl:text-9xl font-bold">
             {countdown > 0 ? countdown : "¡YA!"}
           </div>
         )}
@@ -356,7 +352,7 @@ const Game: React.FC = () => {
         <div className="relative flex justify-center items-center w-full">
           {/* Tiempo a los lados rosco */}
           {gameStarted && (
-            <div className="absolute z-0 w-10/12">
+            <div className="absolute z-0 w-10/12 lg:w-11/12 xl:w-9/12">
               <Score
                 correctAnswers={correctAnswers}
                 remainingTime={remainingTime}

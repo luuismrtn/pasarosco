@@ -48,7 +48,7 @@ const ButtonSection = ({
   const sizeClasses = {
     small: "px-6 py-2 text-lg lg:text-sm lg:px-4 lg:py-2 xl:text-base xl:px-6 xl:py-2",
     icon: "px-4 py-2 text-xl lg:text-base lg:px-3 lg:py-1 xl:text-lg xl:px-4 xl:py-1",
-    medium: "px-9 py-3 text-lg",
+    medium: "px-9 py-3 text-lg lg:text-base lg:px-5 lg:py-3 xl:text-xl xl:px-7 xl:py-3",
     large: "px-8 py-4 text-3xl lg:text-2xl lg:px-4 lg:py-3 xl:text-3xl xl:px-6 xl:py-3",
   };
 

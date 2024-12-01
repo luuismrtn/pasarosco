@@ -14,22 +14,27 @@ const WordWheel: React.FC<WordWheelProps> = ({
 }) => {
   const [radius, setRadius] = useState<number>(275);
   const [heightCircle, setHeightCircle] = useState<number>(10);
+  const [sizeLetter, setSizeLetter] = useState<string>("");
 
 
   useEffect(() => {
     const updateRadius = () => {
-      if (window.innerWidth < 1280) {
-        setRadius(200);
-        setHeightCircle(8);
-      } else if (window.innerWidth < 1150) {
-        setRadius(220);
+      if (window.innerHeight <= 600) {
+        setRadius(140);
+        setHeightCircle(7);
+        setSizeLetter("xs");
+      } else if (window.innerHeight <= 900) {
+        setRadius(240);
         setHeightCircle(12);
-      } else if (window.innerWidth < 1350) {
-        setRadius(220);
-        setHeightCircle(12);
-      } else if (window.innerWidth >= 1350) {
+        setSizeLetter("lg");
+      } else if (window.innerHeight <= 1050) {
         setRadius(250);
         setHeightCircle(12);
+        setSizeLetter("lg");
+      } else if (window.innerHeight >= 1050) {
+        setRadius(280);
+        setHeightCircle(14);
+        setSizeLetter("xl");
       }
     };
 
@@ -70,7 +75,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
                 }}
               >
                 <div
-                  className={`flex lg:text-sm xl:text-base 2xl:text-lg justify-center items-center w-${heightCircle} h-${heightCircle} border-4 border-white rounded-full text-white text-lg font-bold ${
+                  className={`flex text-${sizeLetter} justify-center items-center w-${heightCircle} h-${heightCircle} border-4 border-white rounded-full text-white text-lg font-bold ${
                     index === currentLetterIndex && ready ? "blinking" : ""
                   } ${
                     currentWord.status === "pending"

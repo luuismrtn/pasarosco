@@ -27,12 +27,34 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
-            {/* Versión 1.2.X */}
+            {/* Versión 1.3.1 */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
-                Versión 1.2.X:
+                Versión 1.3.1:
               </h3>
               <ul className="list-disc list-inside pl-4">
+                <li>Arreglados las dimensiones en las patallas pequeñas de escritorio.</li>
+                <li>Ahora no se queda colgado al teminar un rosco.</li>
+                <li>Ahora para crear o editar una respuesta en el editor se pueden empezar las palabras respuesta con letras con tilde.</li>
+              </ul>
+            </div>
+
+            {/* Versión 1.3.0 */}
+            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+              <h3 className="text-xl font-semibold text-yellow-300">
+                Versión 1.3.0:
+              </h3>
+              <ul className="list-disc list-inside pl-4">
+                <li>
+                  ¡Ahora la pantalla se ajusta a la anchura y altura de tu
+                  pantalla!
+                </li>
+                <li>
+                  La id de cada rosco se ve difuminada en la pantalla de juego.
+                </li>
+                <li>
+                  Corregidos en algunas pantallas el botón de ir hacia atrás.
+                </li>
                 <li>Nuevo diseño de las tarjetas de cada rosco.</li>
               </ul>
             </div>
@@ -44,11 +66,22 @@ const Blog: React.FC = () => {
               </h3>
               <ul className="list-disc list-inside pl-4">
                 <li>Nuevo diseño de las tarjetas de cada rosco.</li>
-                <li>Ahora se puede editar, eliminar y compartir desde la página de perfil.</li>
-                <li>Ahora se puede crear o entrar a un rosco desde la página principal.</li>
+                <li>
+                  Ahora se puede editar, eliminar y compartir desde la página de
+                  perfil.
+                </li>
+                <li>
+                  Ahora se puede crear o entrar a un rosco desde la página
+                  principal.
+                </li>
                 <li>Arreglado bug del sonido en la página principal.</li>
-                <li>Ya no se quita la sesión en la página de perfil cuando recargas la página.</li>
-                <li>Nuevo sonido al poner el raton por encima en los botones.</li>
+                <li>
+                  Ya no se quita la sesión en la página de perfil cuando
+                  recargas la página.
+                </li>
+                <li>
+                  Nuevo sonido al poner el raton por encima en los botones.
+                </li>
                 <li>Ya no hay música de fondo en la página principal.</li>
               </ul>
             </div>
@@ -59,11 +92,22 @@ const Blog: React.FC = () => {
                 Versión 1.2.5:
               </h3>
               <ul className="list-disc list-inside pl-4">
-                <li>Nueva página de perfil para poder ver los roscos creados y la información del usuario.</li>
-                <li>Ahora solo se pueden crear roscos si has iniciado sesión previamente.</li>
+                <li>
+                  Nueva página de perfil para poder ver los roscos creados y la
+                  información del usuario.
+                </li>
+                <li>
+                  Ahora solo se pueden crear roscos si has iniciado sesión
+                  previamente.
+                </li>
                 <li>Atributo de dificultad añadido a cada rosco.</li>
-                <li>Se ha reemplazado el logo antiguo por uno nuevo más moderno.</li>
-                <li>Se ha añadido la función de filtrar en la lista de roscos para jugar.</li>
+                <li>
+                  Se ha reemplazado el logo antiguo por uno nuevo más moderno.
+                </li>
+                <li>
+                  Se ha añadido la función de filtrar en la lista de roscos para
+                  jugar.
+                </li>
                 <li>Botón de volver hacia atrás unificado.</li>
               </ul>
             </div>

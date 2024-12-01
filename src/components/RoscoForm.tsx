@@ -85,6 +85,10 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
     return wordsArray;
   };
 
+  const removeAccents = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
   const validateForm = () => {
     const newErrors: any = {};
 
@@ -135,7 +139,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
         const wordArray = word.split(",");
         const validWord = wordArray.every((w) => {
           const lowerLetter = letter.toLowerCase();
-          const lowerWord = w.toLowerCase();
+          const lowerWord = removeAccents(w.toLowerCase());
 
           if (
             wordType[letter] === "start" &&
