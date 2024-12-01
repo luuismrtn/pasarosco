@@ -79,7 +79,7 @@ const Profile = () => {
         hoverText="hover:text-purple-600"
       />
 
-      <div className="w-full max-w-7xl bg-white text-gray-800 rounded-2xl shadow-2xl p-8 overflow-hidden">
+      <div className="w-full max-w-7xl bg-white text-gray-800 rounded-2xl shadow-2xl p-8 overflow-hidden lg:max-w-5xl 2xl:max-w-6xl">
         {/* Encabezado del perfil */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-indigo-600 mb-2">

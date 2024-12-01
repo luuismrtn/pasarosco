@@ -17,7 +17,6 @@ const Home: React.FC = () => {
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // Cerrar el menú al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -84,14 +83,13 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
       {/* Título principal */}
-      <h1 className="text-9xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
+      <h1 className="text-9xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
         Pasapalabra
       </h1>
 
       {/* Subtítulo */}
-      <h2 className="text-3xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
-        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el
-        castellano!
+      <h2 className="text-2xl lg:text-xl 2xl:text-3xl font-semibold text-white font-rubik mb-12 lg:mb-2 xl:mb-12 drop-shadow-lg">
+        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
       </h2>
 
       {/* Caja de opciones */}
@@ -117,10 +115,10 @@ const Home: React.FC = () => {
             aria-label="Abrir perfil del usuario"
           >
             <div className="flex flex-row items-center justify-end">
-              <div className="text-white text-xl mr-4">
+              <div className="text-white text-xl lg:text-lg mr-4">
                 {user.username ? user.username : user.email}
               </div>
-              <div className="w-14 h-14 bg-transparent rounded-full border-2 border-white flex items-center justify-center hover:ring-4 ring-indigo-300 transition-all">
+              <div className="w-12 h-12 bg-transparent rounded-full border-2 border-white flex items-center justify-center hover:ring-4 ring-indigo-300 transition-all">
                 <svg
                   viewBox="0 0 32 32"
                   xmlns="http://www.w3.org/2000/svg"
@@ -165,31 +163,29 @@ const Home: React.FC = () => {
       {/* Botones de crear y unirse a un rosco */}
       {user && (
         <div className="absolute top-8 left-8 flex flex-col items-start justify-end gap-4">
-        {/* Botón de crear nuevo rosco */}
-        {user ? (
+          {/* Botón de crear nuevo rosco */}
           <ButtonSection
             text="Crear Rosco nuevo"
             onClick={goToCreateRosco}
             size="icon"
-            icon={<PlusIcon className="w-6 h-6" />}
+            icon={<PlusIcon className="w-6 h-6 lg:w-4 lg:h-4" />}
           />
-        ) : null}
 
-        {/* Botón de unirse a un rosco */}
-        <ButtonSection
-          text="Unirse a un rosco"
-          onClick={goToJoinRosco}
-          size="icon"
-          icon={<ArrowRightCircleIcon className="w-6 h-6" />}
-        />
-      </div>
+          {/* Botón de unirse a un rosco */}
+          <ButtonSection
+            text="Unirse a un rosco"
+            onClick={goToJoinRosco}
+            size="icon"
+            icon={<ArrowRightCircleIcon className="w-6 h-6 lg:w-4 lg:h-4" />}
+          />
+        </div>
       )}
 
       {isModalJoinOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md font-rubik">
           <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl text-center">
             {/* Título del modal */}
-            <h2 className="text-3xl font-semibold text-gray-900 mb-4 drop-shadow-lg">
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-4 drop-shadow-lg">
               Unirse a un Rosco
             </h2>
 
@@ -231,7 +227,7 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.2.11
+        Versión 1.3.0
       </div>
     </div>
   );

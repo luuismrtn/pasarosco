@@ -18,6 +18,13 @@ export type Rosco = {
   user_email: string;
 }
 
+export type User = {
+  id: string;
+  email: string;
+  username: string;
+  role: string;
+};
+
 export type Theme = "Random" | "Naturaleza" | "Música" | "Deportes" | "Historia";
 
 export const themes: Theme[] = ["Random", "Naturaleza", "Música", "Deportes", "Historia"];

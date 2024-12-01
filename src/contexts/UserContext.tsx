@@ -8,20 +8,14 @@ import React, {
 } from "react";
 import { RoscoService } from "../data/RoscoService";
 
+import { User } from "types";
+
 interface UserContextType {
-  user: user | null;
+  user: User | null;
   loadingUser: boolean;
-  setUser: React.Dispatch<React.SetStateAction<user | null>>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   roscosService: RoscoService;
 }
-
-interface user {
-  id: string;
-  email: string;
-  username: string;
-  role: string;
-}
-
 interface UserProviderProps {
   children: ReactNode;
 }
@@ -29,65 +23,55 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<user | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
   const roscosService = useMemo(() => new RoscoService(), []);
 
   const supabase = roscosService.getSupabase();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoadingUser(true);
+  const fetchUserFromSession = async () => {
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
-      try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error("Error al obtener la sesión:", sessionError.message);
+      if (sessionError) {
+        console.error("Error al obtener la sesión:", sessionError.message);
+        setUser(null);
+      } else if (session?.user) {
+        const { data: userData, error: userError } = await supabase
+          .from("users")
+          .select("id, email, username, role")
+          .eq("id", session.user.id)
+          .single();
+
+        if (userError) {
+          console.error("Error al obtener el rol del usuario:", userError.message);
           setUser(null);
-        } else if (session?.user) {
-          const { data: userData, error: userError } = await supabase
-            .from("users")
-            .select("id, email, username, role")
-            .eq("id", session.user.id)
-            .single();
-
-          if (userError) {
-            console.error("Error al obtener el rol del usuario:", userError.message);
-            setUser(null);
-          } else {
-            setUser(userData as user);
-          }
         } else {
-          console.log("No hay sesión activa.");
-          setUser(null);
+          setUser(userData as unknown as User);
         }
-      } catch (err) {
-        console.error("Error inesperado al obtener la sesión:", err);
+      } else {
+        console.log("No hay sesión activa.");
         setUser(null);
       }
-    };
+    } catch (err) {
+      console.error("Error inesperado al obtener la sesión:", err);
+      setUser(null);
+    } finally {
+      setLoadingUser(false);
+    }
+  };
 
-    fetchUser();
+  useEffect(() => {
+    fetchUserFromSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session?.user) {
-          supabase
-            .from("users")
-            .select("id, email, username, role")
-            .eq("id", session.user.id)
-            .single()
-            .then(({ data, error }) => {
-              if (error) {
-                console.error("Error al obtener el rol del usuario:", error.message);
-                setUser(null);
-              } else {
-                setUser(data as user);
-              }
-              setLoadingUser(false);
-            });
+          fetchUserFromSession();
         } else {
           setUser(null);
           setLoadingUser(false);
@@ -100,8 +84,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     };
   }, [supabase]);
 
+  const getUser = (): User | null => {
+    return user;
+  };
+
   return (
-    <UserContext.Provider value={{ user, loadingUser, setUser, roscosService }}>
+    <UserContext.Provider
+      value={{
+        user: getUser(),
+        loadingUser,
+        setUser,
+        roscosService,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

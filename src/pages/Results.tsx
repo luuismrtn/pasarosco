@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
+import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import { Word } from "../types/types";
+import BackButton from "../components/BackButton";
 
 const Results: React.FC = () => {
   const navigate = useNavigate();
@@ -43,12 +44,7 @@ const Results: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 font-rubik">
       {/* Botón para regresar al menú */}
-      <button
-        onClick={goToMenu}
-        className="absolute top-8 left-8 p-2 bg-white bg-opacity-10 text-white rounded-full hover:bg-opacity-20 transition duration-200"
-      >
-        <ArrowLeftIcon className="w-8 h-8" />
-      </button>
+      <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título de resultados */}
       <h1 className="text-6xl font-bold text-white font-rubik mb-10 drop-shadow-lg">
