@@ -21,16 +21,16 @@ const WordWheel: React.FC<WordWheelProps> = ({
     const updateRadius = () => {
       if (window.innerWidth < 1280) {
         setRadius(200);
-        setHeightCircle(10);
+        setHeightCircle(8);
         setMarginBottom(0);
       } else if (window.innerWidth < 1350) {
-        setRadius(210);
-        setHeightCircle(10);
-        setMarginBottom(2);
-      } else if (window.innerWidth < 1536) {
+        setRadius(220);
+        setHeightCircle(12);
+        setMarginBottom(6);
+      } else if (window.innerWidth >= 1350) {
         setRadius(250);
         setHeightCircle(12);
-        setMarginBottom(20);
+        setMarginBottom(12);
       }
     };
 
@@ -71,7 +71,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
                 }}
               >
                 <div
-                  className={`flex justify-center items-center w-${heightCircle} h-${heightCircle} border-4 border-white rounded-full text-white text-lg font-bold ${
+                  className={`flex lg:text-sm xl:text-base 2xl:text-lg justify-center items-center w-${heightCircle} h-${heightCircle} border-4 border-white rounded-full text-white text-lg font-bold ${
                     index === currentLetterIndex && ready ? "blinking" : ""
                   } ${
                     currentWord.status === "pending"

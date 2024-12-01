@@ -83,12 +83,12 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
       {/* Título principal */}
-      <h1 className="text-9xl lg:text-8xl xl:text-8xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
+      <h1 className="text-9xl lg:text-8xl xl:text-8xl 2xl:text-9xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
         Pasapalabra
       </h1>
 
       {/* Subtítulo */}
-      <h2 className="text-2xl lg:text-2xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
+      <h2 className="text-2xl lg:text-2xl 2xl:text-3xl font-semibold text-white font-rubik mb-12 drop-shadow-lg">
         ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
       </h2>
 

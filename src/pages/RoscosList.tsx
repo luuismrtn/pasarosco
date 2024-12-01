@@ -198,7 +198,7 @@ const RoscosListPage = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:max-w-5xl">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:max-w-5xl 2xl:max-w-6xl">
           {filteredRoscos.length > 0 ? (
             filteredRoscos.map((rosco) => (
               <RoscoCard key={rosco.id} rosco={rosco} onClick={goToGame} />
