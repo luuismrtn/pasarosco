@@ -19,22 +19,22 @@ const WordWheel: React.FC<WordWheelProps> = ({
 
   useEffect(() => {
     const updateRadius = () => {
-      if (window.innerHeight <= 600) {
-        setRadius(140);
-        setHeightCircle(7);
-        setSizeLetter("xs");
-      } else if (window.innerHeight <= 900) {
-        setRadius(240);
-        setHeightCircle(12);
-        setSizeLetter("lg");
-      } else if (window.innerHeight <= 1050) {
-        setRadius(250);
-        setHeightCircle(12);
-        setSizeLetter("lg");
-      } else if (window.innerHeight >= 1050) {
+      if (window.innerHeight > 1050) {
         setRadius(280);
         setHeightCircle(14);
         setSizeLetter("xl");
+      } else if (window.innerHeight <= 1050 && window.innerHeight > 860) {
+        setRadius(250);
+        setHeightCircle(12);
+        setSizeLetter("lg");
+      } else if (window.innerHeight <= 860 && window.innerHeight > 650) {
+        setRadius(180);
+        setHeightCircle(8);
+        setSizeLetter("base");
+      } else if (window.innerHeight <= 650 && window.innerHeight > 400) {
+        setRadius(140);
+        setHeightCircle(7);
+        setSizeLetter("xs");
       }
     };
 
