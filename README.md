@@ -1,6 +1,6 @@
-# Pasabrosco - Juego de Palabras 🎮
+# Pasarosco - Juego de Palabras 🎮
 
-¡Bienvenido a **Pasabrosco**, una versión gratuita y en línea del famoso juego de palabras! 🚀 Este proyecto está diseñado para ser responsivo y divertido, desarrollado con **React**, **TypeScript**, y **TailwindCSS**.
+¡Bienvenido a **Pasarosco**, una versión gratuita y en línea del famoso juego de palabras! 🚀 Este proyecto está diseñado para ser responsivo y divertido, desarrollado con **React**, **TypeScript**, y **TailwindCSS**.
 
 ---
 
