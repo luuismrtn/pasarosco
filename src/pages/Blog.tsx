@@ -27,12 +27,14 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
-            {/* Versión 1.3.X */}
+            {/* Versión 1.3.4 */}
             <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
               <h3 className="text-xl font-semibold text-yellow-300">
-                Versión 1.3.X:
+                Versión 1.3.4:
               </h3>
               <ul className="list-disc list-inside pl-4">
+                <li>Cambio de nombre de la aplicación: PASAROSCO</li>
+                <li>Agregado nuevo botón para ir al código de la aplicación.</li>
                 <li>Error arreglado: Antes si editabas un rosco y la palabra CONTENIA la letra, no se mostraba bien el menú.</li>
               </ul>
             </div>

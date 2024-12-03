@@ -84,7 +84,7 @@ const Home: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 pb-26">
       {/* Título principal */}
       <h1 className="text-9xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-white font-rubik mb-4 drop-shadow-lg">
-        Pasapalabra
+        Pasarosco
       </h1>
 
       {/* Subtítulo */}
@@ -156,7 +156,8 @@ const Home: React.FC = () => {
       </div>
 
       {/* Botón para ir al blog */}
-      <div className="absolute bottom-4 right-4">
+      <div className="absolute flex flex-row bottom-4 right-4 gap-4">
+        <ButtonSection text="GITHUB" to="https://github.com/luuismrtn/pasarosco" size="small" external />
         <ButtonSection text="BLOG" to="/blog" size="small" />
       </div>
 
@@ -227,7 +228,7 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute bottom-4 left-4 text-white text-sm font-medium font-rubik">
-        Versión 1.3.3
+        Versión 1.3.4
       </div>
     </div>
   );
