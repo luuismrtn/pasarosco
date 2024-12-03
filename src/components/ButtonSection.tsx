@@ -8,6 +8,7 @@ type ButtonSectionProps = {
   to?: string;
   size?: "small" | "medium" | "large" | "icon";
   onClick?: () => void;
+  external?: boolean;
   icon?: React.ReactNode;
 };
 
@@ -17,6 +18,7 @@ const ButtonSection = ({
   size = "medium",
   onClick,
   icon,
+  external,
 }: ButtonSectionProps) => {
   const navigate = useNavigate();
   const [effectVolume, setEffectVolume] = useState<number>(0.5);
@@ -53,7 +55,9 @@ const ButtonSection = ({
   };
 
   const handleClick = () => {
-    if (onClick) {
+    if (external && to) {
+      window.open(to, "_blank", "noopener,noreferrer");
+    } else if (onClick) {
       onClick();
     } else {
       navigate(to);
@@ -75,6 +79,18 @@ const ButtonSection = ({
         aria-label={`Ir a ${text}`}
       >
         {text}
+      </button>
+    );
+  } else if (external){
+    return (
+      <button
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        className={`flex items-center gap-2 w-fit ${sizeClasses[size]} text-white font-semibold rounded-full shadow-md transition-transform transform bg-transparent border border-white hover:scale-105 hover:border-blue-300 hover:shadow-blue-400/50 hover:shadow-lg focus:outline-none`}
+        aria-label={text ? `Ir a ${text}` : "Botón"}
+      >
+        {icon && <span>{icon}</span>}
+        {text && <span>{text}</span>}
       </button>
     );
   } else {
