@@ -42,17 +42,17 @@ const Results: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 flex flex-col items-center justify-center p-4 font-rubik">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-primary to-indigo-800 font-rubik">
       {/* Botón para regresar al menú */}
       <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título de resultados */}
-      <h1 className="text-6xl font-bold text-white font-rubik mb-10 drop-shadow-lg">
+      <h1 className="mb-10 text-6xl font-bold text-white font-rubik drop-shadow-lg">
         Resultados
       </h1>
 
       {/* Contenedor con las dos columnas */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-2/3 grid grid-cols-2 gap-8">
+      <div className="grid w-2/3 grid-cols-2 gap-8 p-8 bg-white rounded-lg shadow-2xl bg-opacity-20">
         {/* Columna de estadísticas */}
         <div className="space-y-6">
           <h2 className="text-3xl font-semibold text-white">
@@ -104,17 +104,17 @@ const Results: React.FC = () => {
       </div>
 
       {/* Botones para reiniciar o regresar */}
-      <div className="space-x-4 mt-8">
+      <div className="mt-8 space-x-4">
         <button
           onClick={restartGame}
-          className="px-6 py-4 text-white font-bold text-xl rounded-full bg-purple-500 hover:bg-purple-700 transition duration-200"
+          className="px-6 py-4 text-xl font-bold text-white transition duration-200 bg-purple-500 rounded-full hover:bg-purple-700"
         >
-          <ArrowPathIcon className="w-6 h-6 inline mr-2" />
+          <ArrowPathIcon className="inline w-6 h-6 mr-2" />
           Reiniciar Juego
         </button>
         <button
           onClick={goToMenu}
-          className="px-6 py-4 text-white font-bold text-xl rounded-full bg-blue-500 hover:bg-blue-700 transition duration-200"
+          className="px-6 py-4 text-xl font-bold text-white transition duration-200 bg-blue-500 rounded-full hover:bg-blue-700"
         >
           Regresar al Menú
         </button>

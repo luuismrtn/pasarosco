@@ -10,27 +10,27 @@ const Credits: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center text-white font-rubik px-4 py-8">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 text-white bg-gradient-to-r from-indigo-600 to-purple-600 font-rubik">
       {/* Botón para regresar al menú */}
       <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título */}
-      <h1 className="text-6xl font-extrabold mb-10 mt-10 drop-shadow-lg">Créditos</h1>
+      <h1 className="mt-10 mb-10 text-6xl font-extrabold drop-shadow-lg">Créditos</h1>
 
       {/* Contenido de los créditos */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-2/3 text-center space-y-8 transform transition-all hover:scale-105 hover:shadow-xl">
+      <div className="w-2/3 p-8 space-y-8 text-center transition-all transform bg-white rounded-lg shadow-2xl bg-opacity-20 hover:scale-105 hover:shadow-xl">
         {/* Hecho por */}
-        <section className="text-xl mb-6">
-          <h2 className="text-3xl font-bold mb-4">Proyecto realizado por: </h2>
+        <section className="mb-6 text-xl">
+          <h2 className="mb-4 text-3xl font-bold">Proyecto realizado por: </h2>
           <p className="text-lg font-semibold">Luis Martín García</p>
         </section>
 
-        <div className="border-t-2 border-gray-300 my-6"></div>
+        <div className="my-6 border-t-2 border-gray-300"></div>
 
         {/* Recursos */}
-        <section className="text-xl mb-6">
-          <h2 className="text-3xl font-bold mb-4">Recursos:</h2>
-          <ul className="space-y-4 text-left px-6">
+        <section className="mb-6 text-xl">
+          <h2 className="mb-4 text-3xl font-bold">Recursos:</h2>
+          <ul className="px-6 space-y-4 text-left">
             <li className="text-lg font-semibold">Efectos de sonido:</li>
             <li>
               Hover del botón:{" "}
@@ -123,11 +123,11 @@ const Credits: React.FC = () => {
           </ul>
         </section>
 
-        <div className="border-t-2 border-gray-300 my-6"></div>
+        <div className="my-6 border-t-2 border-gray-300"></div>
 
         {/* Tecnologías Utilizadas */}
         <section className="text-xl">
-          <h2 className="text-3xl font-bold mb-4">Tecnologías Utilizadas</h2>
+          <h2 className="mb-4 text-3xl font-bold">Tecnologías Utilizadas</h2>
           <p className="text-lg">React, TypeScript, Tailwind CSS, SupaBase</p>
         </section>
       </div>

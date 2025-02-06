@@ -45,10 +45,10 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-teal-500">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-teal-500">
       <BackButton onClick={() => navigate("/home")} hoverText="hover:text-teal-600" />
-      <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md transform transition-all">
-        <h1 className="text-3xl font-extrabold mb-6 text-center text-teal-600">
+      <div className="w-full max-w-md p-8 transition-all transform bg-white rounded-lg shadow-2xl">
+        <h1 className="mb-6 text-3xl font-extrabold text-center text-teal-600">
           Crea tu cuenta
         </h1>
         <form onSubmit={handleSignup} className="space-y-6">
@@ -56,7 +56,7 @@ const Signup: React.FC = () => {
           <div>
             <label
               htmlFor="username"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block mb-1 text-sm font-semibold text-gray-600"
             >
               Nombre de usuario
             </label>
@@ -66,7 +66,7 @@ const Signup: React.FC = () => {
               placeholder="Ejemplo: usuario123"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-400"
               required
             />
           </div>
@@ -74,7 +74,7 @@ const Signup: React.FC = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block mb-1 text-sm font-semibold text-gray-600"
             >
               Correo electrónico
             </label>
@@ -84,7 +84,7 @@ const Signup: React.FC = () => {
               placeholder="Ejemplo: usuario@dominio.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-400"
               required
             />
           </div>
@@ -92,7 +92,7 @@ const Signup: React.FC = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-semibold text-gray-600 mb-1"
+              className="block mb-1 text-sm font-semibold text-gray-600"
             >
               Contraseña
             </label>
@@ -102,25 +102,25 @@ const Signup: React.FC = () => {
               placeholder="Introduce tu contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-400 outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-400"
               required
             />
           </div>
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {error && <p className="text-sm text-center text-red-500">{error}</p>}
           <button
             type="submit"
-            className="w-full py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-200 font-bold"
+            className="w-full py-2 font-bold text-white transition duration-200 bg-teal-600 rounded-lg hover:bg-teal-700"
             disabled={loading}
           >
             {loading ? "Registrando..." : "Registrarse"}
           </button>
         </form>
         <div className="mt-4 text-center">
-          <p className="text-gray-500 text-sm">
+          <p className="text-sm text-gray-500">
             ¿Ya tienes una cuenta?{" "}
             <a
               href="/login"
-              className="text-teal-600 font-semibold hover:underline"
+              className="font-semibold text-teal-600 hover:underline"
             >
               Inicia sesión aquí
             </a>

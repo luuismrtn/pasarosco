@@ -39,7 +39,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       if (sessionError) {
         console.error("Error al obtener la sesión:", sessionError.message);
-        setUser(null);
+        setUser("bbdd" as unknown as User);
       } else if (session?.user) {
         const { data: userData, error: userError } = await supabase
           .from("users")
@@ -48,8 +48,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           .single();
 
         if (userError) {
-          console.error("Error al obtener el rol del usuario:", userError.message);
-          setUser(null);
+          console.error("Error al obtener el usuario:", userError.message);
+          setUser("bbdd" as unknown as User);
         } else {
           setUser(userData as unknown as User);
         }
@@ -85,6 +85,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, [supabase]);
 
   const getUser = (): User | null => {
+    console.log("getUser", user);
     return user;
   };
 

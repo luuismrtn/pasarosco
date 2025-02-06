@@ -173,10 +173,8 @@ export class RoscoService {
 
   // Método para obtener todos los roscos
   async getAllRoscos(): Promise<Rosco[]> {
-    const { data, error } = await this.supabase
-      .from("roscos")
-      .select("*");
-  
+    const { data, error } = await this.supabase.from("roscos").select("*");
+
     if (error) {
       console.error("Error al obtener los roscos:", error);
       return [];
@@ -218,4 +216,5 @@ export class RoscoService {
 
     return data;
   }
+
 }

@@ -10,29 +10,41 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col items-center justify-center text-white font-rubik px-4 py-8">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 text-white bg-gradient-to-r from-indigo-600 to-purple-600 font-rubik">
       {/* Botón para regresar al menú */}
       <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título */}
-      <h1 className="text-6xl font-extrabold mb-8 mt-10 drop-shadow-lg">
+      <h1 className="mt-10 mb-8 text-6xl font-extrabold drop-shadow-lg">
         <span className="text-white bg-clip-text">Blog</span>
       </h1>
 
       {/* Contenedor principal */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-xl shadow-2xl w-full max-w-4xl space-y-12">
+      <div className="w-full max-w-4xl p-8 space-y-12 bg-white shadow-2xl bg-opacity-20 rounded-xl">
         {/* Historial de versiones */}
         <section>
-          <h2 className="text-3xl font-bold mb-6 text-center">
+          <h2 className="mb-6 text-3xl font-bold text-center">
             Historial de Versiones
           </h2>
           <div>
+            {/* Versión 1.3.5 */}
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
+              <h3 className="text-xl font-semibold text-yellow-300">
+                Versión 1.3.5:
+              </h3>
+              <ul className="pl-4 list-disc list-inside">
+                <li>Ahora se puede jugar a PASAROSCO aunque no haya base de datos.</li>
+                <li>Nueva pantalla de inicio si no hay una base de datos operativa.</li>
+                <li>Corrección de errores en la página de inicio.</li>
+              </ul>
+            </div>
+            
             {/* Versión 1.3.4 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.3.4:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>Cambio de nombre de la aplicación: PASAROSCO</li>
                 <li>Agregado nuevo botón para ir al código de la aplicación.</li>
                 <li>Error arreglado: Antes si editabas un rosco y la palabra CONTENIA la letra, no se mostraba bien el menú.</li>
@@ -40,11 +52,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.3.1 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.3.1:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>
                   Arreglados las dimensiones en las patallas pequeñas de
                   escritorio.
@@ -58,11 +70,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.3.0 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.3.0:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>
                   ¡Ahora la pantalla se ajusta a la anchura y altura de tu
                   pantalla!
@@ -78,11 +90,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.2.X */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.2.11:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>Nuevo diseño de las tarjetas de cada rosco.</li>
                 <li>
                   Ahora se puede editar, eliminar y compartir desde la página de
@@ -105,11 +117,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.2.5 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.2.5:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>
                   Nueva página de perfil para poder ver los roscos creados y la
                   información del usuario.
@@ -131,11 +143,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.2.0 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.2.0:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>YA ESTAN DISPONIBLES LOS USUARIOS.</li>
                 <li>Añadido el sistema para crear los roscos desde la web.</li>
                 <li>Añadido el sistema para unirte a roscos desde la web.</li>
@@ -159,11 +171,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.1.2 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.1.2:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>Añadido el sistema para editar los roscos desde la web.</li>
                 <li>Corrección de errores de musica.</li>
                 <li>Corrección de errores de la página de cargado.</li>
@@ -171,11 +183,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.1.0 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.1.0:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>Añadida base de datos.</li>
                 <li>Añadida lista de roscos.</li>
                 <li>Fallo de sonido arreglado.</li>
@@ -188,11 +200,11 @@ const Blog: React.FC = () => {
             </div>
 
             {/* Versión 1.0.0 */}
-            <div className="bg-white bg-opacity-10 p-6 my-4 rounded-lg space-y-2">
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
                 Versión 1.0.0:
               </h3>
-              <ul className="list-disc list-inside pl-4">
+              <ul className="pl-4 list-disc list-inside">
                 <li>Primera versión de la web</li>
               </ul>
             </div>

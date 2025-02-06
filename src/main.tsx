@@ -2,7 +2,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { UserProvider } from "./contexts/UserContext";
 import Game from "./pages/Game";
+import GameWB from "./pages/Game_WB";
 import Home from "./pages/Home";
+import HomeWB from "./pages/Home_WB";
 import Settings from "./pages/Settings";
 import Credits from "./pages/Credits";
 import Results from "./pages/Results";
@@ -25,7 +27,9 @@ root.render(
       <Routes>
         <Route path="*" element={<Home />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/home/no-bbdd" element={<HomeWB />} />
         <Route path="/game/:id" element={<Game />} />
+        <Route path="/game/no-bbdd" element={<GameWB />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/credits" element={<Credits />} />
         <Route path="/results" element={<Results />} />

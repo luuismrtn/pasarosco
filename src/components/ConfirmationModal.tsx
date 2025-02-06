@@ -18,8 +18,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   return (
     isModalOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-2/6 text-black">
-          <h2 className="text-2xl font-bold mb-4">
+        <div className="w-2/6 p-6 text-black bg-white rounded-lg shadow-lg">
+          <h2 className="mb-4 text-2xl font-bold">
             {text}
           </h2>
           <p className="mb-8 text-lg">
@@ -35,7 +35,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             </button>
             <button
               onClick={confirm}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500"
+              className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-500"
             >
               Confirmar
             </button>

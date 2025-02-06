@@ -73,26 +73,26 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-900 text-white p-8 flex flex-col items-center font-rubik">
+    <div className="flex flex-col items-center min-h-screen p-8 text-white bg-gradient-to-br from-purple-600 to-indigo-900 font-rubik">
       <BackButton
         onClick={() => navigate("/home")}
         hoverText="hover:text-purple-600"
       />
 
-      <div className="w-full max-w-7xl bg-white text-gray-800 rounded-2xl shadow-2xl p-8 overflow-hidden lg:max-w-5xl 2xl:max-w-6xl">
+      <div className="w-full p-8 overflow-hidden text-gray-800 bg-white shadow-2xl max-w-7xl rounded-2xl lg:max-w-5xl 2xl:max-w-6xl">
         {/* Encabezado del perfil */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-indigo-600 mb-2">
+        <div className="mb-10 text-center">
+          <h1 className="mb-2 text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-indigo-600">
             Perfil de Usuario
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-lg text-gray-600">
             Explora tu información y tus roscos creados
           </p>
         </div>
 
         {/* Información del usuario */}
-        <div className="bg-gradient-to-r from-purple-200 to-indigo-200 p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-2xl font-bold text-indigo-800 mb-4">
+        <div className="p-6 mb-8 shadow-md bg-gradient-to-r from-purple-200 to-indigo-200 rounded-xl">
+          <h2 className="mb-4 text-2xl font-bold text-indigo-800">
             Información Personal
           </h2>
           <p className="text-lg">
@@ -107,11 +107,11 @@ const Profile = () => {
 
         {/* Lista de roscos creados */}
         <div>
-          <h2 className="text-3xl font-bold text-purple-700 mb-6">
+          <h2 className="mb-6 text-3xl font-bold text-purple-700">
             Tus Roscos
           </h2>
           {userRoscos.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {userRoscos.map((rosco) => (
                 <RoscoCard
                   key={rosco.id}
@@ -125,7 +125,7 @@ const Profile = () => {
               ))}
             </div>
           ) : (
-            <div className="bg-purple-50 text-purple-800 rounded-lg p-6 text-center shadow-md">
+            <div className="p-6 text-center text-purple-800 rounded-lg shadow-md bg-purple-50">
               <p className="text-lg font-medium">
                 No has creado ningún rosco todavía.
               </p>

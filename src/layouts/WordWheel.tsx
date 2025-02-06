@@ -52,14 +52,14 @@ const WordWheel: React.FC<WordWheelProps> = ({
     <div className={`relative flex justify-center items-center w-full h-64 lg:h-32`}>
       {/* Letra activa en el centro */}
       {ready && (
-        <div className="absolute flex items-center justify-center w-32 h-32 text-white text-9xl font-bold rounded-full z-10 lg:text-8xl xl:text-9xl">
+        <div className="absolute z-10 flex items-center justify-center w-32 h-32 font-bold text-white rounded-full text-9xl lg:text-8xl xl:text-9xl">
           {letters[currentLetterIndex]}
         </div>
       )}
 
       {/* Letras alrededor del círculo */}
       <div className="absolute flex items-center justify-center w-full h-full">
-        <div className="relative w-48 h-48 rounded-full flex justify-center items-center">
+        <div className="relative flex items-center justify-center w-48 h-48 rounded-full">
           {letters.map((letter, index) => {
             const angle = (360 / letters.length) * index - 90;
             const x = radius * Math.cos((angle * Math.PI) / 180);
@@ -69,7 +69,7 @@ const WordWheel: React.FC<WordWheelProps> = ({
             return (
               <div
                 key={index}
-                className="absolute top-1/2 left-1/2 transform origin-center"
+                className="absolute origin-center transform top-1/2 left-1/2"
                 style={{
                   transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
                 }}

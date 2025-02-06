@@ -155,18 +155,18 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 flex flex-col justify-center items-center font-rubik text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen text-white bg-gradient-to-r from-indigo-600 to-purple-600 font-rubik">
       <BackButton onClick={goToMenu} hoverText="hover:text-indigo-600" />
 
       {/* Título */}
 
-      <h1 className="text-6xl font-extrabold mt-16 mb-20 text-white drop-shadow-lg md:text-6xl lg:mt-16 lg:mb-16">
+      <h1 className="mt-16 mb-20 text-6xl font-extrabold text-white drop-shadow-lg md:text-6xl lg:mt-16 lg:mb-16">
         Configuración
       </h1>
 
       {/* Contenedor para el volumen de música de fondo */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 text-center transform transition-all hover:scale-105 hover:shadow-xl lg:w-2/3">
-        <label htmlFor="bgVolume" className="text-2xl font-semibold mb-4 block">
+      <div className="w-1/3 p-8 text-center transition-all transform bg-white rounded-lg shadow-2xl bg-opacity-20 hover:scale-105 hover:shadow-xl lg:w-2/3">
+        <label htmlFor="bgVolume" className="block mb-4 text-2xl font-semibold">
           Volumen Música de Fondo
         </label>
         <div className="flex items-center justify-center space-x-4">
@@ -201,17 +201,17 @@ const Settings: React.FC = () => {
         {/* Botón para probar el sonido */}
         <button
           onClick={handlePlayMusic}
-          className="mt-6 py-2 px-6 bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="px-6 py-2 mt-6 text-white transition duration-300 ease-in-out transform bg-indigo-700 rounded-lg shadow-lg hover:bg-indigo-800 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           Probar Música
         </button>
       </div>
 
       {/* Contenedor para efectos de sonido */}
-      <div className="bg-white bg-opacity-20 p-8 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl lg:w-2/3">
+      <div className="w-1/3 p-8 mt-6 text-center transition-all transform bg-white rounded-lg shadow-2xl bg-opacity-20 hover:scale-105 hover:shadow-xl lg:w-2/3">
         <label
           htmlFor="effectVolume"
-          className="text-2xl font-semibold mb-4 block"
+          className="block mb-4 text-2xl font-semibold"
         >
           Volumen Efectos de Sonido
         </label>
@@ -247,17 +247,17 @@ const Settings: React.FC = () => {
         {/* Botón para probar el sonido */}
         <button
           onClick={handlePlayEffectSound}
-          className="mt-6 py-2 px-6 bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="px-6 py-2 mt-6 text-white transition duration-300 ease-in-out transform bg-indigo-700 rounded-lg shadow-lg hover:bg-indigo-800 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           Probar Efecto
         </button>
       </div>
 
       {/* Contenedor para mostrar el ID del rosco */}
-      <div className="bg-white bg-opacity-20 p-8 mb-16 rounded-lg shadow-2xl w-1/3 mt-6 text-center transform transition-all hover:scale-105 hover:shadow-xl lg:w-2/3">
+      <div className="w-1/3 p-8 mt-6 mb-16 text-center transition-all transform bg-white rounded-lg shadow-2xl bg-opacity-20 hover:scale-105 hover:shadow-xl lg:w-2/3">
         <label
           htmlFor="showRoscoId"
-          className="text-2xl font-semibold mb-4 block"
+          className="block mb-4 text-2xl font-semibold"
         >
           ¿Mostrar el ID del Rosco en la pantalla?
         </label>

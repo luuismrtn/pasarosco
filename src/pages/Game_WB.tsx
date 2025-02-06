@@ -1,6 +1,6 @@
 import { Howl } from "howler";
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import WordWheel from "../layouts/WordWheel";
 import Question from "../layouts/Question";
@@ -13,17 +13,12 @@ import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
 import BgGame from "../assets/sounds/bg_game.wav";
 import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
-import { RoscoService } from "../data/RoscoService";
-
-import Loader from "../layouts/Loader";
 
 const Game: React.FC = () => {
-  const { id } = useParams() as { id: string };
-  const [rosco, setRosco] = useState<Word[]>([]);
+  const [id] = useState<string>("no-bbdd");
   const navigate = useNavigate();
-  const [time, setTime] = useState<number>(120);
-  const [words, setWords] = useState<Word[]>(rosco);
-  const [isloading, setLoading] = useState(true);
+  const [time] = useState<number>(120);
+  const [words, setWords] = useState<Word[]>([]);
   const [index, setIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
@@ -38,59 +33,208 @@ const Game: React.FC = () => {
   const [effectVolume, setEffectVolume] = useState<number>(0.3);
   const [isEffectsMuted, setIsEffectsMuted] = useState<boolean>(false);
 
-  const [isId, setIsId] = useState<boolean>(true);
-
-  const roscosService = new RoscoService();
-
-  const wait = (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
-
   useEffect(() => {
-    const fetchRosco = async () => {
-      try {
-        const roscoData = await roscosService.getRoscoById(id);
-        if (!roscoData) {
-          console.error("Rosco no encontrado.");
-          return;
-        }
+      
+    const words = [
+      {
+        word: ["amigo"],
+        letter: "A",
+        status: "pending",
+        definition:
+          "Persona con la que se tiene una relación de afecto y confianza.",
+        letterType: "start",
+      },
+      {
+        word: ["bicicleta", "bici"],
+        letter: "B",
+        status: "pending",
+        definition: "Vehículo de dos ruedas impulsado por pedales.",
+        letterType: "start",
+      },
+      {
+        word: ["casa"],
+        letter: "C",
+        status: "pending",
+        definition: "Lugar donde vive una persona o una familia.",
+        letterType: "start",
+      },
+      {
+        word: ["delfín"],
+        letter: "D",
+        status: "pending",
+        definition:
+          "Mamífero marino conocido por su inteligencia y su forma alargada.",
+        letterType: "start",
+      },
+      {
+        word: ["elefante"],
+        letter: "E",
+        status: "pending",
+        definition:
+          "El mamífero terrestre más grande, con trompa y grandes orejas.",
+        letterType: "start",
+      },
+      {
+        word: ["fresa"],
+        letter: "F",
+        status: "pending",
+        definition: "Fruta roja pequeña y dulce con semillas en su superficie.",
+        letterType: "start",
+      },
+      {
+        word: ["gato"],
+        letter: "G",
+        status: "pending",
+        definition: "Animal doméstico conocido por su agilidad y ronroneo.",
+        letterType: "start",
+      },
+      {
+        word: ["huevo"],
+        letter: "H",
+        status: "pending",
+        definition: "Producto ovalado puesto por aves, muy usado en la cocina.",
+        letterType: "start",
+      },
+      {
+        word: ["iglesia"],
+        letter: "I",
+        status: "pending",
+        definition: "Edificio destinado al culto religioso cristiano.",
+        letterType: "start",
+      },
+      {
+        word: ["jardín"],
+        letter: "J",
+        status: "pending",
+        definition: "Espacio al aire libre con plantas, flores y césped.",
+        letterType: "start",
+      },
+      {
+        word: ["koala"],
+        letter: "K",
+        status: "pending",
+        definition: "Animal marsupial que vive en los árboles de Australia.",
+        letterType: "start",
+      },
+      {
+        word: ["lámpara"],
+        letter: "L",
+        status: "pending",
+        definition: "Objeto que da luz artificial.",
+        letterType: "start",
+      },
+      {
+        word: ["manzana"],
+        letter: "M",
+        status: "pending",
+        definition:
+          "Fruta redonda y jugosa, que puede ser roja, verde o amarilla.",
+        letterType: "start",
+      },
+      {
+        word: ["nube"],
+        letter: "N",
+        status: "pending",
+        definition: "Conjunto visible de gotas de agua suspendidas en el aire.",
+        letterType: "start",
+      },
+      {
+        word: ["oso"],
+        letter: "O",
+        status: "pending",
+        definition: "Animal grande y peludo que vive en bosques y montañas.",
+        letterType: "start",
+      },
+      {
+        word: ["plátano"],
+        letter: "P",
+        status: "pending",
+        definition: "Fruta alargada y amarilla que crece en racimos.",
+        letterType: "start",
+      },
+      {
+        word: ["queso"],
+        letter: "Q",
+        status: "pending",
+        definition:
+          "Alimento sólido derivado de la leche, con variedad de sabores y texturas.",
+        letterType: "start",
+      },
+      {
+        word: ["ratón"],
+        letter: "R",
+        status: "pending",
+        definition:
+          "Pequeño roedor conocido por habitar en las casas y ser muy ágil.",
+        letterType: "start",
+      },
+      {
+        word: ["sol"],
+        letter: "S",
+        status: "pending",
+        definition: "Estrella que da luz y calor a la Tierra.",
+        letterType: "start",
+      },
+      {
+        word: ["tigre"],
+        letter: "T",
+        status: "pending",
+        definition: "Felino salvaje de rayas negras y naranjas.",
+        letterType: "start",
+      },
+      {
+        word: ["uva"],
+        letter: "U",
+        status: "pending",
+        definition:
+          "Fruta pequeña y redonda que crece en racimos, usada para hacer vino.",
+        letterType: "start",
+      },
+      {
+        word: ["vaca"],
+        letter: "V",
+        status: "pending",
+        definition: "Animal que produce leche y carne, común en las granjas.",
+        letterType: "start",
+      },
+      {
+        word: ["wifi"],
+        letter: "W",
+        status: "pending",
+        definition:
+          "Tecnología que permite la conexión inalámbrica a internet.",
+        letterType: "start",
+      },
+      {
+        word: ["xilófono"],
+        letter: "X",
+        status: "pending",
+        definition:
+          "Instrumento musical de percusión formado por láminas de madera.",
+        letterType: "start",
+      },
+      {
+        word: ["yate"],
+        letter: "Y",
+        status: "pending",
+        definition: "Embarcación de lujo usada para recreación.",
+        letterType: "start",
+      },
+      {
+        word: ["zorro"],
+        letter: "Z",
+        status: "pending",
+        definition: "Mamífero carnívoro conocido por su astucia.",
+        letterType: "start",
+      },
+    ] as Word[];
 
-        const data = roscoData.words.map((word: Word) => ({
-          ...word,
-          status: "pending" as "pending",
-        }));
-        setRemainingTime(roscoData.time);
-        setTime(roscoData.time);
-        setRosco(data);
-        setWords(data);
-        setCorrectAnswers(0);
-        setWrongAnswers(0);
-
-        correctSoundRef.current.load();
-        incorrectSoundRef.current.load();
-        bgMusicRef.current.load();
-        pipSoundRef.current.load();
-        startSoundRef.current.load();
-
-        await wait(500);
-
-        setLoading(false);
-        if (!isEffectsMuted) {
-          pipSoundRef.current.play();
-        }
-      } catch (error) {
-        console.error("Error al obtener el rosco:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchRosco();
+    setWords(words);
 
     const savedBgVolume = localStorage.getItem("bgVolume");
     const savedIsBgMuted = localStorage.getItem("isBgMuted");
     const savedEffectVolume = localStorage.getItem("effectVolume");
     const savedEffectsMuted = localStorage.getItem("isEffectsMuted");
-    const savedShowRoscoId = localStorage.getItem("showRoscoId");
 
     if (savedBgVolume) {
       setBgVolume(parseFloat(savedBgVolume));
@@ -104,9 +248,6 @@ const Game: React.FC = () => {
     if (savedEffectsMuted) {
       setIsEffectsMuted(savedEffectsMuted === "true");
     }
-    if (savedShowRoscoId) {
-      setIsId(savedShowRoscoId === "true");
-    }
 
     return () => {
       if (!isBgMuted) {
@@ -118,7 +259,6 @@ const Game: React.FC = () => {
     };
   }, []);
 
-  // Inicialización de sonidos
   const correctSoundRef = useRef(
     new Howl({ src: [CorrectSound], volume: isEffectsMuted ? 0 : effectVolume })
   );
@@ -147,8 +287,6 @@ const Game: React.FC = () => {
   );
 
   useEffect(() => {
-    if (isloading) return;
-
     if (countdown === -1) {
       setGameStarted(true);
       bgMusicRef.current.play();
@@ -172,7 +310,7 @@ const Game: React.FC = () => {
     }
 
     return () => clearInterval(timer);
-  }, [countdown, isloading]);
+  }, [countdown]);
 
   useEffect(() => {
     if (gameStarted && remainingTime === 0) {
@@ -253,12 +391,12 @@ const Game: React.FC = () => {
     if (!isBgMuted) {
       bgMusicRef.current.stop();
     }
-    navigate("/home");
+    navigate("/home/no-bbdd");
   };
 
   const restartGame = () => {
     bgMusicRef.current.stop();
-    const resetWords: Word[] = rosco.map((word) => ({
+    const resetWords: Word[] = words.map((word) => ({
       ...word,
       status: "pending" as "pending",
     }));
@@ -308,10 +446,6 @@ const Game: React.FC = () => {
     startSoundRef.current.volume(isEffectsMuted ? 0 : effectVolume);
   }, [effectVolume, isEffectsMuted]);
 
-  if (isloading) {
-    return <Loader />;
-  }
-
   return (
     <div className="flex flex-col min-h-screen bg-primary font-rubik">
       {/* Fondo animado */}
@@ -324,13 +458,6 @@ const Game: React.FC = () => {
       >
         <ArrowLeftIcon className="w-8 h-8" />
       </button>
-
-      {/* ID */}
-      {isId && (
-        <p className="absolute text-base text-white opacity-50 bottom-4 left-4">
-          {id}
-        </p>
-      )}
 
       {/* Botón para reiniciar el juego */}
       <button

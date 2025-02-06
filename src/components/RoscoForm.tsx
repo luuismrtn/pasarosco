@@ -187,15 +187,15 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-indigo-800 p-8 flex flex-col items-center font-rubik">
-      <h1 className="text-4xl font-bold text-white mb-8">{text}</h1>
+    <div className="flex flex-col items-center min-h-screen p-8 bg-gradient-to-br from-primary to-indigo-800 font-rubik">
+      <h1 className="mb-8 text-4xl font-bold text-white">{text}</h1>
 
       <BackButton onClick={goToBack} hoverText="hover:text-primary" />
 
-      <div className="grid grid-cols-2 gap-6 w-2/3 mb-8">
+      <div className="grid w-2/3 grid-cols-2 gap-6 mb-8">
         <div className="flex flex-col space-y-6">
           <div>
-            <label className="text-white font-bold mb-2">
+            <label className="mb-2 font-bold text-white">
               Nombre del Rosco
             </label>
             <input
@@ -213,7 +213,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
           </div>
 
           <div>
-            <label className="text-white font-bold mb-2">Dificultad</label>
+            <label className="mb-2 font-bold text-white">Dificultad</label>
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
@@ -236,7 +236,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
 
         <div className="flex flex-col space-y-6">
           <div>
-            <label className="text-white font-bold mb-2">
+            <label className="mb-2 font-bold text-white">
               Tiempo (segundos)
             </label>
             <input
@@ -251,7 +251,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
             {errors.time && <p className="text-red-500">{errors.time}</p>}
           </div>
           <div>
-            <label className="text-white font-bold mb-2">Temática</label>
+            <label className="mb-2 font-bold text-white">Temática</label>
             <select
               value={theme}
               onChange={(e) => setTheme(e.target.value)}
@@ -274,7 +274,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
       <div className="w-2/3">
         {alphabet.map((letter) => (
           <div key={letter} className="flex flex-col items-start mb-4">
-            <div className="mb-2 w-full">
+            <div className="w-full mb-2">
               <input
                 type="text"
                 value={definitions[letter] || ""}
@@ -294,7 +294,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
                 <select
                   onChange={(e) => handleWordTypeChange(letter, e.target.value)}
                   value={wordType[letter] || "start"}
-                  className="p-3 text-black rounded-lg shadow-md w-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-32 p-3 text-black rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="start">Empieza</option>
                   <option value="contains">Contiene</option>
@@ -331,7 +331,7 @@ const RoscoForm: React.FC<RoscoFormProps> = ({
 
       <button
         onClick={handleCreate}
-        className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all duration-300"
+        className="px-6 py-3 mt-6 text-white transition-all duration-300 bg-blue-600 rounded-lg hover:bg-blue-500"
       >
         Guardar Cambios
       </button>

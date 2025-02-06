@@ -119,8 +119,8 @@ const RoscosListPage = () => {
 
   return (
     <div className="font-rubik">
-      <div className="min-h-screen bg-gradient-to-br from-blue-600 to-indigo-800 text-white p-8">
-        <h1 className="text-4xl font-bold text-center mb-8 drop-shadow-lg mt-10">
+      <div className="min-h-screen p-8 text-white bg-gradient-to-br from-blue-600 to-indigo-800">
+        <h1 className="mt-10 mb-8 text-4xl font-bold text-center drop-shadow-lg">
           Lista de Roscos
         </h1>
 
@@ -128,7 +128,7 @@ const RoscosListPage = () => {
         <BackButton onClick={goToMenu} hoverText="hover:text-blue-600" />
 
         {/* Botones de crear y unirse a un rosco */}
-        <div className="absolute top-8 right-8 flex flex-col items-end justify-end gap-4">
+        <div className="absolute flex flex-col items-end justify-end gap-4 top-8 right-8">
           {/* Botón de crear nuevo rosco */}
           {user ? (
             <ButtonSection
@@ -148,7 +148,7 @@ const RoscosListPage = () => {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row justify-center items-center mb-8 gap-4 text-gray-900">
+        <div className="flex flex-col items-center justify-center gap-4 mb-8 text-gray-900 md:flex-row">
           {/* Filtro por temática */}
           <div className="relative">
             <select
@@ -156,7 +156,7 @@ const RoscosListPage = () => {
               onChange={(e) =>
                 setFilters({ ...filters, theme: e.target.value })
               }
-              className="p-3 pl-4 pr-8 bg-white text-gray-800 rounded-lg border-2 border-purple-300 focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-sm transition duration-200 hover:shadow-md"
+              className="p-3 pl-4 pr-8 text-gray-800 transition duration-200 bg-white border-2 border-purple-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none hover:shadow-md"
             >
               <option value="">Todas las temáticas</option>
               <option value="Random">Random</option>
@@ -174,7 +174,7 @@ const RoscosListPage = () => {
               onChange={(e) =>
                 setFilters({ ...filters, difficulty: e.target.value })
               }
-              className="p-3 pl-4 pr-8 bg-white text-gray-800 rounded-lg border-2 border-blue-300 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm transition duration-200 hover:shadow-md"
+              className="p-3 pl-4 pr-8 text-gray-800 transition duration-200 bg-white border-2 border-blue-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none hover:shadow-md"
             >
               <option value="">Todas las dificultades</option>
               <option value="Super Easy">Muy Fácil</option>
@@ -190,7 +190,7 @@ const RoscosListPage = () => {
             <select
               value={filters.sort}
               onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
-              className="p-3 pl-4 pr-8 bg-white text-gray-800 rounded-lg border-2 border-green-300 focus:ring-2 focus:ring-green-500 focus:outline-none shadow-sm transition duration-200 hover:shadow-md"
+              className="p-3 pl-4 pr-8 text-gray-800 transition duration-200 bg-white border-2 border-green-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none hover:shadow-md"
             >
               <option value="recent">Más recientes</option>
               <option value="oldest">Más antiguos</option>
@@ -198,48 +198,48 @@ const RoscosListPage = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:max-w-5xl 2xl:max-w-6xl">
+        <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:max-w-5xl 2xl:max-w-6xl">
           {filteredRoscos.length > 0 ? (
             filteredRoscos.map((rosco) => (
               <RoscoCard key={rosco.id} rosco={rosco} onClick={goToGame} />
             ))
           ) : (
-            <div className="text-center text-lg text-gray-500">
+            <div className="text-lg text-center text-gray-500">
               No hay roscos disponibles.
             </div>
           )}
         </div>
         {isModalCreateOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md">
-            <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl text-center">
+            <div className="w-full max-w-2xl p-8 text-center bg-white shadow-2xl rounded-2xl">
               {/* Ícono de éxito */}
               <div className="mb-4">
-                <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto" />
+                <CheckCircleIcon className="w-16 h-16 mx-auto text-green-500" />
               </div>
 
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              <h2 className="mb-2 text-3xl font-bold text-gray-800">
                 ¡Rosco creado con éxito!
               </h2>
-              <p className="text-gray-600 mb-6 text-lg text-balance">
+              <p className="mb-6 text-lg text-gray-600 text-balance">
                 Para jugar este rosco, comparte el siguiente código con tus
                 amigos o el URL.
               </p>
 
               {/* Mostrar Código */}
-              <div className="bg-gray-100 p-4 rounded-md text-gray-800 font-mono text-lg">
+              <div className="p-4 font-mono text-lg text-gray-800 bg-gray-100 rounded-md">
                 <span className="font-semibold">Código: </span>
                 {code}
                 <button
                   onClick={() => copyToClipboard(code)}
-                  className="ml-4 p-2 text-gray-500 hover:text-gray-700"
+                  className="p-2 ml-4 text-gray-500 hover:text-gray-700"
                   title="Copiar al portapapeles"
                 >
-                  <ClipboardIcon className="h-5 w-5 inline-block" />
+                  <ClipboardIcon className="inline-block w-5 h-5" />
                 </button>
               </div>
 
               {/* Mostrar URL */}
-              <div className="bg-gray-100 p-4 rounded-md text-gray-800 font-mono text-lg mb-6">
+              <div className="p-4 mb-6 font-mono text-lg text-gray-800 bg-gray-100 rounded-md">
                 <span className="font-semibold">URL: </span>
                 <span className="text-blue-600">{`${window.location.origin}/game/${code}`}</span>
                 <button
@@ -248,16 +248,16 @@ const RoscosListPage = () => {
                       `${window.location.origin}/game/${code}`
                     )
                   }
-                  className="ml-4 p-2 text-gray-500 hover:text-gray-700"
+                  className="p-2 ml-4 text-gray-500 hover:text-gray-700"
                   title="Copiar URL"
                 >
-                  <ClipboardIcon className="h-5 w-5 inline-block" />
+                  <ClipboardIcon className="inline-block w-5 h-5" />
                 </button>
               </div>
 
               <button
                 onClick={confirmCode}
-                className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-lg transition-all duration-300"
+                className="px-6 py-3 text-white transition-all duration-300 bg-blue-600 rounded-full shadow-lg hover:bg-blue-700"
               >
                 Confirmar
               </button>
@@ -266,14 +266,14 @@ const RoscosListPage = () => {
         )}
         {isModalJoinOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md">
-            <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl text-center">
+            <div className="w-full max-w-2xl p-8 text-center bg-white shadow-2xl rounded-2xl">
               {/* Título del modal */}
-              <h2 className="text-3xl font-semibold text-gray-900 mb-4 drop-shadow-lg">
+              <h2 className="mb-4 text-3xl font-semibold text-gray-900 drop-shadow-lg">
                 Unirse a un Rosco
               </h2>
 
               {/* Mensaje */}
-              <p className="text-gray-700 mb-6 text-lg font-medium">
+              <p className="mb-6 text-lg font-medium text-gray-700">
                 Ingresa el código único del rosco para unirte y comenzar a
                 jugar.
               </p>
@@ -288,12 +288,12 @@ const RoscosListPage = () => {
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value)}
               />
-              {joinError && <p className="text-red-500 mb-6">{joinError}</p>}
+              {joinError && <p className="mb-6 text-red-500">{joinError}</p>}
 
               {/* Botón para unirse */}
               <button
                 onClick={() => handleJoinRosco(joinCode)}
-                className="w-full px-6 py-3 mb-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                className="w-full px-6 py-3 mb-4 text-white transition-all duration-300 ease-in-out transform bg-blue-600 rounded-full shadow-md hover:bg-blue-700 hover:scale-105"
               >
                 Unirse
               </button>
@@ -301,7 +301,7 @@ const RoscosListPage = () => {
               {/* Botón para cerrar el modal */}
               <button
                 onClick={() => setIsModalJoinOpen(false)}
-                className="w-full px-6 py-3 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105"
+                className="w-full px-6 py-3 text-gray-800 transition-all duration-300 ease-in-out transform bg-gray-200 rounded-full shadow-md hover:bg-gray-300 hover:scale-105"
               >
                 Cancelar
               </button>

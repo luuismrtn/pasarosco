@@ -44,18 +44,18 @@ const RoscoCard: React.FC<RoscoCardProps> = ({
 
   return (
     <div
-      className="bg-white text-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl cursor-pointer"
+      className="overflow-hidden text-gray-900 transition-all transform bg-white rounded-lg shadow-lg cursor-pointer hover:scale-105 hover:shadow-xl"
       onClick={() => onClick(rosco.id)}
     >
       {/* Imagen del rosco */}
       <img
         src={getImageByTheme(rosco.theme)}
         alt={`Imagen de ${rosco.name}`}
-        className="w-full h-48 object-cover"
+        className="object-cover w-full h-48"
       />
       {/* Contenido del rosco */}
       <div className="p-6 bg-white rounded-lg shadow-lg">
-        <div className="flex justify-between items-center pb-4">
+        <div className="flex items-center justify-between pb-4">
           <h3 className="text-2xl font-semibold text-indigo-700">
             {rosco.name || "Sin nombre"}
           </h3>
@@ -82,7 +82,7 @@ const RoscoCard: React.FC<RoscoCardProps> = ({
 
         {/* Círculo azul con el tiempo debajo de la dificultad */}
         <div className="flex justify-end">
-          <div className="absolute w-14 h-14 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg font-semibold">
+          <div className="absolute flex items-center justify-center text-lg font-semibold text-white bg-blue-500 rounded-full w-14 h-14">
             {rosco.time} s
           </div>
         </div>
@@ -106,13 +106,13 @@ const RoscoCard: React.FC<RoscoCardProps> = ({
 
         {/* Botones de Editar, Eliminar, y Compartir */}
         {editable && (
-          <div className="flex mt-4 space-x-2 h-5">
+          <div className="flex h-5 mt-4 space-x-2">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onEdit && onEdit(rosco.id);
               }}
-              className="flex-1 flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out transform hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-blue-300"
+              className="flex items-center justify-center flex-1 p-4 text-white transition-all duration-300 ease-out transform rounded-lg shadow-xl bg-gradient-to-r from-blue-500 to-blue-700 hover:shadow-2xl hover:scale-105 hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
               <PencilIcon className="w-6 h-6" />
             </button>
@@ -121,7 +121,7 @@ const RoscoCard: React.FC<RoscoCardProps> = ({
                 e.stopPropagation();
                 onDelete && onDelete(rosco.id);
               }}
-              className="flex-1 flex items-center justify-center bg-gradient-to-r from-red-500 to-red-700 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out transform hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-red-300"
+              className="flex items-center justify-center flex-1 p-4 text-white transition-all duration-300 ease-out transform rounded-lg shadow-xl bg-gradient-to-r from-red-500 to-red-700 hover:shadow-2xl hover:scale-105 hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-red-300"
             >
               <TrashIcon className="w-6 h-6" />
             </button>
@@ -130,7 +130,7 @@ const RoscoCard: React.FC<RoscoCardProps> = ({
                 e.stopPropagation();
                 onShare && onShare(rosco.id);
               }}
-              className="flex-1 flex items-center justify-center bg-gradient-to-r from-green-500 to-green-700 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-out transform hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-green-300"
+              className="flex items-center justify-center flex-1 p-4 text-white transition-all duration-300 ease-out transform rounded-lg shadow-xl bg-gradient-to-r from-green-500 to-green-700 hover:shadow-2xl hover:scale-105 hover:rotate-2 focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               <ShareIcon className="w-6 h-6" />
             </button>
