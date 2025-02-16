@@ -235,7 +235,7 @@ const Home: React.FC = () => {
 
       {/* Versión de la app en la parte inferior izquierda */}
       <div className="absolute text-sm font-medium text-white bottom-4 left-4 font-rubik">
-        Versión 1.3.5
+        Versión 1.3.6
       </div>
     </div>
   );

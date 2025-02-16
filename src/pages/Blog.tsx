@@ -27,6 +27,16 @@ const Blog: React.FC = () => {
             Historial de Versiones
           </h2>
           <div>
+            {/* Versión 1.3.6 */}
+            <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
+              <h3 className="text-xl font-semibold text-yellow-300">
+                Versión 1.3.6:
+              </h3>
+              <ul className="pl-4 list-disc list-inside">
+                <li>BUG FIX: Ahora cuando se pasapalabra el inputText se limpia para, al dar enter para continuar, no se envie como respuesta.</li>
+              </ul>
+            </div>
+            
             {/* Versión 1.3.5 */}
             <div className="p-6 my-4 space-y-2 bg-white rounded-lg bg-opacity-10">
               <h3 className="text-xl font-semibold text-yellow-300">
