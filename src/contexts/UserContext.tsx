@@ -15,6 +15,7 @@ interface UserContextType {
   loadingUser: boolean;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   roscosService: RoscoService;
+  connectionError: boolean;
 }
 interface UserProviderProps {
   children: ReactNode;
@@ -25,15 +26,60 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
+  const [connectionError, setConnectionError] = useState<boolean>(false);
 
   const roscosService = useMemo(() => new RoscoService(), []);
-
   const supabase = roscosService.getSupabase();
+
+  const checkDatabaseConnection = async () => {
+    try {
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Tiempo de espera agotado")), 1000);
+      });
+
+      const connectionCheckPromise = async () => {
+        try {
+          return await supabase
+            .from('_test_connection')
+            .select('count(*)', { count: 'exact', head: true })
+            .limit(1);
+        } catch {
+          return { error: true };
+        }
+      };
+
+      const result = await Promise.race([
+        connectionCheckPromise,
+        timeoutPromise,
+      ]);
+
+      if (result && typeof result === 'object' && 'error' in result) {
+        setConnectionError(true);
+        return false;
+      }
+      
+      setConnectionError(false);
+      return true;
+    } catch (err) {
+      console.error("Error al verificar conexión con la base de datos:", err);
+      setConnectionError(true);
+      return false;
+    }
+  };
 
   const fetchUserFromSession = async () => {
     try {
+      const isConnected = await checkDatabaseConnection();
+      
+      if (!isConnected) {
+        console.error("No hay conexión a la base de datos");
+        setUser("bbdd" as unknown as User);
+        setLoadingUser(false);
+        return;
+      }
+
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error("Tiempo de espera agotado")), 2000);
+        setTimeout(() => reject(new Error("Tiempo de espera agotado")), 1500);
       });
 
       const sessionPromise = supabase.auth.getSession();
@@ -64,7 +110,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           new Promise((_, reject) =>
             setTimeout(
               () => reject(new Error("Tiempo de espera agotado")),
-              3000
+              2000
             )
           ),
         ])) as any;
@@ -83,6 +129,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
     } catch (err) {
       console.error("Error inesperado al obtener la sesión:", err);
+      setConnectionError(true);
       setUser("bbdd" as unknown as User);
     } finally {
       setLoadingUser(false);
@@ -92,24 +139,30 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     fetchUserFromSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session?.user) {
-          fetchUserFromSession();
-        } else {
-          setUser(null);
-          setLoadingUser(false);
-        }
-      }
-    );
+    const { data: authListener } = !connectionError 
+      ? supabase.auth.onAuthStateChange(
+          (_event, session) => {
+            if (session?.user) {
+              fetchUserFromSession();
+            } else {
+              checkDatabaseConnection().then(isConnected => {
+                if (!isConnected) {
+                  console.log("Base de datos no disponible");
+                }
+                setUser("bbdd" as unknown as User);
+                setLoadingUser(false);
+              });
+            }
+          }
+        )
+      : { data: { subscription: { unsubscribe: () => {} } } };
 
     return () => {
       authListener?.subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, [connectionError]);
 
   const getUser = (): User | null => {
-    console.log("getUser", user);
     return user;
   };
 
@@ -120,6 +173,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         loadingUser,
         setUser,
         roscosService,
+        connectionError,
       }}
     >
       {children}

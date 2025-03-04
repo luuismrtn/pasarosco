@@ -34,6 +34,7 @@ const Blog: React.FC = () => {
               </h3>
               <ul className="pl-4 list-disc list-inside">
                 <li>BUG FIX: Ahora cuando se pasapalabra el inputText se limpia para, al dar enter para continuar, no se envie como respuesta.</li>
+                <li>BUG FIX: Ahora el sistema reconoce si la base de datos está activa o no aunque no haya una sesión iniciada.</li>
               </ul>
             </div>
             
