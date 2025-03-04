@@ -27,7 +27,6 @@ const Results: React.FC = () => {
     navigate("/home");
   };
 
-  // Función para determinar el color de cada palabra según el estado
   const getStatusColor = (status: "correct" | "incorrect" | "pending") => {
     switch (status) {
       case "correct":

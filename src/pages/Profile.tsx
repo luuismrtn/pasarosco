@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router";
 import Loader from "../layouts/Loader";
-import { Rosco } from "../types/types";
+import { Rosco, User } from "../types/types";
 import BackButton from "../components/BackButton";
 import RoscoCard from "../components/RoscoCard";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -21,6 +21,12 @@ const Profile = () => {
       navigate("/login");
     }
   }, [loadingUser, user, navigate]);
+
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (loadingUser || !user) {

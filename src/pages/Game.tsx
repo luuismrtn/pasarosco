@@ -5,7 +5,7 @@ import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import WordWheel from "../layouts/WordWheel";
 import Question from "../layouts/Question";
 import Score from "../layouts/Score";
-import { Word } from "../types/types";
+import { User, Word } from "../types/types";
 import Background from "../layouts/Background";
 
 import CorrectSound from "../assets/sounds/correct_sound.wav";
@@ -13,9 +13,9 @@ import IncorrectSound from "../assets/sounds/incorrect_sound.wav";
 import BgGame from "../assets/sounds/bg_game.wav";
 import PipSound from "../assets/sounds/pip-number.wav";
 import StartSound from "../assets/sounds/start_sound.wav";
-import { RoscoService } from "../data/RoscoService";
 
 import Loader from "../layouts/Loader";
+import { useUser } from "../contexts/UserContext";
 
 const Game: React.FC = () => {
   const { id } = useParams() as { id: string };
@@ -37,10 +37,15 @@ const Game: React.FC = () => {
   const [isBgMuted, setIsBgMuted] = useState<boolean>(false);
   const [effectVolume, setEffectVolume] = useState<number>(0.3);
   const [isEffectsMuted, setIsEffectsMuted] = useState<boolean>(false);
+  const { user, roscosService } = useUser();
 
   const [isId, setIsId] = useState<boolean>(true);
 
-  const roscosService = new RoscoService();
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
+    }
+  }, [user]);
 
   const wait = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms));

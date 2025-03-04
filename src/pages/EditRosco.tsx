@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { Rosco, Word } from "../types/types";
+import { Rosco, User, Word } from "../types/types";
 import RoscoForm from "../components/RoscoForm";
 import { useUser } from "../contexts/UserContext";
 import Loader from "../layouts/Loader";
@@ -22,6 +22,12 @@ const EditRosco: React.FC = () => {
   useEffect(() => {
     if (!loadingUser && !user) {
       navigate("/login");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
     }
   }, [user]);
 
@@ -91,7 +97,6 @@ const EditRosco: React.FC = () => {
       navigate("/roscos", {
         state: { update: true, code: id },
       });
-      
     } catch (error) {
       console.error("Error al actualizar el rosco:", error);
     }

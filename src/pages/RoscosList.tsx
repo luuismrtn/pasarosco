@@ -7,7 +7,7 @@ import {
   CheckCircleIcon,
   ArrowRightCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Rosco } from "../types/types";
+import { Rosco, User } from "../types/types";
 import Loader from "../layouts/Loader";
 import ButtonSection from "../components/ButtonSection";
 import RoscoCard from "../components/RoscoCard";
@@ -29,6 +29,12 @@ const RoscosListPage = () => {
     difficulty: "",
     sort: "recent",
   });
+
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchRoscos = async () => {
@@ -244,9 +250,7 @@ const RoscosListPage = () => {
                 <span className="text-blue-600">{`${window.location.origin}/game/${code}`}</span>
                 <button
                   onClick={() =>
-                    copyToClipboard(
-                      `${window.location.origin}/game/${code}`
-                    )
+                    copyToClipboard(`${window.location.origin}/game/${code}`)
                   }
                   className="p-2 ml-4 text-gray-500 hover:text-gray-700"
                   title="Copiar URL"

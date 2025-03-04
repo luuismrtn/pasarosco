@@ -2,15 +2,22 @@ import React, { useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router";
 import BackButton from "../components/BackButton";
+import { User } from "types";
 
 const Signup: React.FC = () => {
-  const { roscosService } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { user, roscosService } = useUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
+    }
+  }, [user]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,10 +27,15 @@ const Signup: React.FC = () => {
     try {
       const { error: signUpError } = await roscosService
         .getSupabase()
-        .auth.signUp({ email, password, options: {
+        .auth.signUp({
+          email,
+          password,
+          options: {
             data: {
               user_name: username,
-            } }});
+            },
+          },
+        });
 
       if (signUpError) {
         console.error("Error al registrar el usuario:", signUpError);
@@ -46,7 +58,10 @@ const Signup: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-teal-500">
-      <BackButton onClick={() => navigate("/home")} hoverText="hover:text-teal-600" />
+      <BackButton
+        onClick={() => navigate("/home")}
+        hoverText="hover:text-teal-600"
+      />
       <div className="w-full max-w-md p-8 transition-all transform bg-white rounded-lg shadow-2xl">
         <h1 className="mb-6 text-3xl font-extrabold text-center text-teal-600">
           Crea tu cuenta
@@ -132,3 +147,6 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
+function useEffect(arg0: () => void, arg1: any[]) {
+  throw new Error("Function not implemented.");
+}

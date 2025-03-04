@@ -1,14 +1,15 @@
-import React, { useState, useRef } from "react";
-import { RoscoService } from "../data/RoscoService";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import BackButton from "../components/BackButton";
+import { useUser } from "../contexts/UserContext";
+import { User } from "types";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const roscosService = new RoscoService();
+  const { user, roscosService } = useUser();
   const navigate = useNavigate();
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -43,13 +44,18 @@ const Login: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
+    }
+  }, [user]);
+
   const goToMenu = () => {
     navigate("/home");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-500 to-indigo-500 font-rubik">
-
       {/* Botón de retroceso */}
       <BackButton onClick={goToMenu} hoverText="hover:text-purple-600" />
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Word } from "../types/types";
+import { User, Word } from "../types/types";
 import Loader from "../layouts/Loader";
 import Instructions from "../layouts/Instructions";
 import { useUser } from "../contexts/UserContext";
@@ -47,8 +47,19 @@ const CreateRosco: React.FC = () => {
     setWords(initialWords);
   }, []);
 
-  const confirmCreate = async (words: Word[], theme: string, time: number, roscoName: string, difficulty: string) => {
+  useEffect(() => {
+    if (user == ("bbdd" as unknown as User)) {
+      navigate("/home/no-bbdd");
+    }
+  }, [user]);
 
+  const confirmCreate = async (
+    words: Word[],
+    theme: string,
+    time: number,
+    roscoName: string,
+    difficulty: string
+  ) => {
     try {
       const id = await roscosService.saveRosco(
         words,
@@ -90,7 +101,13 @@ const CreateRosco: React.FC = () => {
       {!isAccept ? (
         <Instructions onAccept={handleAccept} />
       ) : (
-        <RoscoForm initialWords={words} initialDefinitions={definitions} initialWordTypes={wordType} text="Crear Rosco" onSubmit={confirmCreate} />
+        <RoscoForm
+          initialWords={words}
+          initialDefinitions={definitions}
+          initialWordTypes={wordType}
+          text="Crear Rosco"
+          onSubmit={confirmCreate}
+        />
       )}
     </div>
   );
