@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router";
 import BackButton from "../components/BackButton";
@@ -147,6 +147,3 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
-function useEffect(arg0: () => void, arg1: any[]) {
-  throw new Error("Function not implemented.");
-}
