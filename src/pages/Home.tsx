@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (user == "bbdd" as unknown as User) {
+    if (user == ("bbdd" as unknown as User)) {
       navigate("/home/no-bbdd");
     }
   }, [user]);
@@ -96,7 +96,8 @@ const Home: React.FC = () => {
 
       {/* Subtítulo */}
       <h2 className="mb-12 text-2xl font-semibold text-white lg:text-xl 2xl:text-3xl font-rubik lg:mb-2 xl:mb-12 drop-shadow-lg">
-        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el castellano!
+        ¡El juego de palabras que pondrá a prueba tus conocimientos sobre el
+        castellano!
       </h2>
 
       {/* Caja de opciones */}
@@ -164,7 +165,12 @@ const Home: React.FC = () => {
 
       {/* Botón para ir al blog */}
       <div className="absolute flex flex-row gap-4 bottom-4 right-4">
-        <ButtonSection text="GITHUB" to="https://github.com/luuismrtn/pasarosco" size="small" external />
+        <ButtonSection
+          text="GITHUB"
+          to="https://github.com/luuismrtn/pasarosco"
+          size="small"
+          external
+        />
         <ButtonSection text="BLOG" to="/blog" size="small" />
       </div>
 

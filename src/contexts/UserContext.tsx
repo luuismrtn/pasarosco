@@ -40,7 +40,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const connectionCheckPromise = async () => {
         try {
           return await supabase
-            .from('_test_connection')
+            .from('roscos')
             .select('count(*)', { count: 'exact', head: true })
             .limit(1);
         } catch {
