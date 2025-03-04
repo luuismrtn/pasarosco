@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Word } from "../types/types";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 
@@ -32,6 +32,12 @@ const Question: React.FC<QuestionProps> = ({
       setInputValue("");
     }
   };
+
+  useEffect(() => {
+    if (failed || paused) {
+      setInputValue("");
+    }
+  }, [failed, paused]);
 
   return (
     <div className="mx-20 text-center">
