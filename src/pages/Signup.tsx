@@ -14,10 +14,21 @@ const Signup: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user == ("bbdd" as unknown as User)) {
-      navigate("/home/no-bbdd");
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    if (user) {
+      timeoutId = setTimeout(() => {
+        if (user === ("bbdd" as unknown as User)) {
+          console.log("Usuario no autenticado", user);
+          navigate("/home/no-bbdd");
+        }
+      }, 1000);
     }
-  }, [user]);
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [user, navigate]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
