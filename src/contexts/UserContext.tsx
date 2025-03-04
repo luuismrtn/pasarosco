@@ -32,20 +32,44 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const fetchUserFromSession = async () => {
     try {
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Tiempo de espera agotado")), 2000);
+      });
+
+      const sessionPromise = supabase.auth.getSession();
+
+      const result = (await Promise.race([
+        sessionPromise,
+        timeoutPromise,
+      ])) as any;
+
       const {
         data: { session },
         error: sessionError,
-      } = await supabase.auth.getSession();
+      } = result || { data: {} };
 
       if (sessionError) {
         console.error("Error al obtener la sesión:", sessionError.message);
         setUser("bbdd" as unknown as User);
+        return;
       } else if (session?.user) {
-        const { data: userData, error: userError } = await supabase
+        const userDataPromise = supabase
           .from("users")
           .select("id, email, username, role")
           .eq("id", session.user.id)
           .single();
+
+        const userResult = (await Promise.race([
+          userDataPromise,
+          new Promise((_, reject) =>
+            setTimeout(
+              () => reject(new Error("Tiempo de espera agotado")),
+              3000
+            )
+          ),
+        ])) as any;
+
+        const { data: userData, error: userError } = userResult || {};
 
         if (userError) {
           console.error("Error al obtener el usuario:", userError.message);
@@ -59,7 +83,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       }
     } catch (err) {
       console.error("Error inesperado al obtener la sesión:", err);
-      setUser(null);
+      setUser("bbdd" as unknown as User);
     } finally {
       setLoadingUser(false);
     }
