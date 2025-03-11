@@ -20,6 +20,11 @@ export class RoscoService {
     return this.supabase;
   }
 
+  // Función para comprobar la conexión a la base de datos
+  async testConnection() {
+    return await this.supabase.from("roscos").select("id").limit(1);
+  }
+
   // Función para guardar o actualizar un rosco
   async saveRosco(
     palabras: Word[],
@@ -216,5 +221,4 @@ export class RoscoService {
 
     return data;
   }
-
 }

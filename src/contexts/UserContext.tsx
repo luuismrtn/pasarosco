@@ -39,25 +39,23 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       const connectionCheckPromise = async () => {
         try {
-          return await supabase
-            .from('roscos')
-            .select('count(*)', { count: 'exact', head: true })
-            .limit(1);
+          return await roscosService.testConnection();
         } catch {
           return { error: true };
         }
       };
 
       const result = await Promise.race([
-        connectionCheckPromise,
+        connectionCheckPromise(),
         timeoutPromise,
-      ]);
+      ]) as { error?: boolean };
 
-      if (result && typeof result === 'object' && 'error' in result) {
+      if (result.error) {
         setConnectionError(true);
         return false;
       }
-      
+
+      console.log("Conexión a la base de datos establecida");
       setConnectionError(false);
       return true;
     } catch (err) {
@@ -139,22 +137,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     fetchUserFromSession();
 
-    const { data: authListener } = !connectionError 
-      ? supabase.auth.onAuthStateChange(
-          (_event, session) => {
-            if (session?.user) {
-              fetchUserFromSession();
-            } else {
-              checkDatabaseConnection().then(isConnected => {
-                if (!isConnected) {
-                  console.log("Base de datos no disponible");
-                }
-                setUser("bbdd" as unknown as User);
-                setLoadingUser(false);
-              });
-            }
+    const { data: authListener } = !connectionError
+      ? supabase.auth.onAuthStateChange((_event, session) => {
+          if (session?.user) {
+            fetchUserFromSession();
+          } else {
+            checkDatabaseConnection().then((isConnected) => {
+              if (!isConnected) {
+                console.log("Base de datos no disponible");
+              }
+              setUser("bbdd" as unknown as User);
+              setLoadingUser(false);
+            });
           }
-        )
+        })
       : { data: { subscription: { unsubscribe: () => {} } } };
 
     return () => {
@@ -188,3 +184,4 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
+

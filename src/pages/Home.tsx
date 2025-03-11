@@ -30,10 +30,7 @@ useEffect(() => {
     }, 1000);
   }
 
-  return () => {
-    if (timeoutId) clearTimeout(timeoutId);
-  };
-}, [user, navigate]);
+  }, [user, navigate]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
