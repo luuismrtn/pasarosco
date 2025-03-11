@@ -18,18 +18,23 @@ const Home: React.FC = () => {
 
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-useEffect(() => {
-  let timeoutId: NodeJS.Timeout | null = null;
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
 
-  if (user) {
-    timeoutId = setTimeout(() => {
-      if (user === "bbdd" as unknown as User) {
-        console.log("Usuario no autenticado", user);
-        navigate("/home/no-bbdd");
+    if (user) {
+      timeoutId = setTimeout(() => {
+        if (user === ("bbdd" as unknown as User)) {
+          console.log("Usuario no autenticado", user);
+          navigate("/home/no-bbdd");
+        }
+      }, 1000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
       }
-    }, 1000);
-  }
-
+    }
   }, [user, navigate]);
 
   useEffect(() => {
@@ -157,13 +162,13 @@ useEffect(() => {
           >
             <button
               onClick={handleProfileClick}
-              className="w-full px-4 py-2 text-left hover:bg-indigo-100"
+              className="w-full px-4 py-2 text-left rounded-lg hover:bg-indigo-100"
             >
               Perfil
             </button>
             <button
               onClick={handleLogout}
-              className="w-full px-4 py-2 text-left hover:bg-indigo-100"
+              className="w-full px-4 py-2 text-left rounded-lg hover:bg-indigo-100"
             >
               Cerrar sesión
             </button>
