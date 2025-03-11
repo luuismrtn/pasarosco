@@ -145,8 +145,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             checkDatabaseConnection().then((isConnected) => {
               if (!isConnected) {
                 console.log("Base de datos no disponible");
+                setUser("bbdd" as unknown as User);
               }
-              setUser("bbdd" as unknown as User);
               setLoadingUser(false);
             });
           }
